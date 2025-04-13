@@ -1,0 +1,112 @@
+{
+  "general_tips": [
+    {
+      "title": "Claridad y precisión",
+      "content": "Utilice un lenguaje claro, preciso y específico. Evite ambigüedades, generalidades vagas o jerga innecesaria. Cada afirmación debe ser respaldada por datos, ejemplos concretos o referencias."
+    },
+    {
+      "title": "Estructura lógica",
+      "content": "Organice el contenido siguiendo una estructura coherente. Cada sección debe fluir lógicamente a la siguiente, y debe quedar clara la relación entre las diferentes partes del documento."
+    },
+    {
+      "title": "Objetividad",
+      "content": "Mantenga un tono objetivo y respalde las afirmaciones con evidencias. Evite exageraciones o declaraciones sin fundamento sobre la innovación o impacto del proyecto."
+    },
+    {
+      "title": "Audiencia adaptada",
+      "content": "Considere quién evaluará el proyecto. Para evaluaciones técnicas, incluya detalles metodológicos; para evaluaciones económicas o de gestión, enfatice impacto, viabilidad y planificación."
+    },
+    {
+      "title": "Elementos visuales",
+      "content": "Complemente el texto con diagramas, gráficos, tablas o esquemas que faciliten la comprensión. Estos elementos son especialmente útiles para presentar metodologías, cronogramas, flujos de trabajo o comparativas técnicas."
+    },
+    {
+      "title": "Consistencia terminológica",
+      "content": "Mantenga la coherencia en los términos técnicos y conceptos clave a lo largo de todo el documento. Defina claramente cualquier término especializado en su primera aparición."
+    },
+    {
+      "title": "Enfoque en la innovación",
+      "content": "Destaque explícitamente los elementos innovadores y diferenciales del proyecto. Sea específico al explicar qué aspectos constituyen novedad respecto al estado del arte o la técnica actual."
+    },
+    {
+      "title": "Honestidad técnica",
+      "content": "Reconozca abiertamente las limitaciones, riesgos o incertidumbres del proyecto. Esto refuerza la credibilidad y demuestra un enfoque riguroso. Incluya siempre medidas para mitigar estos aspectos."
+    }
+  ],
+  "technical_content_tips": [
+    {
+      "title": "Estado del arte bien fundamentado",
+      "content": "Demuestre conocimiento profundo del estado actual de la tecnología o conocimiento en el ámbito del proyecto. Cite fuentes actualizadas y relevantes (artículos científicos, patentes, informes técnicos)."
+    },
+    {
+      "title": "Nivel de detalle técnico",
+      "content": "Proporcione suficiente detalle técnico para demostrar la viabilidad y novedad, pero sin perderse en minucias que dificulten la comprensión general. Los detalles muy específicos pueden incluirse en anexos."
+    },
+    {
+      "title": "Cuantificación",
+      "content": "Cuantifique siempre que sea posible los objetivos, mejoras esperadas o indicadores de éxito. Expresiones como \"mejorar sustancialmente\" o \"aumentar la eficiencia\" son demasiado vagas sin métricas concretas."
+    },
+    {
+      "title": "Metodología explícita",
+      "content": "Detalle explícitamente la metodología científica o técnica a emplear. Para I+D, describa el proceso experimental; para IT, el enfoque tecnológico. Esto es clave para justificar la calificación del proyecto."
+    },
+    {
+      "title": "Problemas y soluciones",
+      "content": "Articule claramente los problemas técnicos a resolver y las aproximaciones para abordarlos. Destaque la complejidad o incertidumbre que justifica un enfoque de I+D+i."
+    }
+  ],
+  "fiscal_qualification_tips": [
+    {
+      "title": "Vocabulario estratégico",
+      "content": "Utilice terminología alineada con los criterios fiscales de I+D+i. Para I+D, enfatice términos como \"incertidumbre científica\", \"novedad objetiva\", \"metodología experimental\"; para IT, \"aplicación práctica\", \"mejora tecnológica\", \"novedad subjetiva\"."
+    },
+    {
+      "title": "Evidencia de actividad sistemática",
+      "content": "Demuestre que el trabajo sigue un proceso sistemático y documentado, no actividades rutinarias. Describa protocolos, controles, registro de resultados o metodologías formales."
+    },
+    {
+      "title": "Disociación de componentes",
+      "content": "Diferencie claramente los componentes de I+D de aquellos de IT en proyectos mixtos. Esto facilita la aplicación correcta de deducciones fiscales según la naturaleza de cada actividad."
+    },
+    {
+      "title": "Trazabilidad de gastos",
+      "content": "Establezca una clara correlación entre actividades de I+D+i y los recursos asignados. Esto facilita identificar los gastos elegibles para deducciones fiscales y justificarlos en caso de inspección."
+    },
+    {
+      "title": "Personal cualificado",
+      "content": "Resalte la cualificación técnica del personal, especialmente para aquellos exclusivamente dedicados a I+D (cuya deducción es mayor). Especifique titulaciones, experiencia y dedicación."
+    }
+  ],
+  "common_mistakes": [
+    {
+      "title": "Generalidad excesiva",
+      "description": "Presentar ideas, objetivos o innovaciones de forma vaga, sin detalles concretos o cuantificables.",
+      "example": "\"El proyecto mejorará significativamente la eficiencia del proceso\"",
+      "correction": "\"El proyecto buscará reducir el tiempo de procesamiento en un 30% mediante la optimización algorítmica de la fase de segmentación de datos\""
+    },
+    {
+      "title": "Falta de diferenciación",
+      "description": "No distinguir claramente qué aspectos constituyen novedad frente al estado del arte o las soluciones existentes.",
+      "example": "\"Nuestro sistema implementará tecnología de inteligencia artificial avanzada\"",
+      "correction": "\"A diferencia de los sistemas actuales que utilizan reglas predefinidas, nuestra solución implementará un modelo de aprendizaje profundo basado en la arquitectura X, capaz de adaptarse a variaciones en los datos de entrada sin reprogramación\""
+    },
+    {
+      "title": "Confusión conceptual I+D/IT",
+      "description": "No diferenciar adecuadamente entre actividades de Investigación, Desarrollo o Innovación Tecnológica.",
+      "example": "\"Este proyecto de innovación investigará nuevos algoritmos...\"",
+      "correction": "\"Este proyecto de Investigación y Desarrollo (I+D) abordará la incertidumbre científica existente mediante la formulación y validación experimental de nuevos algoritmos...\""
+    },
+    {
+      "title": "Ausencia de riesgo técnico",
+      "description": "No mencionar o subestimar la incertidumbre, dificultades o riesgos técnicos, que son esenciales para justificar actividades de I+D.",
+      "example": "\"La implementación de la solución seguirá procedimientos estándar de desarrollo\"",
+      "correction": "\"La implementación presenta retos técnicos significativos, ya que se desconoce si el nuevo enfoque X podrá superar las limitaciones actuales en condiciones Y. Se requerirá diseñar múltiples aproximaciones y someterlas a pruebas rigurosas\""
+    },
+    {
+      "title": "Metodología imprecisa",
+      "description": "Describir vagamente el enfoque metodológico, sin detallar el proceso científico o técnico a seguir.",
+      "example": "\"Se analizarán diferentes opciones y se seleccionará la más adecuada\"",
+      "correction": "\"Se seguirá una metodología experimental estructurada en tres fases: 1) Formulación de hipótesis sobre los mecanismos causales; 2) Diseño de experimentos controlados con variables específicas; 3) Análisis estadístico de resultados mediante técnicas X e Y\""
+    }
+  ]
+}

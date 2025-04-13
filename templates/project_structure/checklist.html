@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Verificación - Estructura tu Proyecto I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Lista de Verificación para Proyectos de I+D+i</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                    <button id="reset-checklist" class="btn btn-secondary">
+                        <i class="fas fa-redo me-2"></i>Reiniciar verificación
+                    </button>
+                </div>
+                
+                <div class="alert alert-info mb-4">
+                    <p><i class="fas fa-info-circle me-2"></i>Utiliza esta lista de verificación para evaluar si tu proyecto de I+D+i está correctamente estructurado y contiene todos los elementos necesarios para maximizar sus posibilidades de éxito, financiación y aplicación de deducciones fiscales.</p>
+                    <p>Marca cada ítem cuando consideres que lo has abordado adecuadamente en tu proyecto. La herramienta guardará tu progreso localmente.</p>
+                </div>
+                
+                <div class="progress mb-4">
+                    <div id="checklist-progress" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+                
+                <div class="accordion" id="accordionChecklist">
+                    {% for section in checklist_sections %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCheck{{ section.id }}">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCheck{{ section.id }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseCheck{{ section.id }}">
+                                <strong>{{ section.title }}</strong>
+                                <span class="ms-auto me-3 badge bg-secondary section-progress" data-section="{{ section.id }}">0/{% if section.items %}{{ section.items|length }}{% else %}0{% endif %}</span>
+                            </button>
+                        </h2>
+                        <div id="collapseCheck{{ section.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="headingCheck{{ section.id }}" data-bs-parent="#accordionChecklist">
+                            <div class="accordion-body">
+                                    {% if section.items %}
+                                    <div class="list-group">
+                                        {% for item in section.items %}
+                                    <div class="list-group-item checklist-item" data-section="{{ section.id }}" data-item="{{ item.id }}">
+                                        <div class="d-flex align-items-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input checklist-check" type="checkbox" id="check{{ item.id }}">
+                                                <label class="form-check-label" for="check{{ item.id }}">
+                                                    {{ item.text }}
+                                                </label>
+                                            </div>
+                                            <button class="btn btn-sm btn-link ms-auto toggle-recommendation" data-bs-toggle="collapse" data-bs-target="#recommendation{{ item.id }}">
+                                                <i class="fas fa-info-circle"></i> Ayuda
+                                            </button>
+                                        </div>
+                                        <div class="collapse mt-2" id="recommendation{{ item.id }}">
+                                            <div class="card card-body bg-light">
+                                                <i class="fas fa-lightbulb text-warning"></i> <strong>Recomendación:</strong> {{ item.recommendation }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <div class="alert alert-info">
+                                        <p>No hay elementos de verificación en esta sección.</p>
+                                    </div>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Resultados de la verificación</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="checklist-summary">
+                            <p class="text-center">Completa la lista de verificación para ver un resumen de los resultados.</p>
+                        </div>
+                        
+                        <div id="checklist-complete" class="d-none">
+                            <div class="alert alert-success">
+                                <h4 class="alert-heading"><i class="fas fa-check-circle me-2"></i>¡Felicidades!</h4>
+                                <p>Has completado todos los ítems de la lista de verificación. Tu proyecto está bien estructurado y tiene buenas posibilidades de éxito.</p>
+                            </div>
+                            
+                            <button class="btn btn-success w-100" id="generate-report">
+                                <i class="fas fa-file-pdf me-2"></i>Generar informe de verificación (PDF)
+                            </button>
+                        </div>
+                        
+                        <div id="checklist-incomplete" class="d-none">
+                            <div class="alert alert-warning">
+                                <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Verificación en progreso</h4>
+                                <p>Has completado <span id="completed-items-count">0</span> de <span id="total-items-count">0</span> ítems (<span id="completed-percentage">0%</span>).</p>
+                                <p>Revisa los elementos pendientes para mejorar la estructura de tu proyecto.</p>
+                            </div>
+                            
+                            <h5>Secciones a mejorar:</h5>
+                            <ul id="sections-to-improve">
+                                <!-- Se rellenará mediante JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cargar estado guardado
+        loadChecklistState();
+        
+        // Manejar clicks en checkboxes
+        document.querySelectorAll('.checklist-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateProgress();
+                saveChecklistState();
+            });
+        });
+        
+        // Manejar el botón de reinicio
+        document.getElementById('reset-checklist').addEventListener('click', function() {
+            if (confirm('¿Estás seguro de que quieres reiniciar la verificación? Se perderá todo el progreso actual.')) {
+                resetChecklist();
+            }
+        });
+        
+        // Inicializar progreso
+        updateProgress();
+    });
+    
+    function updateProgress() {
+        const checkboxes = document.querySelectorAll('.checklist-check');
+        const totalItems = checkboxes.length;
+        const checkedItems = document.querySelectorAll('.checklist-check:checked').length;
+        
+        // Si no hay elementos, no actualizamos el progreso
+        if (totalItems === 0) {
+            return;
+        }
+        
+        const percentage = Math.round((checkedItems / totalItems) * 100);
+        
+        // Actualizar barra de progreso general
+        const progressBar = document.getElementById('checklist-progress');
+        progressBar.style.width = percentage + '%';
+        progressBar.textContent = percentage + '%';
+        progressBar.setAttribute('aria-valuenow', percentage);
+        
+        // Actualizar progreso por secciones
+        const sections = {};
+        document.querySelectorAll('.checklist-item').forEach(item => {
+            const sectionId = item.dataset.section;
+            if (!sections[sectionId]) {
+                sections[sectionId] = { total: 0, checked: 0 };
+            }
+            sections[sectionId].total++;
+            
+            const checkbox = item.querySelector('.checklist-check');
+            if (checkbox.checked) {
+                sections[sectionId].checked++;
+            }
+        });
+        
+        // Actualizar badges de secciones
+        document.querySelectorAll('.section-progress').forEach(badge => {
+            const sectionId = badge.dataset.section;
+            if (sections[sectionId]) {
+                badge.textContent = sections[sectionId].checked + '/' + sections[sectionId].total;
+                
+                // Cambiar color si está completa
+                if (sections[sectionId].checked === sections[sectionId].total) {
+                    badge.classList.remove('bg-secondary');
+                    badge.classList.add('bg-success');
+                } else {
+                    badge.classList.remove('bg-success');
+                    badge.classList.add('bg-secondary');
+                }
+            }
+        });
+        
+        // Actualizar resumen
+        updateSummary(totalItems, checkedItems, percentage, sections);
+    }
+    
+    function updateSummary(totalItems, checkedItems, percentage, sections) {
+        // Si no hay elementos, mostrar mensaje apropiado
+        if (totalItems === 0) {
+            document.getElementById('checklist-summary').innerHTML = '<p class="text-center">No hay elementos de verificación disponibles.</p>';
+            document.getElementById('checklist-complete').classList.add('d-none');
+            document.getElementById('checklist-incomplete').classList.add('d-none');
+            return;
+        }
+        
+        document.getElementById('completed-items-count').textContent = checkedItems;
+        document.getElementById('total-items-count').textContent = totalItems;
+        document.getElementById('completed-percentage').textContent = percentage + '%';
+        
+        if (checkedItems === totalItems) {
+            // Todo completado
+            document.getElementById('checklist-summary').classList.add('d-none');
+            document.getElementById('checklist-complete').classList.remove('d-none');
+            document.getElementById('checklist-incomplete').classList.add('d-none');
+        } else {
+            // Progreso parcial
+            document.getElementById('checklist-summary').classList.add('d-none');
+            document.getElementById('checklist-complete').classList.add('d-none');
+            document.getElementById('checklist-incomplete').classList.remove('d-none');
+            
+            // Mostrar secciones a mejorar
+            const sectionsToImprove = document.getElementById('sections-to-improve');
+            sectionsToImprove.innerHTML = '';
+            
+            for (const sectionId in sections) {
+                if (sections[sectionId].checked < sections[sectionId].total) {
+                    const sectionTitle = document.querySelector(`#headingCheck${sectionId} .accordion-button strong`).textContent;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${sectionTitle}</strong>: ${sections[sectionId].checked}/${sections[sectionId].total} completados`;
+                    sectionsToImprove.appendChild(li);
+                }
+            }
+        }
+    }
+    
+    function saveChecklistState() {
+        const state = {};
+        document.querySelectorAll('.checklist-check').forEach(checkbox => {
+            const item = checkbox.closest('.checklist-item');
+            const sectionId = item.dataset.section;
+            const itemId = item.dataset.item;
+            state[`${sectionId}_${itemId}`] = checkbox.checked;
+        });
+        
+        localStorage.setItem('project_checklist_state', JSON.stringify(state));
+    }
+    
+    function loadChecklistState() {
+        const savedState = localStorage.getItem('project_checklist_state');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            
+            document.querySelectorAll('.checklist-check').forEach(checkbox => {
+                const item = checkbox.closest('.checklist-item');
+                const sectionId = item.dataset.section;
+                const itemId = item.dataset.item;
+                const key = `${sectionId}_${itemId}`;
+                
+                if (state[key] !== undefined) {
+                    checkbox.checked = state[key];
+                }
+            });
+        }
+    }
+    
+    function resetChecklist() {
+        document.querySelectorAll('.checklist-check').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        localStorage.removeItem('project_checklist_state');
+        updateProgress();
+    }
+</script>
+{% endblock %}
+{% endblock %}

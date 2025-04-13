@@ -1,0 +1,65 @@
+"""
+Versión modificada mínima del archivo app.py con las correcciones
+para la funcionalidad de checklist.
+"""
+
+import os
+import json
+from datetime import datetime
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
+
+# Importar funciones de utilidad principales
+from utils.helpers import load_section_title
+
+# Cargar configuraciones (versión simplificada)
+def load_config(filename):
+    try:
+        config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config', filename)
+        with open(config_path, 'r', encoding='utf-8') as file:
+            return json.load(file)
+    except Exception as e:
+        print(f"Error al cargar configuración: {e}")
+        return {}
+
+# Ruta para el checklist
+def project_structure_checklist():
+    """Muestra la lista de verificación para proyectos de I+D+i"""
+    try:
+        # Cargar la lista de verificación directamente desde la lista predeterminada
+        from models.project_structure import ProjectStructureGuide
+        guide = ProjectStructureGuide()
+        checklist_data = guide._default_checklist()
+        
+        if checklist_data and 'sections' in checklist_data:
+            sections = checklist_data['sections']
+            print(f"Usando lista predeterminada con {len(sections)} secciones")
+            
+            # Verificar/corregir la estructura de cada sección
+            for section in sections:
+                if 'id' not in section or not section['id']:
+                    section['id'] = f"section_{id(section)}"
+                if 'items' not in section:
+                    section['items'] = []
+            
+            # Renombrar 'items' a 'checklist_items' para evitar conflicto con método dict.items()
+            for section in sections:
+                section['checklist_items'] = section.pop('items')
+        else:
+            sections = []
+            
+    except Exception as e:
+        print(f"Error al cargar la lista de verificación: {e}")
+        sections = []
+        
+    # Guardar un dump para depuración
+    try:
+        with open('debug_sections.json', 'w', encoding='utf-8') as f:
+            json.dump(sections, f, ensure_ascii=False, indent=2)
+    except:
+        pass
+        
+    return render_template('project_structure/simple_checklist.html', sections=sections)
+
+# Evitar este bloque para no interferir con la aplicación real
+if __name__ == '__main__':
+    print("Este es solo un archivo demostrativo para las correcciones del checklist")

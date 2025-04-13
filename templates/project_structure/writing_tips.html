@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Consejos de Redacción - Estructura tu Proyecto I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Consejos de Redacción para Proyectos de I+D+i</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+                
+                <div class="alert alert-info mb-4">
+                    <p><i class="fas fa-info-circle me-2"></i>La forma en que se redacta un proyecto de I+D+i puede ser tan importante como su contenido técnico. Una buena redacción permite transmitir eficazmente el valor innovador del proyecto y facilita su evaluación positiva, tanto para la obtención de financiación como para la aplicación de deducciones fiscales.</p>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Consejos generales de redacción</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for tip in writing_tips.general_tips %}
+                                <div class="mb-3">
+                                    <h5>{{ tip.title }}</h5>
+                                    <p>{{ tip.content }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Consejos para el contenido técnico</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for tip in writing_tips.technical_content_tips %}
+                                <div class="mb-3">
+                                    <h5>{{ tip.title }}</h5>
+                                    <p>{{ tip.content }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Consejos específicos para facilitar la calificación fiscal</h3>
+                    </div>
+                    <div class="card-body">
+                        {% for tip in writing_tips.fiscal_qualification_tips %}
+                        <div class="mb-3">
+                            <h5>{{ tip.title }}</h5>
+                            <p>{{ tip.content }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="h5 mb-0">Errores comunes a evitar</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="20%">Error</th>
+                                        <th>Descripción</th>
+                                        <th>Ejemplo incorrecto</th>
+                                        <th>Corrección</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for mistake in writing_tips.common_mistakes %}
+                                    <tr>
+                                        <td class="fw-bold">{{ mistake.title }}</td>
+                                        <td>{{ mistake.description }}</td>
+                                        <td class="text-danger">{{ mistake.example }}</td>
+                                        <td class="text-success">{{ mistake.correction }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Ejemplos de redacción efectiva</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Para un proyecto de Investigación y Desarrollo (I+D)</h5>
+                        <div class="alert alert-success">
+                            <p><strong>Ejemplo de redacción efectiva:</strong></p>
+                            <p>"Este proyecto aborda la incertidumbre científica existente en torno al comportamiento de los materiales compuestos reforzados con nanofibras en condiciones de temperatura extrema (por encima de 250°C), un problema para el que actualmente no existe una solución en el mercado global. Las investigaciones previas (Smith et al., 2023; Chang, 2024) han logrado estabilidad hasta 200°C, pero más allá de este umbral se produce una degradación significativa de las propiedades mecánicas.</p>
+                            <p>Para superar esta limitación, formularemos tres hipótesis sobre los mecanismos de deterioro y diseñaremos un programa experimental sistemático que incluirá la síntesis de 15 formulaciones candidatas y su evaluación bajo condiciones controladas. El objetivo es desarrollar un material que mantenga al menos el 85% de sus propiedades mecánicas a 300°C, lo que representaría un avance del 50% respecto al estado actual de la técnica."</p>
+                        </div>
+                        
+                        <h5 class="mt-4">Para un proyecto de Innovación Tecnológica (IT)</h5>
+                        <div class="alert alert-success">
+                            <p><strong>Ejemplo de redacción efectiva:</strong></p>
+                            <p>"El presente proyecto implementará una innovación tecnológica en nuestros procesos de fabricación mediante la integración de sistemas de visión artificial con algoritmos de aprendizaje profundo. Aunque esta tecnología ya existe en el mercado, su aplicación específica a nuestro sector y procesos constituye una novedad subjetiva para nuestra empresa.</p>
+                            <p>Actualmente, la detección de defectos se realiza mediante inspección manual, con una tasa de error del 7% y un tiempo promedio de 15 minutos por lote. El sistema propuesto incorporará una arquitectura de red neuronal convolucional adaptada a las particularidades de nuestros productos, con el objetivo de reducir la tasa de error al 1,5% y el tiempo de inspección a 3 minutos por lote, lo que supondrá una mejora tecnológica sustancial en términos de calidad y productividad."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>Lista de verificación
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,304 @@
+/* Estilos mejorados para los consejos con símbolo $ */
+.advisor-response .card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    border: none;
+    overflow: hidden;
+}
+
+/* Nuevo estilo para tarjetas de consejos más consistente */
+.advisor-card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    border: none;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.advisor-card .card-header {
+    background-color: #2979e7;
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    border: none;
+}
+
+.advisor-card .card-body {
+    background-color: #f1f8ff;
+    padding: 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border: 1px solid #e9ecef;
+    border-top: none;
+}
+
+.dollar-badge {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.advisor-response .card-header {
+    background-color: #2979e7; /* Cambiado de #0d6efd a un azul más claro */
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    border: none;
+}
+
+.advisor-response .card-header h5 {
+    color: #ffffff !important; /* Blanco puro para mayor contraste */
+    font-weight: 700; /* Más negrita */
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Añadir sombra para mejor legibilidad */
+}
+
+.advisor-response .card-body {
+    background-color: #f1f8ff;
+    padding: 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border: 1px solid #e9ecef;
+    border-top: none;
+}
+
+/* Override para el problema específico de los consejos con $ */
+.text-white {
+    color: white !important;
+}
+
+.dollar-symbol {
+    color: white !important;
+    font-weight: bold;
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.3); /* Más contraste */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para programas específicos */
+.program-section {
+    background-color: #f1f8ff;
+    border-left: 4px solid #0d6efd;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0.3rem;
+}
+
+.program-title {
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Estilos para términos destacados */
+.special-term {
+    background-color: #e3f2fd;
+    border-radius: 0.2rem;
+    padding: 0.1rem 0.3rem;
+    font-weight: 500;
+    color: #0d6efd;
+}
+
+/* Estilos para mejorar la visualización de secciones especiales */
+.advisor-section-title {
+    display: inline-block;
+    color: #ffffff; /* Texto blanco */
+    background-color: #0a58ca; /* Fondo azul más oscuro */
+    padding: 0.4rem 1rem;
+    margin: 0.75rem 0;
+    border-radius: 0.3rem;
+    font-weight: 600;
+    border-left: 3px solid #ffffff;
+}
+
+/* Estilos para la página de resultados de financiación */
+
+/* Estilos para la sección de respuesta del asesor */
+.advisor-content {
+    background-color: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    padding: 1.5rem !important;
+}
+
+/* Estilos para la respuesta formateada */
+.advisor-response {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Estilos para los títulos de distintos niveles */
+.advisor-heading-1 {
+    color: #212529;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.advisor-heading-2 {
+    color: #212529;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #0d6efd;
+    padding-bottom: 0.3rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.advisor-heading-3 {
+    color: #212529;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.advisor-section-heading {
+    color: #0d6efd;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: #f8f9fa;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.3rem;
+    border-left: 4px solid #0d6efd;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.advisor-subheading {
+    color: #0d6efd;
+    font-weight: 500;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.advisor-program-title {
+    color: #198754;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.3rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Estilos para párrafos y listas */
+.advisor-paragraph {
+    margin-bottom: 0.75rem;
+    text-align: justify;
+}
+
+.advisor-highlight {
+    color: #0a58ca; /* Azul más oscuro para mejor contraste */
+    font-weight: 600; /* Más negrita */
+    background-color: #e6efff; /* Fondo muy claro para destacar */
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.2rem;
+}
+
+.advisor-funding-detail {
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px dotted #e9ecef;
+}
+
+.advisor-detail-label {
+    font-weight: 700;
+    color: #0a58ca; /* Azul más oscuro */
+    background-color: #f0f7ff; /* Fondo muy claro */
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+    flex-shrink: 0;
+}
+
+.advisor-detail-item {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: baseline;
+}
+
+.advisor-bullet-list {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.advisor-bullet-list li {
+    margin-bottom: 0.4rem;
+}
+
+/* Estilos para las tarjetas de programas de financiación */
+.program-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+.funding-card {
+    transition: transform 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.funding-card:hover {
+    transform: translateY(-3px);
+}
+
+.funding-card .card-header {
+    background-color: #2979e7 !important; /* Color base personalizado */
+}
+
+.funding-card .card-header.bg-success {
+    background-color: #198754 !important; /* Verde más visible */
+}
+
+.funding-card .card-header.bg-info {
+    background-color: #17a2b8 !important; /* Cyan más oscuro */
+}
+
+.funding-card .card-header.bg-danger {
+    background-color: #dc3545 !important; /* Rojo estándar */
+}
+
+.funding-card .card-body {
+    padding: 1rem;
+}
+
+/* Estilos mejorados para el recordatorio importante */
+.advisor-reminder {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1.25rem !important;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.advisor-reminder h4 {
+    color: #856404;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(133, 100, 4, 0.2);
+    padding-bottom: 0.5rem;
+}
+
+.advisor-reminder p {
+    color: #664d03;
+    margin-bottom: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}

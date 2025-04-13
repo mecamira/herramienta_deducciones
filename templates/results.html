@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados - Evaluación de Deducciones Fiscales I+D+i{% endblock %}
+
+{% block extra_js %}
+{% if assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elementos del DOM
+    const idPercentageSlider = document.getElementById('id-percentage');
+    const idPercentageValue = document.getElementById('id-percentage-value');
+    const itPercentageValue = document.getElementById('it-percentage-value');
+    
+    // Variables para los cálculos
+    const totalExpenses = {{ assessment.results.deduction.eligible_expenses.total|float }};
+    const taxRateID = 25; // Porcentaje de deducción para I+D
+    const taxRateIT = 12; // Porcentaje de deducción para IT
+    
+    // Datos para el cálculo del incremento si existe
+    {% if assessment.responses.project_identification and assessment.responses.project_identification.previous_expenses == 'Sí' %}
+      const expenseYearMinus1 = {{ assessment.responses.project_identification.expense_year_minus_1|float }};
+      const expenseYearMinus2 = {{ assessment.responses.project_identification.expense_year_minus_2|float }};
+      const previousAverage = (expenseYearMinus1 + expenseYearMinus2) / 2;
+      const hasIncrementalDeduction = totalExpenses > previousAverage;
+      const excessAmount = hasIncrementalDeduction ? totalExpenses - previousAverage : 0;
+    {% else %}
+      const hasIncrementalDeduction = false;
+      const excessAmount = 0;
+      const previousAverage = 0;
+    {% endif %}
+    
+    // Función para actualizar los cálculos
+    function updateCalculations() {
+      // Obtener el porcentaje de I+D
+      const idPercentage = parseInt(idPercentageSlider.value);
+      const itPercentage = 100 - idPercentage;
+      
+      // Actualizar los campos de porcentaje
+      idPercentageValue.value = idPercentage;
+      itPercentageValue.value = itPercentage;
+      
+      // Calcular gastos atribuidos a cada tipo
+      const idExpenses = totalExpenses * (idPercentage / 100);
+      const itExpenses = totalExpenses * (itPercentage / 100);
+      
+      // Calcular las deducciones básicas
+      let idBaseDeduction, idIncrementalDeduction = 0, itDeduction;
+      
+      if (hasIncrementalDeduction && idPercentage > 0) {
+        // Calcular la proporción del exceso que corresponde a I+D
+        const idExcess = excessAmount * (idPercentage / 100);
+        
+        // Si el gasto de I+D es mayor que la media anterior ajustada al porcentaje
+        const adjustedPreviousAverage = previousAverage * (idPercentage / 100);
+        
+        if (idExpenses > adjustedPreviousAverage) {
+          // Parte básica (25% sobre la media)
+          idBaseDeduction = adjustedPreviousAverage * (taxRateID / 100);
+          // Parte incremental (42% sobre el exceso)
+          idIncrementalDeduction = idExcess * (42 / 100);
+        } else {
+          // Todo va a deducción básica si no hay exceso
+          idBaseDeduction = idExpenses * (taxRateID / 100);
+        }
+      } else {
+        // Cálculo normal sin incremental
+        idBaseDeduction = idExpenses * (taxRateID / 100);
+      }
+      
+      // Deducción de IT
+      itDeduction = itExpenses * (taxRateIT / 100);
+      
+      // Deducción adicional por personal exclusivo (17%)
+      const exclusivePersonnel = {{ assessment.results.deduction.eligible_expenses.exclusive_personnel|float }};
+      const idPersonnelDeduction = exclusivePersonnel * (17 / 100) * (idPercentage / 100);
+      
+      // Total de la deducción
+      const totalDeduction = idBaseDeduction + idIncrementalDeduction + idPersonnelDeduction + itDeduction;
+      
+      // Actualizar los valores en la tabla
+      updateTableValue('id-base-deduction', idBaseDeduction);
+      if (hasIncrementalDeduction) {
+        updateTableValue('id-incremental-deduction', idIncrementalDeduction);
+      }
+      updateTableValue('id-personnel-deduction', idPersonnelDeduction);
+      updateTableValue('it-deduction', itDeduction);
+      updateTableValue('total-deduction', totalDeduction);
+      
+      // Actualizar valores de gastos elegibles
+      updateTableValue('id-expenses', idExpenses);
+      updateTableValue('it-expenses', itExpenses);
+    }
+    
+    // Función para actualizar un valor en la tabla
+    function updateTableValue(id, value) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.textContent = formatCurrency(value);
+      }
+    }
+    
+    // Función para formatear moneda
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value);
+    }
+    
+    // Eventos para actualizar los cálculos
+    idPercentageSlider.addEventListener('input', function() {
+      updateCalculations();
+    });
+    
+    idPercentageValue.addEventListener('change', function() {
+      // Validar el valor ingresado
+      let value = parseInt(this.value);
+      if (isNaN(value)) value = 60; // Valor por defecto
+      if (value < 0) value = 0;
+      if (value > 100) value = 100;
+      
+      // Actualizar el slider y recalcular
+      idPercentageSlider.value = value;
+      this.value = value;
+      updateCalculations();
+    });
+    
+    // Inicializar cálculos
+    updateCalculations();
+  });
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h2 class="card-title h5 mb-0">Resultados de la Evaluación</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="alert alert-warning">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Aviso importante</h4>
+                    <p><strong>Los resultados mostrados son una orientación preliminar y no vinculante.</strong></p>
+                    <p>Esta evaluación no constituye asesoramiento fiscal profesional y debe ser contrastada con un experto en deducciones fiscales por I+D+i.</p>
+                </div>
+                
+                <!-- Información del proyecto -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Información del Proyecto</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.responses.project_identification %}
+                            <p><strong>Nombre del proyecto:</strong> {{ assessment.responses.project_identification.project_name }}</p>
+                            <p><strong>Año fiscal:</strong> {{ assessment.responses.project_identification.project_year }}</p>
+                            {% if assessment.responses.project_identification.project_description %}
+                                <p><strong>Descripción:</strong> {{ assessment.responses.project_identification.project_description }}</p>
+                            {% endif %}
+                        {% else %}
+                            <p class="text-muted">No se proporcionó información del proyecto.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Información de gastos de años anteriores -->
+                {% if assessment.responses.project_identification and assessment.responses.project_identification.previous_expenses == 'Sí' %}
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Información de Gastos Anuales</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Año</th>
+                                        <th class="text-end">Gastos en I+D (€)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set current_year = assessment.responses.project_identification.project_year|int %}
+                                    {% set year_minus_1 = current_year - 1 %}
+                                    {% set year_minus_2 = current_year - 2 %}
+                                    
+                                    <tr>
+                                        <td>{{ year_minus_2 }}</td>
+                                        <td class="text-end">{{ format_currency(assessment.responses.project_identification.expense_year_minus_2|float) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ year_minus_1 }}</td>
+                                        <td class="text-end">{{ format_currency(assessment.responses.project_identification.expense_year_minus_1|float) }}</td>
+                                    </tr>
+                                    {% set avg = (assessment.responses.project_identification.expense_year_minus_1|float + assessment.responses.project_identification.expense_year_minus_2|float) / 2 %}
+                                    <tr class="table-light fw-bold">
+                                        <td>Media de los dos años anteriores</td>
+                                        <td class="text-end">{{ format_currency(avg) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ current_year }} (actual)</td>
+                                        <td class="text-end">{{ format_currency(assessment.results.deduction.eligible_expenses.total) }}</td>
+                                    </tr>
+                                    
+                                    {% if assessment.results.deduction.eligible_expenses.total > avg %}
+                                        {% set excess = assessment.results.deduction.eligible_expenses.total - avg %}
+                                        <tr class="table-success">
+                                            <td>Exceso sobre la media (deducción 42%)</td>
+                                            <td class="text-end">{{ format_currency(excess) }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="2" class="text-center">No hay exceso sobre la media para deducción incremental</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <p><strong>Deducción incremental del 42%:</strong> Cuando los gastos en I+D del periodo impositivo son mayores que la media de los dos años anteriores, ese exceso se deduce al 42% en lugar del 25% base.</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Calificación -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Calificación Preliminar</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.qualification %}
+                            {% set qualification_info = get_qualification_label(assessment.results.qualification) %}
+                            <div class="alert alert-{{ qualification_info[1] }}">
+                                <h4 class="alert-heading">{{ qualification_info[0] }}</h4>
+                                
+                                {% if assessment.results.qualification == 'ID' %}
+                                <p>Su proyecto muestra características significativas de <strong>Investigación y Desarrollo (I+D)</strong>, lo que le permitiría acceder a deducciones fiscales del 25% sobre los gastos elegibles{% if assessment.results.deduction.id_incremental and assessment.results.deduction.id_incremental > 0 %} y del 42% sobre el exceso respecto a la media de los dos años anteriores{% endif %}.</p>
+                                
+                                {% elif assessment.results.qualification == 'IT' %}
+                                <p>Su proyecto muestra características de <strong>Innovación Tecnológica (IT)</strong>, lo que le permitiría acceder a deducciones fiscales del 12% sobre los gastos elegibles.</p>
+                                
+                                {% elif assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
+                                <p>Su proyecto presenta características {% if assessment.results.qualification == 'MIXED' %}tanto de <strong>Investigación y Desarrollo (I+D)</strong> como de <strong>Innovación Tecnológica (IT)</strong>{% else %}de I+D y/o IT, pero la calificación no es definitiva. Se recomienda un análisis más detallado{% endif %}.</p>
+                                
+                                <!-- Ajuste de porcentajes para proyectos mixtos -->
+                                <div class="alert alert-light border mt-3" id="mixed-project-distribution">
+                                    <h5 class="alert-heading">Distribución estimada I+D/IT</h5>
+                                    <p><small class="text-muted">Para proyectos con características mixtas, se estima por defecto una distribución de 60% I+D y 40% IT. Puede ajustar estos valores según su criterio.</small></p>
+                                    
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-3">
+                                            <label for="id-percentage" class="form-label mb-0"><strong>I+D (%):</strong></label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="range" class="form-range" id="id-percentage" value="60" min="0" max="100" step="5">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="id-percentage-value" value="60" min="0" max="100" step="5">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
+                                            <label for="it-percentage" class="form-label mb-0"><strong>IT (%):</strong></label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="range" class="form-range" id="it-percentage" value="40" min="0" max="100" step="5" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="it-percentage-value" value="40" min="0" max="100" step="5" readonly>
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Advertencia sobre la naturaleza orientativa -->
+                                    <div class="alert alert-warning mt-3 mb-0">
+                                        <strong><i class="fas fa-exclamation-triangle me-2"></i>Importante:</strong> Esta distribución es meramente orientativa y su finalidad es exclusivamente ilustrativa para el cálculo de la simulación. Una evaluación profesional puede determinar porcentajes diferentes basados en un análisis detallado del proyecto.
+                                    </div>
+                                </div>
+                                {% elif assessment.results.qualification == 'NOT_QUALIFIED' %}
+                                <p>Según la información proporcionada, su proyecto podría no calificar directamente para deducciones fiscales por I+D+i. Sin embargo, recomendamos consultar con un experto para un análisis más detallado.</p>
+                                {% endif %}
+                                
+                                {% if assessment.responses.project_identification and assessment.responses.project_identification.subsidy_received == 'Sí' %}
+                                <div class="alert alert-warning mt-3">
+                                    <strong>Advertencia sobre subvenciones:</strong> Ha indicado que este proyecto ha recibido subvenciones. Es importante tener en cuenta que <strong>la parte subvencionada del proyecto no puede aplicar para deducciones fiscales</strong>, ya que esos gastos ya han sido cubiertos por financiación pública. Las cantidades mostradas aquí deben ajustarse restando el importe subvencionado.
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No se pudo determinar la calificación.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Resumen financiero -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Resumen Financiero</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.deduction %}
+                            {% set deduction = assessment.results.deduction %}
+                            
+                            <!-- Gastos elegibles -->
+                            <h4 class="h6">Gastos Elegibles</h4>
+                            <div class="table-responsive mb-3">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th class="text-end">Importe (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if deduction.eligible_expenses.personnel %}
+                                        <tr>
+                                            <td>Personal</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.personnel) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.eligible_expenses.exclusive_personnel %}
+                                        <tr>
+                                            <td class="ps-4">- Del cual, personal exclusivo I+D</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.exclusive_personnel) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.eligible_expenses.external %}
+                                        <tr>
+                                            <td>Colaboraciones externas</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.external) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.eligible_expenses.equipment %}
+                                        <tr>
+                                            <td>Equipamiento (amortización)</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.equipment) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.eligible_expenses.materials %}
+                                        <tr>
+                                            <td>Materiales</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.materials) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.eligible_expenses.general %}
+                                        <tr>
+                                            <td>Gastos generales</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.general) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
+                                        <tr class="table-info">
+                                            <td>Asignados a I+D (según distribución)</td>
+                                            <td class="text-end" id="id-expenses">{{ format_currency(deduction.eligible_expenses.total * 0.6) }}</td>
+                                        </tr>
+                                        <tr class="table-info">
+                                            <td>Asignados a IT (según distribución)</td>
+                                            <td class="text-end" id="it-expenses">{{ format_currency(deduction.eligible_expenses.total * 0.4) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        <tr class="table-light fw-bold">
+                                            <td>TOTAL GASTOS ELEGIBLES</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.total) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Deducción fiscal -->
+                            <h4 class="h6">Deducción Fiscal Estimada</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Concepto</th>
+                                            <th class="text-end">Importe (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if deduction.id_base and deduction.id_base > 0 or assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
+                                        <tr>
+                                            <td>Deducción base I+D (25%)</td>
+                                            <td class="text-end" id="id-base-deduction">{{ format_currency(deduction.id_base) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.id_incremental and deduction.id_incremental > 0 %}
+                                        <tr>
+                                            <td>Deducción incremental I+D (42%)</td>
+                                            <td class="text-end" id="id-incremental-deduction">{{ format_currency(deduction.id_incremental) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% if assessment.responses.project_identification and assessment.responses.project_identification.previous_expenses == 'Sí' and (assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL') and assessment.results.deduction.eligible_expenses.total > (assessment.responses.project_identification.expense_year_minus_1|float + assessment.responses.project_identification.expense_year_minus_2|float) / 2 %}
+                                        <tr>
+                                            <td>Deducción incremental I+D (42%)</td>
+                                            <td class="text-end" id="id-incremental-deduction">{{ format_currency(0) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.id_personnel and deduction.id_personnel > 0 or ((assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL') and deduction.eligible_expenses.exclusive_personnel > 0) %}
+                                        <tr>
+                                            <td>Deducción adicional personal I+D (17%)</td>
+                                            <td class="text-end" id="id-personnel-deduction">{{ format_currency(deduction.id_personnel) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.it and deduction.it > 0 or assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
+                                        <tr>
+                                            <td>Deducción IT (12%)</td>
+                                            <td class="text-end" id="it-deduction">{{ format_currency(deduction.it) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        <tr class="table-success fw-bold">
+                                            <td>TOTAL DEDUCCIÓN ESTIMADA</td>
+                                            <td class="text-end" id="total-deduction">{{ format_currency(deduction.total) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No se pudieron calcular los datos financieros.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Recomendaciones -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Recomendaciones</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.recommendations %}
+                            <div class="list-group">
+                                {% for recommendation in assessment.results.recommendations %}
+                                <div class="list-group-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i>{{ recommendation|safe }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No hay recomendaciones disponibles.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="d-flex justify-content-between mt-4">
+                    <div>
+                        <a href="{{ url_for('home') }}" class="btn btn-secondary me-2">
+                            <i class="fas fa-home me-2"></i>Inicio
+                        </a>
+                        <a href="{{ url_for('welcome') }}" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-redo me-2"></i>Nueva evaluación
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('generate_report') }}" class="btn btn-success me-2">
+                            <i class="fas fa-file-pdf me-2"></i>Generar PDF
+                        </a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">
+                            <i class="fas fa-save me-2"></i>Guardar evaluación
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para guardar la evaluación -->
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveModalLabel">Guardar evaluación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Puede guardar esta evaluación para consultarla posteriormente o compartirla con asesores de FADE.</p>
+                <form id="saveForm" action="{{ url_for('save_assessment') }}" method="post">
+                    <div class="mb-3">
+                        <label for="filename" class="form-label">Nombre del archivo</label>
+                        <input type="text" class="form-control" id="filename" name="filename" value="{{ default_filename }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" form="saveForm" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

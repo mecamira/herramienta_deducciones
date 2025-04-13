@@ -1,0 +1,97 @@
+{
+    "sections": [
+      {
+        "id": "general",
+        "title": "Aspectos generales",
+        "items": [
+          {
+            "id": "g1",
+            "text": "¿El título del proyecto refleja claramente su contenido y carácter innovador?",
+            "recommendation": "Un buen título debe ser específico, conciso y reflejar la naturaleza innovadora del proyecto. Evite títulos genéricos o puramente comerciales."
+          },
+          {
+            "id": "g2",
+            "text": "¿El resumen ejecutivo sintetiza adecuadamente los aspectos clave del proyecto?",
+            "recommendation": "El resumen debe incluir: objetivo principal, problema/necesidad, aproximación innovadora, resultados esperados e impacto previsto."
+          },
+          {
+            "id": "g3",
+            "text": "¿La estructura del documento es coherente y sigue un orden lógico?",
+            "recommendation": "Verifique que existe una progresión lógica entre secciones y que no hay información importante que falte o que esté duplicada innecesariamente."
+          },
+          {
+            "id": "g4",
+            "text": "¿El lenguaje utilizado es claro, preciso y adecuado para la audiencia objetivo?",
+            "recommendation": "Equilibre el rigor técnico con la claridad. Defina términos especializados y mantenga un tono profesional pero accesible."
+          },
+          {
+            "id": "g5",
+            "text": "¿Incluye elementos visuales (diagramas, tablas, gráficos) que faciliten la comprensión?",
+            "recommendation": "Los elementos visuales deben complementar el texto, no simplemente decorarlo, y estar correctamente referenciados y explicados."
+          }
+        ]
+      },
+      {
+        "id": "innovacion",
+        "title": "Elementos de innovación",
+        "items": [
+          {
+            "id": "i1",
+            "text": "¿Se identifica claramente el estado del arte o la técnica actual?",
+            "recommendation": "Debe demostrarse conocimiento actualizado de soluciones existentes, sus limitaciones y el punto de partida del proyecto."
+          },
+          {
+            "id": "i2",
+            "text": "¿Se explica con precisión qué aspectos del proyecto son novedosos o innovadores?",
+            "recommendation": "Especifique si la innovación es de producto, proceso, metodológica o tecnológica, y qué la diferencia de soluciones existentes."
+          },
+          {
+            "id": "i3",
+            "text": "¿Se distingue si la novedad es objetiva (mundial) o subjetiva (para la empresa)?",
+            "recommendation": "Para I+D se requiere principalmente novedad objetiva; para IT puede ser suficiente la novedad subjetiva correctamente justificada."
+          },
+          {
+            "id": "i4",
+            "text": "¿Se identifican los retos técnicos o la incertidumbre científica a superar?",
+            "recommendation": "Describa explícitamente los obstáculos técnicos, problemas no resueltos o aspectos donde existe incertidumbre sobre la solución."
+          },
+          {
+            "id": "i5",
+            "text": "¿Se cuantifican las mejoras esperadas respecto a soluciones existentes?",
+            "recommendation": "Siempre que sea posible, cuantifique las mejoras (ej. 30% más eficiente, reducción del 50% en tiempo de proceso, etc.)."
+          }
+        ]
+      },
+      {
+        "id": "metodologia",
+        "title": "Metodología y planificación",
+        "items": [
+          {
+            "id": "m1",
+            "text": "¿Se describe claramente la metodología científica o técnica a emplear?",
+            "recommendation": "Especifique el enfoque metodológico, justificando su idoneidad para abordar los retos identificados."
+          },
+          {
+            "id": "m2",
+            "text": "¿El plan de trabajo está estructurado en actividades y tareas con un cronograma detallado?",
+            "recommendation": "Incluya un desglose de actividades, dependencias entre ellas, duraciones estimadas y un diagrama temporal (Gantt o similar)."
+          },
+          {
+            "id": "m3",
+            "text": "¿Se han definido hitos y entregables específicos para cada fase del proyecto?",
+            "recommendation": "Cada fase debería tener resultados concretos y verificables que permitan evaluar el progreso."
+          },
+          {
+            "id": "m4",
+            "text": "¿Se han identificado los principales riesgos técnicos y se incluyen planes de contingencia?",
+            "recommendation": "Analice los riesgos, valore su probabilidad e impacto, y proponga medidas preventivas y correctivas."
+          },
+          {
+            "id": "m5",
+            "text": "¿Se especifican los medios materiales y técnicos necesarios para cada actividad?",
+            "recommendation": "Detalle qué equipamiento, software, instrumentación o infraestructuras serán necesarios para cada fase."
+          }
+        ]
+      }
+    ]
+  }

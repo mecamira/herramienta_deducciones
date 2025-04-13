@@ -1,0 +1,79 @@
+/* Estilos para la página de guía de herramientas */
+
+.workflow-steps {
+    counter-reset: step;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.workflow-steps li {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 20px;
+    counter-increment: step;
+}
+
+.workflow-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.fa-stack {
+    line-height: 1.7em;
+}
+
+.card .card-title {
+    color: #007bff;
+}
+
+/* Estilos específicos para los cuadros de herramientas */
+.tool-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tool-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.tool-icon-wrapper {
+    height: 70px;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    background-color: #f0f7ff;
+    border-radius: 50%;
+}
+
+.tool-icon {
+    font-size: 2rem;
+    color: #007bff;
+}
+
+/* Para mejorar la visualización en móviles */
+@media (max-width: 768px) {
+    .workflow-steps li {
+        padding-left: 35px;
+    }
+    
+    .workflow-steps li::before {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+}

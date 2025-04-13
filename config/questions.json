@@ -1,0 +1,207 @@
+{
+    "basic_info": [
+        {
+            "id": "company_name",
+            "text": "Nombre de la empresa",
+            "type": "text",
+            "required": false
+        },
+        {
+            "id": "company_size",
+            "text": "Tamaño de la empresa",
+            "type": "select",
+            "options": ["Micro (0-9 empleados)", "Pequeña (10-49 empleados)", "Mediana (50-249 empleados)", "Grande (250+ empleados)"],
+            "required": false
+        },
+        {
+            "id": "sector",
+            "text": "Sector de actividad",
+            "type": "text",
+            "required": false
+        }
+    ],
+    "project_identification": [
+        {
+            "id": "project_name",
+            "text": "Nombre del proyecto o actividad",
+            "type": "text",
+            "required": true
+        },
+        {
+            "id": "project_description",
+            "text": "Describa brevemente en qué consiste el proyecto o actividad innovadora",
+            "type": "textarea",
+            "required": true
+        },
+        {
+            "id": "project_year",
+            "text": "Año fiscal para el que desea evaluar la deducción",
+            "type": "number",
+            "min": 2020,
+            "max": 2025,
+            "required": true
+        },
+        {
+            "id": "previous_expenses",
+            "text": "¿Dispone de información sobre los gastos en I+D de los dos años anteriores (para calcular la deducción incremental del 42%)?",
+            "type": "radio",
+            "options": ["Sí", "No"],
+            "required": true,
+            "tooltip": "Si los gastos en I+D del año actual superan la media de los dos años anteriores, ese exceso se deduce al 42% en lugar del 25% base. Esta deducción incremental puede suponer un beneficio fiscal significativo."
+        },
+        {
+            "id": "expense_year_minus_1",
+            "text": "Gastos en I+D del año anterior (€)",
+            "type": "number",
+            "min": 0,
+            "required": false,
+            "tooltip": "Introduzca el importe total de gastos en I+D del año anterior al periodo que está evaluando. Estos datos son necesarios para calcular la posible deducción incremental del 42%.",
+            "conditional": {
+                "field": "previous_expenses",
+                "value": "Sí"
+            }
+        },
+        {
+            "id": "expense_year_minus_2",
+            "text": "Gastos en I+D de hace dos años (€)",
+            "type": "number",
+            "min": 0,
+            "required": false,
+            "tooltip": "Introduzca el importe total de gastos en I+D de hace dos años respecto al periodo que está evaluando. Estos datos son necesarios para calcular la posible deducción incremental del 42%.",
+            "conditional": {
+                "field": "previous_expenses",
+                "value": "Sí"
+            }
+        },
+        {
+            "id": "subsidy_received",
+            "text": "¿Ha recibido subvenciones para este proyecto?",
+            "type": "radio",
+            "options": ["Sí", "No"],
+            "required": true
+        }
+    ],
+    "qualification": [
+        {
+            "id": "novelty_type",
+            "text": "¿El desarrollo busca crear algo que no existe en el mercado mundial (novedad objetiva) o implementar algo nuevo para su empresa pero ya existente en el mercado (novedad subjetiva)?",
+            "type": "radio",
+            "options": ["Novedad objetiva (no existe en el mercado mundial)", "Novedad subjetiva (nuevo para la empresa)"],
+            "weight_id": 5,
+            "weight_it": 1,
+            "required": true,
+            "tooltip": "Novedad objetiva: implica crear algo nuevo que no existe en ninguna parte del mundo. Novedad subjetiva: implica implementar algo que ya existe en el mercado pero es nuevo para su empresa. La I+D suele requerir novedad objetiva, mientras que IT puede basarse en novedad subjetiva."
+        },
+        {
+            "id": "scientific_uncertainty",
+            "text": "¿El proyecto aborda una incertidumbre científica o tecnológica que no tiene una solución evidente para un experto en el campo?",
+            "type": "radio",
+            "options": ["Sí, aborda una incertidumbre sin solución evidente", "No, utiliza conocimiento establecido", "No estoy seguro"],
+            "weight_id": 5,
+            "weight_it": 0,
+            "required": true,
+            "tooltip": "La incertidumbre científica o tecnológica existe cuando el conocimiento disponible no permite prever si los objetivos del proyecto serán alcanzables. Para calificar como I+D, debe existir incertidumbre que no pueda resolverse mediante el conocimiento ya establecido en el sector."
+        },
+        {
+            "id": "methodology",
+            "text": "¿El desarrollo sigue una metodología científica con formulación de hipótesis y experimentación sistemática?",
+            "type": "radio",
+            "options": ["Sí, sigue metodología científica", "Parcialmente", "No"],
+            "weight_id": 4,
+            "weight_it": 1,
+            "required": true,
+            "tooltip": "Una metodología científica implica identificar incertidumbres, formular hipótesis para resolverlas, diseñar experimentos sistemáticos, analizar resultados y extraer conclusiones. Este enfoque estructurado es característico de los proyectos de I+D."
+        },
+        {
+            "id": "technological_improvement",
+            "text": "¿El proyecto busca una mejora tecnológica sustancial de productos o procesos existentes?",
+            "type": "radio",
+            "options": ["Sí, mejora sustancial", "Mejora incremental", "No hay mejora tecnológica"],
+            "weight_id": 2,
+            "weight_it": 4,
+            "required": true,
+            "tooltip": "Una mejora sustancial implica cambios significativos en características técnicas, componentes o funcionalidades. Las mejoras incrementales suelen ser más propias de la Innovación Tecnológica (IT). La I+D generalmente persigue avances más disruptivos."
+        },
+        {
+            "id": "prototypes",
+            "text": "¿El proyecto incluye el desarrollo de prototipos o plantas piloto experimentales?",
+            "type": "radio",
+            "options": ["Sí", "No"],
+            "weight_id": 3,
+            "weight_it": 1,
+            "required": true
+        },
+        {
+            "id": "technical_risk",
+            "text": "¿El proyecto conlleva un riesgo técnico o tecnológico significativo?",
+            "type": "radio",
+            "options": ["Sí, riesgo alto", "Riesgo moderado", "Riesgo bajo o nulo"],
+            "weight_id": 4,
+            "weight_it": 2,
+            "required": true,
+            "tooltip": "El riesgo técnico se refiere a la posibilidad de que el proyecto no alcance sus objetivos debido a limitaciones tecnológicas o científicas. Un alto riesgo técnico o tecnológico es característico de los proyectos de I+D, mientras que la IT suele implicar un riesgo moderado o bajo."
+        },
+        {
+            "id": "software_development",
+            "text": "Si el proyecto incluye desarrollo de software, ¿implica avances significativos en algoritmia, bases de datos, lenguajes, interfaces o sistemas operativos?",
+            "type": "radio",
+            "options": ["Sí, avances significativos", "Mejoras incrementales", "No aplica/No incluye software"],
+            "weight_id": 3,
+            "weight_it": 3,
+            "required": true,
+            "tooltip": "Para calificar como I+D, el software debe suponer un avance en el campo informático, no solo la creación de aplicaciones utilizando métodos conocidos. Incluye nuevos sistemas operativos, lenguajes, algoritmos innovadores o mejoras significativas en arquitecturas de sistemas. El desarrollo habitual de software suele calificar como IT."
+        }
+    ],
+    "expenses": [
+        {
+            "id": "personnel",
+            "text": "Gastos de personal interno dedicado al proyecto (€)",
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "tooltip": "Incluya el coste total (salario bruto + seguridad social a cargo de la empresa) del personal involucrado en el proyecto, en proporción al tiempo dedicado al mismo.",
+            "subquestions": [
+                {
+                    "id": "exclusive_personnel",
+                    "text": "Del cual, personal exclusivamente dedicado a I+D con titulación adecuada (€)",
+                    "type": "number",
+                    "min": 0,
+                    "required": false,
+                    "tooltip": "Para obtener la deducción adicional del 17%, este personal debe cumplir dos requisitos: 1) Dedicación exclusiva a actividades de I+D y 2) Poseer titulación adecuada (doctor, licenciado, ingeniero, arquitecto, etc.). El importe nunca puede ser superior al total de gastos de personal."
+                }
+            ]
+        },
+        {
+            "id": "external_collaborations",
+            "text": "Gastos en colaboraciones externas (universidades, centros tecnológicos, otras entidades) (€)",
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "tooltip": "Incluye los gastos derivados de contratos con universidades, centros de investigación, OPIs (Organismos Públicos de Investigación) u otras entidades que colaboren en el proyecto. Estos gastos son especialmente relevantes para reforzar la calificación como I+D."
+        },
+        {
+            "id": "equipment",
+            "text": "Amortización de activos (equipos, software) dedicados al proyecto (€)",
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "tooltip": "No incluya el coste total de adquisición, sino la amortización anual de los activos (equipamiento, software, etc.) en proporción al tiempo dedicado al proyecto durante el ejercicio fiscal."
+        },
+        {
+            "id": "materials",
+            "text": "Gastos en materiales fungibles utilizados en el proyecto (€)",
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "tooltip": "Materiales, suministros y productos similares utilizados directamente en el proyecto y que no sean recuperables o reutilizables en otros proyectos."
+        },
+        {
+            "id": "general_expenses",
+            "text": "Gastos generales relacionados con el proyecto (€)",
+            "type": "number",
+            "min": 0,
+            "required": true,
+            "tooltip": "Costes indirectos como electricidad, alquiler de espacio, etc. en proporción al uso dedicado al proyecto. Normalmente se aplica un porcentaje sobre los gastos directos. La Administración suele aceptar hasta un 10-15% de los costes directos."
+        }
+    ]
+}

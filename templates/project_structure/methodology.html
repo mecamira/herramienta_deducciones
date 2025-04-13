@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Metodologías - Estructura tu Proyecto I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Metodologías para Proyectos de I+D+i</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+                
+                <div class="alert alert-info mb-4">
+                    <p><i class="fas fa-info-circle me-2"></i>La elección de una metodología adecuada es fundamental para el éxito de un proyecto de I+D+i y para su correcta clasificación fiscal. La metodología debe adaptarse al tipo de proyecto, sus objetivos y el nivel de incertidumbre o riesgo técnico.</p>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">¿Cómo elegir la metodología adecuada?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Considera los siguientes factores para seleccionar la metodología más apropiada para tu proyecto:</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Factor</th>
+                                        <th>Considerar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tipo de proyecto</td>
+                                        <td>Proyectos de I+D requieren metodologías científicas. Proyectos de IT pueden utilizar enfoques más ágiles o iterativos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel de incertidumbre</td>
+                                        <td>Mayor incertidumbre técnica o científica requiere metodologías más experimentales y con mayor énfasis en validación.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Duración y complejidad</td>
+                                        <td>Proyectos más largos o complejos se benefician de metodologías con puntos de control y etapas bien definidas.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Equipo disponible</td>
+                                        <td>Considera la experiencia y familiaridad del equipo con diferentes metodologías.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion" id="accordionMethodologies">
+                    {% for methodology in methodologies %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ methodology.id }}">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ methodology.id }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ methodology.id }}">
+                                <strong>{{ methodology.title }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ methodology.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="heading{{ methodology.id }}" data-bs-parent="#accordionMethodologies">
+                            <div class="accordion-body">
+                                <p><strong>Descripción:</strong> {{ methodology.description }}</p>
+                                <p><strong>Adecuada para:</strong> {{ methodology.appropriate_for }}</p>
+                                
+                                <h5>Fases principales:</h5>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-sm">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th width="30%">Fase</th>
+                                                        <th>Descripción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for phase in methodology.key_phases %}
+                                                    <tr>
+                                                        <td class="fw-bold">{{ phase.name }}</td>
+                                                        <td>{{ phase.description }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Recomendaciones:</h5>
+                                        <ul>
+                                            {% for recommendation in methodology.recommendations %}
+                                            <li>{{ recommendation }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Foco de documentación:</h5>
+                                        <ul>
+                                            {% for item in methodology.documentation_focus %}
+                                            <li>{{ item }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                {% if methodology.id == 'cientifica' %}
+                                <div class="alert alert-success mt-3">
+                                    <p><i class="fas fa-star me-2"></i><strong>Importante para deducciones fiscales:</strong> El uso de una metodología científica es uno de los aspectos que más fortalece la calificación de un proyecto como I+D, especialmente si se documentan adecuadamente la formulación de hipótesis y los procesos experimentales.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Metodologías híbridas y adaptación</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>En muchos proyectos de I+D+i, especialmente aquellos con componentes tanto de investigación como de desarrollo, puede ser adecuado combinar diferentes metodologías:</p>
+                        <ul>
+                            <li><strong>Enfoque secuencial:</strong> Usar metodología científica para las fases de investigación, y metodologías ágiles para las fases de desarrollo o implementación.</li>
+                            <li><strong>Adaptación de marcos metodológicos:</strong> Ajustar las metodologías estándar a las necesidades específicas del proyecto, manteniendo sus principios fundamentales.</li>
+                            <li><strong>Documentación diferenciada:</strong> Independientemente de la metodología elegida, documentar separadamente las actividades de I+D y de IT para facilitar su clasificación fiscal.</li>
+                        </ul>
+                        <div class="alert alert-warning">
+                            <p><i class="fas fa-exclamation-triangle me-2"></i><strong>Recomendación:</strong> Lo importante no es solo elegir una metodología, sino aplicarla rigurosamente y documentar adecuadamente su seguimiento. Esto proporcionará evidencias sólidas en caso de inspección o solicitud de Informe Motivado Vinculante.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('project_structure_budget') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>Planificación presupuestaria
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

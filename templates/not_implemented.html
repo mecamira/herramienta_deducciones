@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Próximamente - {{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow mt-5">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">{{ page_title }} - Próximamente</h2>
+            </div>
+            <div class="card-body p-5 text-center">
+                <i class="fas fa-tools text-primary display-1 mb-4"></i>
+                
+                <h3 class="h4 mb-3">¡Estamos trabajando en ello!</h3>
+                
+                <p class="mb-4">Esta sección estará disponible próximamente. Estamos desarrollando nuevas funcionalidades para ayudarte en tus proyectos de innovación.</p>
+                
+                <div class="alert alert-info">
+                    <p class="mb-0">Si necesitas información sobre {{ page_description }}, puedes contactar con la Red Empresarial de Innovación de FADE:</p>
+                    <p class="mb-0 mt-2"><strong>Email:</strong> <a href="mailto:acuesta@fade.es">acuesta@fade.es</a></p>
+                    <p class="mb-0"><strong>Teléfono:</strong> 680 82 91 80</p>
+                </div>
+                
+                <a href="{{ url_for('home') }}" class="btn btn-primary mt-4">
+                    <i class="fas fa-home me-2"></i>Volver a inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Estructura tu Proyecto I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Estructura tu Proyecto de I+D+i</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver a inicio
+                    </a>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>¿Qué es esta herramienta?</h4>
+                    <p>Esta guía ha sido desarrollada por la <strong>Red Empresarial de Innovación de FADE</strong> para ayudar a las empresas a estructurar correctamente sus proyectos de I+D+i, de manera que:</p>
+                    <ul>
+                        <li>Tengan mayores probabilidades de éxito en la ejecución.</li>
+                        <li>Maximicen las posibilidades de obtener financiación pública.</li>
+                        <li>Puedan acceder a deducciones fiscales por I+D+i.</li>
+                        <li>Establezcan una metodología clara y documentada del proceso.</li>
+                        <li>Generen documentación adecuada para justificar posteriormente el proyecto.</li>
+                    </ul>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Secciones del proyecto</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Descubre qué secciones debe incluir un proyecto de I+D+i bien estructurado y los elementos clave de cada una.</p>
+                                <a href="{{ url_for('project_structure_sections') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-list-alt me-2"></i>Ver guía de secciones
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Metodologías recomendadas</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Conoce diferentes metodologías para proyectos de I+D+i y selecciona la más adecuada para tu caso.</p>
+                                <a href="{{ url_for('project_structure_methodology') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-tasks me-2"></i>Explorar metodologías
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Consejos de redacción</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Aprende cómo redactar tu proyecto para resaltar los aspectos innovadores y facilitar su evaluación positiva.</p>
+                                <a href="{{ url_for('project_structure_writing') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-edit me-2"></i>Ver consejos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Presupuesto del proyecto</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Aprende a elaborar un presupuesto detallado, considerando las partidas elegibles para deducciones fiscales.</p>
+                                <a href="{{ url_for('project_structure_budget') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-calculator me-2"></i>Planificación presupuestaria
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Lista de verificación</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Comprueba si tu proyecto cumple con todos los requisitos para maximizar su calidad y posibilidades de éxito.</p>
+                                <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-check-square me-2"></i>Ver checklist
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h3 class="h5 mb-0">Asesoramiento personalizado</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Si necesitas ayuda más específica, contacta con la Red Empresarial de Innovación de FADE para un asesoramiento a medida.</p>
+                                <a href="mailto:innovacion@fade.es" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-envelope me-2"></i>Solicitar asesoramiento
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning mt-4">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Aviso importante</h4>
+                    <p><strong>Esta herramienta proporciona una orientación general.</strong> Cada proyecto tiene particularidades que pueden requerir enfoques específicos.</p>
+                    <p>Te recomendamos complementar esta guía con el asesoramiento de expertos en gestión de proyectos de I+D+i.</p>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('welcome') }}" class="btn btn-primary">
+                        <i class="fas fa-calculator me-2"></i>Ir a la herramienta de deducciones fiscales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+# Entornos virtuales
+venv/
+env/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribución y build
+build/
+dist/
+*.so
+*.exe
+*.spec
+
+# Archivos de sesión de Flask
+flask_session/
+
+# Archivos temporales
+*.log
+*.tmp
+*.temp
+
+# Archivos generados
+*.pdf
+
+# Directorios de caché
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

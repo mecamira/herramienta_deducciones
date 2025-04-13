@@ -1,0 +1,931 @@
+{% extends "base.html" %}
+
+{% block title %}Consejos y Aspectos CRÍTICOS de financiación - REI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .critical-aspect-card {
+        border-left: 4px solid #dc3545;
+        margin-bottom: 1.5rem;
+    }
+    
+    .critical-aspect-title {
+        color: #dc3545;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .aspect-icon {
+        font-size: 2rem;
+        color: #dc3545;
+        margin-right: 1rem;
+    }
+    
+    .aspect-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .warning-text {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    
+    .info-text {
+        color: #0d6efd;
+        font-weight: 600;
+    }
+    
+    .nav-link.active {
+        font-weight: bold;
+        border-bottom: 2px solid #0d6efd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h2 class="card-title h5 mb-0">Consejos y Aspectos CRÍTICOS para la financiación</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('financing_questionnaire') }}">Busca financiación</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Consejos y aspectos críticos</li>
+                    </ol>
+                </nav>
+                
+                <div class="alert alert-warning">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>¡ATENCIÓN!</h4>
+                    <p class="mb-0">Estos aspectos son <strong>fundamentales</strong> para cumplir correctamente con las condiciones de la financiación pública. Su incumplimiento puede resultar en <strong>devolución de fondos</strong>, <strong>multas</strong> o <strong>inhabilitación</strong> para futuras ayudas.</p>
+                </div>
+                
+                <!-- Navegación por pestañas -->
+                <ul class="nav nav-tabs mb-4" id="criticalAspectsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">
+                            <i class="fas fa-info-circle me-1"></i>Visión general
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="accounting-tab" data-bs-toggle="tab" data-bs-target="#accounting" type="button" role="tab" aria-controls="accounting" aria-selected="false">
+                            <i class="fas fa-file-invoice-dollar me-1"></i>Contabilidad
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="incentive-tab" data-bs-toggle="tab" data-bs-target="#incentive" type="button" role="tab" aria-controls="incentive" aria-selected="false">
+                            <i class="fas fa-magic me-1"></i>Efecto incentivador
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dnsh-tab" data-bs-toggle="tab" data-bs-target="#dnsh" type="button" role="tab" aria-controls="dnsh" aria-selected="false">
+                            <i class="fas fa-leaf me-1"></i>DNSH
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab" aria-controls="other" aria-selected="false">
+                            <i class="fas fa-clipboard-list me-1"></i>Otros aspectos
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Contenido de las pestañas -->
+                <div class="tab-content" id="criticalAspectsTabsContent">
+                    <!-- Pestaña: Visión general -->
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <h3 class="h5 mb-4">Requisitos críticos para la financiación pública</h3>
+                        
+                        <p>La obtención de financiación pública para proyectos de I+D+i conlleva una serie de obligaciones y requisitos que deben cumplirse rigurosamente. El incumplimiento de estos aspectos puede tener graves consecuencias:</p>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="aspect-box">
+                                    <h4 class="h6 text-danger"><i class="fas fa-times-circle me-2"></i>Consecuencias del incumplimiento:</h4>
+                                    <ul class="mb-0">
+                                        <li>Devolución total o parcial de las ayudas</li>
+                                        <li>Intereses de demora</li>
+                                        <li>Sanciones económicas</li>
+                                        <li>Inhabilitación para futuras convocatorias</li>
+                                        <li>Inclusión en registros de incumplimiento</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="aspect-box">
+                                    <h4 class="h6 text-primary"><i class="fas fa-check-circle me-2"></i>Beneficios del cumplimiento:</h4>
+                                    <ul class="mb-0">
+                                        <li>Acceso continuo a financiación pública</li>
+                                        <li>Reputación positiva ante organismos financiadores</li>
+                                        <li>Posibilidad de obtener bonificaciones adicionales</li>
+                                        <li>Mejora en el histórico de éxito en convocatorias</li>
+                                        <li>Reducción de riesgos en auditorías</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>A continuación se detallan los aspectos más críticos que debes conocer y gestionar correctamente:</p>
+                        
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action" onclick="document.getElementById('accounting-tab').click(); return false;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-file-invoice-dollar aspect-icon"></i>
+                                    <div>
+                                        <h5 class="mb-1">Contabilidad separada</h5>
+                                        <p class="mb-0">Control riguroso de ingresos y gastos específicos del proyecto financiado.</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="document.getElementById('incentive-tab').click(); return false;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-magic aspect-icon"></i>
+                                    <div>
+                                        <h5 class="mb-1">Efecto incentivador</h5>
+                                        <p class="mb-0">Restricciones para iniciar el proyecto antes de solicitar la ayuda.</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="document.getElementById('dnsh-tab').click(); return false;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-leaf aspect-icon"></i>
+                                    <div>
+                                        <h5 class="mb-1">DNSH (Do No Significant Harm)</h5>
+                                        <p class="mb-0">Principio de no causar daño significativo al medio ambiente.</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action" onclick="document.getElementById('other-tab').click(); return false;">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clipboard-list aspect-icon"></i>
+                                    <div>
+                                        <h5 class="mb-1">Otros aspectos críticos</h5>
+                                        <p class="mb-0">Morosidad, memorias justificativas y más requisitos importantes.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Pestaña: Contabilidad separada -->
+                    <div class="tab-pane fade" id="accounting" role="tabpanel" aria-labelledby="accounting-tab">
+                        <h3 class="h5 mb-4">Contabilidad separada: Control financiero obligatorio</h3>
+                        
+                        <div class="alert alert-danger">
+                            <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>¡REQUISITO LEGAL!</h4>
+                            <p class="mb-0">La contabilidad separada es una <strong>obligación legal</strong> para todos los beneficiarios de ayudas públicas. Su incumplimiento puede conllevar <strong>graves consecuencias financieras</strong> y legales.</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-info-circle me-2"></i>¿Qué es la contabilidad separada?</h4>
+                            <p>Es un sistema que permite identificar claramente todos los ingresos y gastos asociados específicamente al proyecto financiado, manteniéndolos diferenciados del resto de operaciones de la entidad.</p>
+                            <p>El objetivo es garantizar la trazabilidad del uso de los fondos públicos y facilitar su verificación por parte de los organismos de control.</p>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="critical-aspect-card p-3 h-100">
+                                    <h4 class="h6 text-danger"><i class="fas fa-ban me-2"></i>Consecuencias del incumplimiento</h4>
+                                    <ul class="mb-0">
+                                        <li>Devolución parcial o total de las ayudas recibidas</li>
+                                        <li>Intereses de demora sobre las cantidades a reintegrar</li>
+                                        <li>Posibles sanciones administrativas adicionales</li>
+                                        <li>Inhabilitación para recibir futuras ayudas</li>
+                                        <li>Inclusión en registros de incumplimiento</li>
+                                        <li>Posibles responsabilidades legales para administradores</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="aspect-box h-100">
+                                    <h4 class="h6 text-primary"><i class="fas fa-check-circle me-2"></i>Requisitos mínimos</h4>
+                                    <ul class="mb-0">
+                                        <li>Sistema para identificar inequívocamente los gastos e ingresos del proyecto</li>
+                                        <li>Codificación contable específica o subcuentas dedicadas</li>
+                                        <li>Separación de facturas y justificantes relacionados</li>
+                                        <li>Registro diferenciado de pagos y cobros</li>
+                                        <li>Archivo específico para documentación de respaldo</li>
+                                        <li>Mecanismo de seguimiento de tiempos y recursos dedicados</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="aspect-box mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-cogs me-2"></i>Implementación práctica</h4>
+                            
+                            <div class="row">
+                                <div class="col-lg-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="h6 mb-0">Para pequeñas empresas</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <ol class="small mb-0">
+                                                <li><strong>Crear un centro de coste específico</strong> para cada proyecto financiado</li>
+                                                <li><strong>Utilizar subcuentas dedicadas</strong> en el plan contable</li>
+                                                <li><strong>Mantener archivos físicos separados</strong> para documentación</li>
+                                                <li><strong>Incluir referencia al proyecto</strong> en todas las facturas</li>
+                                                <li><strong>Utilizar hojas de cálculo complementarias</strong> para seguimiento</li>
+                                                <li><strong>Implementar registro de horas</strong> para personal</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="h6 mb-0">Para medianas y grandes empresas</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <ol class="small mb-0">
+                                                <li><strong>Configurar módulos analíticos</strong> en ERPs para proyectos financiados</li>
+                                                <li><strong>Implementar workflows de aprobación</strong> específicos</li>
+                                                <li><strong>Establecer controles internos</strong> de verificación</li>
+                                                <li><strong>Crear cuentas bancarias específicas</strong> para pagos del proyecto</li>
+                                                <li><strong>Implementar software de gestión de proyectos</strong> integrado con contabilidad</li>
+                                                <li><strong>Realizar auditorías internas periódicas</strong> de cumplimiento</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="h6 mb-0"><i class="fas fa-lightbulb me-2"></i>Recomendaciones prácticas</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ol>
+                                            <li><strong>Anticipa la implementación</strong> del sistema de contabilidad separada antes de recibir los fondos</li>
+                                            <li><strong>Involucra al departamento contable</strong> desde el inicio del proyecto</li>
+                                            <li><strong>Establece procedimientos documentados</strong> para todo el personal implicado</li>
+                                        </ol>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ol start="4">
+                                            <li><strong>Realiza conciliaciones periódicas</strong> entre registros contables y extracontables</li>
+                                            <li><strong>Verifica la validez</strong> de todos los justificantes (fechas, conceptos, importes)</li>
+                                            <li><strong>Conserva toda la documentación</strong> durante el periodo requerido (generalmente 3-5 años, hasta 10 para fondos europeos)</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card border-danger h-100">
+                                    <div class="card-header bg-danger text-white">
+                                        <h5 class="card-title h6 mb-0"><i class="fas fa-times-circle me-2"></i>Errores comunes a evitar</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Mezclar gastos personales y profesionales</li>
+                                            <li>Imputar gastos generales sin criterio de reparto documentado</li>
+                                            <li>No identificar adecuadamente facturas del proyecto</li>
+                                            <li>Carecer de registros de dedicación de personal</li>
+                                            <li>Realizar pagos en efectivo no trazables</li>
+                                            <li>Mover fondos entre proyectos sin justificación clara</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success h-100">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="card-title h6 mb-0"><i class="fas fa-check-circle me-2"></i>Documentación específica</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="small">Además de los registros contables estándar, se recomienda mantener:</p>
+                                        <ul class="small mb-0">
+                                            <li>Manual de procedimientos para contabilidad separada</li>
+                                            <li>Criterios documentados de imputación de costes indirectos</li>
+                                            <li>Registros de dedicación de personal (partes de horas)</li>
+                                            <li>Inventario específico de equipos adquiridos</li>
+                                            <li>Archivo de comunicaciones relevantes con financiadores</li>
+                                            <li>Cuadro de mando para seguimiento presupuestario</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h4 class="alert-heading"><i class="fas fa-book me-2"></i>Marco legal</h4>
+                            <p>La obligación de contabilidad separada está recogida en:</p>
+                            <ul class="mb-0">
+                                <li>Ley General de Subvenciones (art. 14.1.f)</li>
+                                <li>Reglamento (UE) nº 1303/2013 para fondos europeos</li>
+                                <li>Órdenes ministeriales y bases reguladoras específicas de cada convocatoria</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Pestaña: Efecto incentivador -->
+                    <div class="tab-pane fade" id="incentive" role="tabpanel" aria-labelledby="incentive-tab">
+                        <h3 class="h5 mb-4">Efecto Incentivador: Un requisito clave para la financiación</h3>
+                        
+                        <div class="alert alert-danger">
+                            <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>¡REQUISITO IMPRESCINDIBLE!</h4>
+                            <p class="mb-0">El efecto incentivador es un <strong>requisito legal obligatorio</strong> para la mayoría de las ayudas públicas. Su incumplimiento puede suponer la <strong>denegación o devolución total</strong> de la ayuda recibida.</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-info-circle me-2"></i>¿Qué es el efecto incentivador?</h4>
+                            <p>El efecto incentivador es un principio que establece que la ayuda pública debe <strong>incentivar un cambio en el comportamiento empresarial</strong>, de modo que la empresa realice actividades que:</p>
+                            <ul>
+                                <li>No realizaría sin la ayuda pública</li>
+                                <li>Realizaría de manera más limitada o diferente sin la ayuda</li>
+                                <li>No habría iniciado antes de solicitar o recibir la confirmación de la ayuda</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <h4 class="h6 text-danger"><i class="fas fa-ban me-2"></i>Restricciones clave</h4>
+                            <p>Para cumplir con el efecto incentivador, <strong>NO se debe iniciar el proyecto</strong> antes de:</p>
+                            <ol>
+                                <li>Presentar la solicitud de ayuda (en la mayoría de programas)</li>
+                                <li>Recibir confirmación de elegibilidad (en algunos programas específicos)</li>
+                            </ol>
+                            <p class="fw-bold">La fecha de inicio del proyecto determina si se cumple o no con este requisito.</p>
+                        </div>
+                        
+                        <div class="aspect-box mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-calendar-alt me-2"></i>¿Qué se considera "inicio del proyecto"?</h4>
+                            <p>Se considera inicio del proyecto el momento en que se produce el <strong>primer compromiso jurídicamente vinculante</strong> que hace irreversible la inversión. Específicamente:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card border-danger h-100">
+                                        <div class="card-header bg-danger text-white">
+                                            <h5 class="card-title h6 mb-0">SÍ se considera inicio del proyecto</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="mb-0">
+                                                <li>Firma de contratos con proveedores</li>
+                                                <li>Pedidos de equipamiento específico para el proyecto</li>
+                                                <li>Compromisos de compra irreversibles</li>
+                                                <li>Inicio de obras de construcción</li>
+                                                <li>Primer pago a proveedores (excepto reservas/señales retornables)</li>
+                                                <li>Contratación de personal específico para el proyecto</li>
+                                                <li>Acuerdos vinculantes con colaboradores</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-success h-100">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0">NO se considera inicio del proyecto</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="mb-0">
+                                                <li>Estudios de viabilidad preliminares</li>
+                                                <li>Solicitud de presupuestos/ofertas a proveedores</li>
+                                                <li>Planificación general del proyecto</li>
+                                                <li>Búsqueda de socios potenciales (sin compromiso formal)</li>
+                                                <li>Compra de terrenos</li>
+                                                <li>Obtención de permisos y licencias</li>
+                                                <li>Depósitos/señales retornables (en algunos casos)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pestaña: DNSH -->
+                    <div class="tab-pane fade" id="dnsh" role="tabpanel" aria-labelledby="dnsh-tab">
+                        <h3 class="h5 mb-4">DNSH: Principio de "No Causar Daño Significativo"</h3>
+                        
+                        <div class="alert alert-danger">
+                            <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>¡REQUISITO IMPRESCINDIBLE PARA FONDOS UE!</h4>
+                            <p class="mb-0">El principio DNSH es un requisito <strong>obligatorio</strong> para las ayudas procedentes del Mecanismo de Recuperación y Resiliencia (Next Generation EU) y otros fondos europeos. Su incumplimiento puede suponer la <strong>denegación o revocación total de la financiación</strong>.</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-info-circle me-2"></i>¿Qué es el principio DNSH?</h4>
+                            <p>El principio "Do No Significant Harm" (no causar daño significativo) establece que las actividades económicas financiadas con fondos europeos <strong>no deben causar daños significativos a ninguno de los seis objetivos medioambientales</strong> definidos en el Reglamento de Taxonomía de la UE.</p>
+                        </div>
+                        
+                        <div class="aspect-box mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-leaf me-2"></i>Los seis objetivos medioambientales</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-temperature-low me-2"></i>1. Mitigación del cambio climático</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">Evitar emisiones significativas de gases de efecto invernadero (GEI) o contribuir a su reducción.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-water me-2"></i>3. Uso sostenible del agua</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">Evitar el deterioro de masas de agua o afectar negativamente su buen estado.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-recycle me-2"></i>5. Prevención de la contaminación</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">Prevenir y reducir la contaminación del aire, el agua o el suelo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-cloud-sun-rain me-2"></i>2. Adaptación al cambio climático</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">No aumentar los efectos adversos del clima actual y el esperado en el futuro.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-seedling me-2"></i>4. Economía circular</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">Promover la eficiencia en el uso de materiales y recursos, reduciendo residuos.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card border-success mb-3">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0"><i class="fas fa-paw me-2"></i>6. Biodiversidad y ecosistemas</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">Proteger y restaurar la biodiversidad y los ecosistemas.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <h4 class="h6 text-danger"><i class="fas fa-tasks me-2"></i>Obligaciones para beneficiarios de ayudas</h4>
+                            <p>Como beneficiario de fondos europeos, estás obligado a:</p>
+                            <ol>
+                                <li><strong>Evaluar el cumplimiento del DNSH</strong> en todas las fases de tu proyecto</li>
+                                <li><strong>Presentar una autoevaluación</strong> que demuestre el cumplimiento (generalmente mediante formularios específicos)</li>
+                                <li><strong>Implementar las medidas necesarias</strong> para evitar impactos negativos significativos</li>
+                                <li><strong>Documentar y conservar pruebas</strong> del cumplimiento del principio durante toda la vida del proyecto</li>
+                                <li><strong>Informar</strong> sobre el cumplimiento del DNSH en los informes de seguimiento y justificación</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="aspect-box mb-4">
+                            <h4 class="h6 text-primary"><i class="fas fa-clipboard-check me-2"></i>Guía práctica de implementación</h4>
+                            <p>Para garantizar el cumplimiento del principio DNSH en tu proyecto, sigue estos pasos:</p>
+                            
+                            <div class="card shadow-sm mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="card-title h6 mb-0">Paso 1: Evaluación inicial</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="small mb-0">
+                                        <li>Identifica todos los posibles impactos ambientales de tu proyecto</li>
+                                        <li>Clasifica las actividades según las categorías definidas en la guía técnica de la Comisión Europea</li>
+                                        <li>Realiza un análisis simplificado para actividades con impacto mínimo</li>
+                                        <li>Realiza un análisis sustantivo para actividades con potencial impacto en algún objetivo</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card shadow-sm mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="card-title h6 mb-0">Paso 2: Diseño de medidas preventivas</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="small mb-0">
+                                        <li>Integra tecnologías y procesos respetuosos con el medio ambiente</li>
+                                        <li>Implementa sistemas de monitorización de impactos ambientales</li>
+                                        <li>Diseña planes de mitigación para posibles impactos negativos</li>
+                                        <li>Contempla alternativas en caso de identificar riesgos significativos</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card shadow-sm mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="card-title h6 mb-0">Paso 3: Documentación y seguimiento</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="small mb-0">
+                                        <li>Completa el formulario de autoevaluación DNSH (específico de cada convocatoria)</li>
+                                        <li>Recopila evidencias técnicas que respalden tu evaluación</li>
+                                        <li>Establece un sistema de seguimiento continuo de los impactos ambientales</li>
+                                        <li>Actualiza la evaluación si hay cambios significativos en el proyecto</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="critical-aspect-card p-3 h-100">
+                                    <h4 class="h6 text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Actividades excluidas</h4>
+                                    <p>Las siguientes actividades generalmente se consideran incompatibles con el principio DNSH:</p>
+                                    <ul class="mb-0">
+                                        <li>Relacionadas con combustibles fósiles (excepto casos específicos)</li>
+                                        <li>Que generen emisiones de GEI superiores a los estándares de referencia</li>
+                                        <li>Construcción de vertederos o incineradoras (con excepciones)</li>
+                                        <li>Tratamiento de residuos que cause daño ambiental a largo plazo</li>
+                                        <li>Actividades que perjudiquen significativamente a ecosistemas sensibles</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="aspect-box h-100">
+                                    <h4 class="h6 text-primary"><i class="fas fa-check-circle me-2"></i>Actividades generalmente compatibles</h4>
+                                    <p>Estas actividades suelen tener una evaluación simplificada del DNSH:</p>
+                                    <ul class="mb-0">
+                                        <li>Digitalización de procesos (con consideraciones energéticas)</li>
+                                        <li>Eficiencia energética en edificios</li>
+                                        <li>Energías renovables (solar, eólica, etc.)</li>
+                                        <li>Movilidad eléctrica y sostenible</li>
+                                        <li>Formación y capacitación (con consideraciones de consumo)</li>
+                                        <li>I+D+i en tecnologías verdes y sostenibles</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="h6 mb-0"><i class="fas fa-lightbulb me-2"></i>Consejos prácticos</h4>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li><strong>Consulta la documentación específica</strong> de cada convocatoria sobre DNSH</li>
+                                    <li><strong>Busca asesoramiento especializado</strong> para la autoevaluación en proyectos complejos</li>
+                                    <li><strong>Involucra a expertos ambientales</strong> en el diseño inicial del proyecto</li>
+                                    <li><strong>Considera la Taxonomía de la UE</strong> como referencia para actividades sostenibles</li>
+                                    <li><strong>Mantén un registro detallado</strong> de todas las medidas implementadas</li>
+                                    <li><strong>Informa periódicamente</strong> sobre el cumplimiento del DNSH en los informes de seguimiento</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h4 class="alert-heading"><i class="fas fa-book me-2"></i>Documentación de referencia</h4>
+                            <p>Para más información, consulta estos documentos oficiales:</p>
+                            <ul>
+                                <li>Guía técnica sobre la aplicación del principio DNSH (2021/C 58/01)</li>
+                                <li>Reglamento (UE) 2020/852 del Parlamento Europeo y del Consejo (Taxonomía)</li>
+                                <li>Guías específicas publicadas por el Ministerio para la Transición Ecológica</li>
+                                <li>Anexos técnicos de las convocatorias específicas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Pestaña: Otros aspectos críticos -->
+                    <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                        <h3 class="h5 mb-4">Otros Aspectos Críticos para la Financiación</h3>
+                        
+                        <div class="alert alert-warning">
+                            <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>¡ATENCIÓN!</h4>
+                            <p class="mb-0">Además de los aspectos principales ya mencionados, existen otros requisitos que pueden ser igualmente determinantes para el éxito y la correcta justificación de las ayudas recibidas.</p>
+                        </div>
+                        
+                        <!-- Sección de Morosidad -->
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-hand-holding-usd aspect-icon"></i>
+                                <h4 class="h5 mb-0 text-danger">Morosidad y deudas con administraciones</h4>
+                            </div>
+                            
+                            <p>La existencia de deudas con administraciones públicas puede suponer la denegación o pérdida de ayudas:</p>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="aspect-box h-100">
+                                        <h5 class="h6 text-danger"><i class="fas fa-times-circle me-2"></i>Situaciones de riesgo</h5>
+                                        <ul>
+                                            <li>Deudas con Hacienda (AEAT)</li>
+                                            <li>Deudas con la Seguridad Social</li>
+                                            <li>Impagos de préstamos o ayudas públicas previas</li>
+                                            <li>Declaración de concurso de acreedores</li>
+                                            <li>Sanciones que impliquen prohibición de obtener subvenciones</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="aspect-box h-100">
+                                        <h5 class="h6 text-primary"><i class="fas fa-check-circle me-2"></i>Acciones preventivas</h5>
+                                        <ul>
+                                            <li>Solicitar certificados de estar al corriente de pagos regularmente</li>
+                                            <li>Establecer alertas para pagos pendientes</li>
+                                            <li>Revisar posibles errores administrativos</li>
+                                            <li>Solicitar aplazamientos/fraccionamientos si es necesario</li>
+                                            <li>Mantener actualizada la documentación administrativa</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i><strong>Importante:</strong> Algunas convocatorias permiten solicitar la ayuda con deudas pendientes, pero exigen su regularización antes del pago.
+                            </div>
+                        </div>
+                        
+                        <!-- Sección de Memorias Justificativas -->
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-file-alt aspect-icon"></i>
+                                <h4 class="h5 mb-0 text-danger">Memorias justificativas y documentación</h4>
+                            </div>
+                            
+                            <p>Las memorias técnicas y económicas son elementos críticos para la justificación y pueden determinar la validación final de la ayuda:</p>
+                            
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="card-title h6 mb-0">Memoria técnica</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="small mb-2">Errores comunes:</p>
+                                            <ul class="small">
+                                                <li>Descripción vaga o genérica de actividades</li>
+                                                <li>Incoherencia entre actividades planificadas y realizadas</li>
+                                                <li>Falta de evidencias de los resultados logrados</li>
+                                                <li>Ausencia de indicadores de cumplimiento</li>
+                                            </ul>
+                                            <p class="small mt-2">Buenas prácticas:</p>
+                                            <ul class="small mb-0">
+                                                <li>Documentar exhaustivamente cada actividad</li>
+                                                <li>Incluir evidencias visuales (fotos, diagramas)</li>
+                                                <li>Mostrar trazabilidad del trabajo realizado</li>
+                                                <li>Justificar desviaciones respecto al plan inicial</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-4 mb-3">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="card-title h6 mb-0">Memoria económica</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="small mb-2">Errores comunes:</p>
+                                            <ul class="small">
+                                                <li>Gastos fuera del periodo elegible</li>
+                                                <li>Conceptos no subvencionables incluidos</li>
+                                                <li>Falta de correspondencia entre gasto y actividad</li>
+                                                <li>Errores en imputación de personal</li>
+                                            </ul>
+                                            <p class="small mt-2">Buenas prácticas:</p>
+                                            <ul class="small mb-0">
+                                                <li>Revisar normativa específica de elegibilidad</li>
+                                                <li>Mantener sistema detallado de registros</li>
+                                                <li>Conciliar horas de trabajo con nóminas</li>
+                                                <li>Usar herramientas específicas de control</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-4 mb-3">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="card-title h6 mb-0">Documentación adicional</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="small mb-2">Documentos críticos:</p>
+                                            <ul class="small">
+                                                <li>Declaraciones responsables actualizadas</li>
+                                                <li>Evidencias de publicidad y difusión</li>
+                                                <li>Cumplimiento de normativa de contratación</li>
+                                                <li>Autorizaciones y licencias requeridas</li>
+                                            </ul>
+                                            <p class="small mt-2">Buenas prácticas:</p>
+                                            <ul class="small mb-0">
+                                                <li>Crear checklist específico por convocatoria</li>
+                                                <li>Digitalizar toda la documentación</li>
+                                                <li>Organizar cronológicamente los archivos</li>
+                                                <li>Verificar cumplimiento de requisitos formales</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sección de Subcontratación -->
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-handshake aspect-icon"></i>
+                                <h4 class="h5 mb-0 text-danger">Subcontratación y relación con terceros</h4>
+                            </div>
+                            
+                            <p>Las relaciones con terceros están sujetas a restricciones específicas que, si no se cumplen, pueden invalidar los gastos asociados:</p>
+                            
+                            <div class="aspect-box mb-3">
+                                <h5 class="h6 text-primary"><i class="fas fa-exclamation-circle me-2"></i>Limitaciones en la subcontratación</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li><strong>Porcentaje máximo:</strong> Muchas convocatorias limitan la subcontratación (generalmente 50%-80% del presupuesto)</li>
+                                            <li><strong>Autorización previa:</strong> Necesaria para subcontrataciones que excedan ciertos límites (20% de la ayuda y 60.000€)</li>
+                                            <li><strong>Prohibición de vinculación:</strong> Restricciones para subcontratar con entidades vinculadas salvo autorización expresa</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li><strong>Contratación a precio de mercado:</strong> Obligación de demostrar que los precios son razonables y competitivos</li>
+                                            <li><strong>Transparencia:</strong> Cumplimiento de normativa de contratación pública cuando sea aplicable</li>
+                                            <li><strong>Documentación:</strong> Necesidad de formalizar adecuadamente la relación mediante contratos escritos</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <i class="fas fa-gavel me-2"></i><strong>Atención:</strong> Las subcontrataciones que no cumplan estos requisitos pueden ser rechazadas íntegramente en la justificación, incluso si el trabajo se ha realizado correctamente.
+                            </div>
+                        </div>
+                        
+                        <!-- Sección de Auditorías y Controles -->
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-search-dollar aspect-icon"></i>
+                                <h4 class="h5 mb-0 text-danger">Auditorías y controles ex-post</h4>
+                            </div>
+                            
+                            <p>Los controles pueden extenderse durante varios años después de finalizado el proyecto:</p>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="aspect-box h-100">
+                                        <h5 class="h6 text-danger"><i class="fas fa-search me-2"></i>Tipos de verificaciones</h5>
+                                        <ul>
+                                            <li><strong>Verificaciones administrativas:</strong> Sobre la documentación presentada</li>
+                                            <li><strong>Verificaciones in situ:</strong> Visitas y comprobaciones físicas</li>
+                                            <li><strong>Controles financieros:</strong> Revisión exhaustiva contable</li>
+                                            <li><strong>Auditorías europeas:</strong> En proyectos financiados con fondos UE</li>
+                                            <li><strong>Verificación de impacto:</strong> Evaluación de resultados declarados</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="aspect-box h-100">
+                                        <h5 class="h6 text-primary"><i class="fas fa-shield-alt me-2"></i>Preparación para auditorías</h5>
+                                        <ul>
+                                            <li><strong>Custodia documental:</strong> Conservar toda la documentación según plazos legales (generalmente 3-5 años, hasta 10 para fondos europeos)</li>
+                                            <li><strong>Pista de auditoría:</strong> Asegurar trazabilidad completa de todas las actuaciones</li>
+                                            <li><strong>Sistema organizado:</strong> Facilitar acceso rápido a información requerida</li>
+                                            <li><strong>Inventario actualizado:</strong> Mantener registro de activos adquiridos</li>
+                                            <li><strong>Plan de respuesta:</strong> Designar responsables para atender requerimientos</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sección de Modificaciones -->
+                        <div class="critical-aspect-card p-3 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-sync-alt aspect-icon"></i>
+                                <h4 class="h5 mb-0 text-danger">Modificaciones del proyecto</h4>
+                            </div>
+                            
+                            <p>Los cambios en el proyecto respecto a lo aprobado inicialmente pueden comprometer la financiación si no se gestionan adecuadamente:</p>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-warning h-100">
+                                        <div class="card-header bg-warning text-dark">
+                                            <h5 class="card-title h6 mb-0">Modificaciones sustanciales</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="small">Requieren autorización previa obligatoria:</p>
+                                            <ul class="small mb-0">
+                                                <li>Cambios en objetivos/resultados</li>
+                                                <li>Modificación de partidas presupuestarias (por encima de ciertos límites)</li>
+                                                <li>Cambios de entidad beneficiaria</li>
+                                                <li>Modificaciones en la composición del consorcio</li>
+                                                <li>Ampliaciones de plazo significativas</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-info h-100">
+                                        <div class="card-header bg-info text-white">
+                                            <h5 class="card-title h6 mb-0">Modificaciones no sustanciales</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="small">Generalmente requieren comunicación:</p>
+                                            <ul class="small mb-0">
+                                                <li>Reajustes menores entre partidas (dentro de límites)</li>
+                                                <li>Cambios en cronograma sin afectar plazos finales</li>
+                                                <li>Modificaciones técnicas que no alteren objetivos</li>
+                                                <li>Cambios de personal equivalente</li>
+                                                <li>Modificaciones en procesos internos</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-success h-100">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="card-title h6 mb-0">Buenas prácticas</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="small mb-0">
+                                                <li>Consultar antes de implementar cambios</li>
+                                                <li>Documentar todas las modificaciones</li>
+                                                <li>Solicitar cambios con antelación suficiente</li>
+                                                <li>Justificar técnicamente las modificaciones</li>
+                                                <li>Revisar las implicaciones legales</li>
+                                                <li>Actualizar planificación y presupuestos</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i><strong>¡Atención!</strong> Las modificaciones no autorizadas pueden suponer la revocación parcial o total de la ayuda, incluso si el proyecto ha alcanzado resultados positivos.
+                            </div>
+                        </div>
+                        
+                        <!-- Sección de consejos generales -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="h6 mb-0"><i class="fas fa-lightbulb me-2"></i>Consejos prácticos generales</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ol>
+                                            <li><strong>Designa un responsable de cumplimiento</strong> que coordine todos los aspectos administrativos y legales</li>
+                                            <li><strong>Crea un calendario de obligaciones</strong> con alertas para plazos importantes</li>
+                                            <li><strong>Implementa un sistema de gestión documental</strong> organizado por convocatoria/proyecto</li>
+                                            <li><strong>Mantén comunicación regular</strong> con los gestores de la ayuda</li>
+                                            <li><strong>Realiza revisiones periódicas</strong> del cumplimiento de los requisitos</li>
+                                        </ol>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ol start="6">
+                                            <li><strong>Documenta todas las decisiones relevantes</strong> mediante actas o registros internos</li>
+                                            <li><strong>Planifica con suficiente margen</strong> para imprevistos en los procesos de justificación</li>
+                                            <li><strong>Consulta a especialistas</strong> ante dudas sobre aspectos específicos</li>
+                                            <li><strong>Forma al equipo</strong> sobre los requisitos específicos de cada ayuda</li>
+                                            <li><strong>Realiza auditorías internas</strong> previas a las justificaciones formales</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-success">
+                            <h4 class="alert-heading"><i class="fas fa-check-double me-2"></i>Recuerda</h4>
+                            <p>El cumplimiento adecuado de todos estos aspectos no solo te permite acceder a la financiación actual, sino que también:</p>
+                            <ul class="mb-0">
+                                <li>Facilita la obtención de futuras ayudas</li>
+                                <li>Mejora la reputación institucional ante organismos financiadores</li>
+                                <li>Reduce el riesgo de devoluciones y sanciones</li>
+                                <li>Optimiza la gestión interna de los proyectos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de navegación -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('financing_questionnaire') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-search me-2"></i>Volver a búsqueda de financiación
+                        </a>
+                        <a href="{{ url_for('home') }}" class="btn btn-secondary">
+                            <i class="fas fa-home me-2"></i>Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

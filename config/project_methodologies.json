@@ -1,0 +1,216 @@
+{
+  "methodologies": [
+    {
+      "id": "cientifica",
+      "title": "Método científico (para I+D)",
+      "description": "Metodología sistemática basada en evidencias para generar nuevo conocimiento.",
+      "appropriate_for": "Proyectos de Investigación y Desarrollo con alto componente científico o con incertidumbre técnica sustancial.",
+      "key_phases": [
+        {
+          "name": "Observación y formulación del problema",
+          "description": "Identificación del problema o fenómeno a investigar y planteamiento de preguntas precisas."
+        },
+        {
+          "name": "Documentación e investigación previa",
+          "description": "Revisión exhaustiva de la literatura científica y el estado del arte actual."
+        },
+        {
+          "name": "Formulación de hipótesis",
+          "description": "Planteamiento de posibles explicaciones o soluciones que puedan ser contrastadas empíricamente."
+        },
+        {
+          "name": "Diseño experimental",
+          "description": "Planificación de experimentos o pruebas que permitan validar o refutar las hipótesis."
+        },
+        {
+          "name": "Experimentación",
+          "description": "Ejecución de los experimentos diseñados en condiciones controladas."
+        },
+        {
+          "name": "Análisis de resultados",
+          "description": "Procesamiento y evaluación de los datos obtenidos para extraer conclusiones."
+        },
+        {
+          "name": "Conclusiones",
+          "description": "Interpretación de los resultados y validación o refinamiento de las hipótesis iniciales."
+        },
+        {
+          "name": "Comunicación y documentación",
+          "description": "Registro riguroso de todo el proceso y resultados para su validación y reproducibilidad."
+        }
+      ],
+      "recommendations": [
+        "Documentar rigurosamente todo el proceso, incluyendo experimentos fallidos",
+        "Incluir análisis estadístico o cuantificable de los resultados",
+        "Garantizar la reproducibilidad de los experimentos",
+        "Contrastar los resultados con el conocimiento previo",
+        "Identificar claramente las nuevas aportaciones al conocimiento"
+      ],
+      "documentation_focus": [
+        "Formulación detallada de las hipótesis",
+        "Protocolos experimentales completos y precisos",
+        "Datos crudos y procesados de los experimentos",
+        "Análisis estadístico o métodos de validación",
+        "Referencias bibliográficas exhaustivas"
+      ]
+    },
+    {
+      "id": "agile",
+      "title": "Metodologías ágiles (para IT)",
+      "description": "Enfoque iterativo e incremental para el desarrollo de productos o procesos tecnológicos.",
+      "appropriate_for": "Proyectos de Innovación Tecnológica centrados en desarrollo de software, nuevos procesos o mejoras tecnológicas incrementales.",
+      "key_phases": [
+        {
+          "name": "Conceptualización inicial",
+          "description": "Definición del problema, objetivos y visión general del producto o proceso a desarrollar."
+        },
+        {
+          "name": "Planificación de sprints/iteraciones",
+          "description": "Organización del trabajo en ciclos cortos (1-4 semanas) con entregables definidos."
+        },
+        {
+          "name": "Desarrollo iterativo",
+          "description": "Implementación del producto o proceso en ciclos sucesivos, cada uno añadiendo funcionalidad."
+        },
+        {
+          "name": "Pruebas continuas",
+          "description": "Verificación constante durante el proceso para detectar y corregir problemas tempranamente."
+        },
+        {
+          "name": "Revisión y adaptación",
+          "description": "Evaluación regular de los avances y ajustes en la planificación según resultados."
+        },
+        {
+          "name": "Integración y validación",
+          "description": "Combinación de los componentes desarrollados y comprobación del funcionamiento conjunto."
+        },
+        {
+          "name": "Demostración y feedback",
+          "description": "Presentación de resultados a stakeholders y recogida de opiniones para mejora."
+        },
+        {
+          "name": "Documentación y cierre",
+          "description": "Registro de los desarrollos, decisiones técnicas y conocimiento generado."
+        }
+      ],
+      "recommendations": [
+        "Mantener reuniones breves y frecuentes del equipo de desarrollo",
+        "Priorizar las funcionalidades según su valor e impacto",
+        "Monitorizar el progreso con herramientas visuales (tableros Kanban, burndown charts)",
+        "Incorporar mecanismos de feedback continuo",
+        "Documentar las decisiones técnicas y los problemas resueltos, no solo el resultado final"
+      ],
+      "documentation_focus": [
+        "Historias de usuario o requisitos funcionales",
+        "Documentación técnica de arquitectura y componentes",
+        "Registros de pruebas y validaciones",
+        "Documentación del código o proceso desarrollado",
+        "Lecciones aprendidas y problemas resueltos"
+      ]
+    },
+    {
+      "id": "design_thinking",
+      "title": "Design Thinking",
+      "description": "Enfoque centrado en el usuario para resolver problemas complejos mediante soluciones innovadoras.",
+      "appropriate_for": "Proyectos de innovación centrados en el usuario, desarrollo de nuevos productos o servicios con alto componente de experiencia de usuario.",
+      "key_phases": [
+        {
+          "name": "Empatizar",
+          "description": "Comprender profundamente las necesidades de los usuarios finales mediante investigación cualitativa."
+        },
+        {
+          "name": "Definir",
+          "description": "Establecer con precisión el problema a resolver desde la perspectiva del usuario."
+        },
+        {
+          "name": "Idear",
+          "description": "Generar múltiples soluciones potenciales mediante técnicas de creatividad y pensamiento divergente."
+        },
+        {
+          "name": "Prototipar",
+          "description": "Materializar las ideas más prometedoras en prototipos rápidos y de bajo coste."
+        },
+        {
+          "name": "Evaluar",
+          "description": "Probar los prototipos con usuarios reales para obtener feedback y refinar la solución."
+        },
+        {
+          "name": "Implementar",
+          "description": "Desarrollar la solución final en base a los aprendizajes obtenidos durante el proceso."
+        }
+      ],
+      "recommendations": [
+        "Involucrar a usuarios reales en todo el proceso",
+        "Favorecer la generación de múltiples ideas antes de seleccionar soluciones",
+        "Utilizar prototipado rápido para validar conceptos",
+        "Iterar basándose en feedback real, no en suposiciones",
+        "Documentar los insights de usuario y cómo influyeron en las decisiones"
+      ],
+      "documentation_focus": [
+        "Investigación de usuarios (entrevistas, observaciones, journey maps)",
+        "Definición del problema (punto de vista, insights)",
+        "Ideación (sesiones de brainstorming, selección de ideas)",
+        "Prototipos y sus evoluciones",
+        "Resultados de las evaluaciones con usuarios"
+      ]
+    },
+    {
+      "id": "trl",
+      "title": "Desarrollo por niveles de madurez tecnológica (TRL)",
+      "description": "Enfoque sistemático para el desarrollo tecnológico basado en la progresión a través de niveles de madurez.",
+      "appropriate_for": "Proyectos de desarrollo tecnológico complejos, especialmente útil para innovaciones que requieren investigación fundamental y un largo recorrido hasta el mercado.",
+      "key_phases": [
+        {
+          "name": "TRL 1: Investigación básica",
+          "description": "Observación de principios básicos, investigación científica inicial."
+        },
+        {
+          "name": "TRL 2: Formulación tecnológica",
+          "description": "Definición de aplicaciones prácticas potenciales, conceptos tecnológicos."
+        },
+        {
+          "name": "TRL 3: Prueba de concepto",
+          "description": "Validación analítica o experimental de los conceptos clave."
+        },
+        {
+          "name": "TRL 4: Validación en laboratorio",
+          "description": "Pruebas de componentes o procesos básicos en entorno controlado."
+        },
+        {
+          "name": "TRL 5: Validación en entorno relevante",
+          "description": "Integración de componentes y pruebas en condiciones similares a las reales."
+        },
+        {
+          "name": "TRL 6: Demostración en entorno relevante",
+          "description": "Prototipo completo funcionando en condiciones próximas a las operativas."
+        },
+        {
+          "name": "TRL 7: Demostración en entorno operativo",
+          "description": "Prototipo cerca del sistema final funcionando en condiciones reales."
+        },
+        {
+          "name": "TRL 8: Sistema completo validado",
+          "description": "Tecnología probada y calificada a través de pruebas y demostraciones."
+        },
+        {
+          "name": "TRL 9: Sistema real operativo",
+          "description": "Tecnología en su forma final y probada en entorno operativo real."
+        }
+      ],
+      "recommendations": [
+        "Definir claramente el TRL inicial y objetivo del proyecto",
+        "Establecer criterios objetivos de evaluación para pasar de un TRL a otro",
+        "Incluir hitos de validación para cada nivel TRL",
+        "Documentar rigurosamente las evidencias de cada nivel alcanzado",
+        "Considerar aspectos no solo técnicos sino también de industrialización y mercado en los TRL altos"
+      ],
+      "documentation_focus": [
+        "Evidencias científicas y técnicas para cada TRL",
+        "Protocolos de prueba específicos para cada nivel",
+        "Resultados de validaciones y demostraciones",
+        "Análisis de brechas tecnológicas entre niveles",
+        "Planes para la transición entre TRLs"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados - Evaluación de Deducciones Fiscales I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h2 class="card-title h5 mb-0">Resultados de la Evaluación</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="alert alert-warning">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Aviso importante</h4>
+                    <p><strong>Los resultados mostrados son una orientación preliminar y no vinculante.</strong></p>
+                    <p>Esta evaluación no constituye asesoramiento fiscal profesional y debe ser contrastada con un experto en deducciones fiscales por I+D+i.</p>
+                </div>
+                
+                <!-- Información del proyecto -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Información del Proyecto</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.responses.project_identification %}
+                            <p><strong>Nombre del proyecto:</strong> {{ assessment.responses.project_identification.project_name }}</p>
+                            <p><strong>Año fiscal:</strong> {{ assessment.responses.project_identification.project_year }}</p>
+                        {% else %}
+                            <p class="text-muted">No se proporcionó información del proyecto.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Calificación -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Calificación Preliminar</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.qualification %}
+                            {% set qualification_info = get_qualification_label(assessment.results.qualification) %}
+                            <div class="alert alert-{{ qualification_info[1] }}">
+                                <h4 class="alert-heading">{{ qualification_info[0] }}</h4>
+                                
+                                {% if assessment.results.qualification == 'ID' %}
+                                <p>Su proyecto muestra características significativas de <strong>Investigación y Desarrollo (I+D)</strong>, lo que le permitiría acceder a deducciones fiscales del 25% sobre los gastos elegibles.</p>
+                                
+                                {% elif assessment.results.qualification == 'IT' %}
+                                <p>Su proyecto muestra características de <strong>Innovación Tecnológica (IT)</strong>, lo que le permitiría acceder a deducciones fiscales del 12% sobre los gastos elegibles.</p>
+                                
+                                {% elif assessment.results.qualification == 'NOT_QUALIFIED' %}
+                                <p>Según la información proporcionada, su proyecto podría no calificar directamente para deducciones fiscales por I+D+i. Sin embargo, recomendamos consultar con un experto para un análisis más detallado.</p>
+                                {% endif %}
+                                
+                                {% if assessment.responses.project_identification and assessment.responses.project_identification.subsidy_received == 'Sí' %}
+                                <div class="alert alert-warning mt-3">
+                                    <strong>Advertencia sobre subvenciones:</strong> Ha indicado que este proyecto ha recibido subvenciones. Es importante tener en cuenta que <strong>la parte subvencionada del proyecto no puede aplicar para deducciones fiscales</strong>, ya que esos gastos ya han sido cubiertos por financiación pública. Las cantidades mostradas aquí deben ajustarse restando el importe subvencionado.
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No se pudo determinar la calificación.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Resumen financiero -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Resumen Financiero</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.deduction %}
+                            {% set deduction = assessment.results.deduction %}
+                            
+                            <!-- Gastos elegibles -->
+                            <h4 class="h6">Gastos Elegibles</h4>
+                            <div class="table-responsive mb-3">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th class="text-end">Importe (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if deduction.eligible_expenses.personnel %}
+                                        <tr>
+                                            <td>Personal</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.personnel) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        <tr class="table-light fw-bold">
+                                            <td>TOTAL GASTOS ELEGIBLES</td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.total) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Deducción fiscal -->
+                            <h4 class="h6">Deducción Fiscal Estimada</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Concepto</th>
+                                            <th class="text-end">Importe (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if deduction.id_base and deduction.id_base > 0 %}
+                                        <tr>
+                                            <td>Deducción base I+D (25%)</td>
+                                            <td class="text-end">{{ format_currency(deduction.id_base) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        {% if deduction.it and deduction.it > 0 %}
+                                        <tr>
+                                            <td>Deducción IT (12%)</td>
+                                            <td class="text-end">{{ format_currency(deduction.it) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
+                                        <tr class="table-success fw-bold">
+                                            <td>TOTAL DEDUCCIÓN ESTIMADA</td>
+                                            <td class="text-end">{{ format_currency(deduction.total) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No se pudieron calcular los datos financieros.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Recomendaciones -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Recomendaciones</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if assessment.results.recommendations %}
+                            <div class="list-group">
+                                {% for recommendation in assessment.results.recommendations %}
+                                <div class="list-group-item">
+                                    <i class="fas fa-check-circle text-success me-2"></i>{{ recommendation }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No hay recomendaciones disponibles.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="d-flex justify-content-between mt-4">
+                    <div>
+                        <a href="{{ url_for('welcome') }}" class="btn btn-secondary me-2">
+                            <i class="fas fa-home me-2"></i>Inicio
+                        </a>
+                        <a href="{{ url_for('reset') }}" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-redo me-2"></i>Nueva evaluación
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('generate_report') }}" class="btn btn-success me-2">
+                            <i class="fas fa-file-pdf me-2"></i>Generar PDF
+                        </a>
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Guardar evaluación
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+{
+  "sections": [
+    {
+      "id": "resumen",
+      "title": "Resumen ejecutivo",
+      "description": "Síntesis clara y concisa del proyecto, enfocada a destacar su innovación y valor.",
+      "content": "El resumen ejecutivo debe presentar de forma sintética pero completa los aspectos clave del proyecto. No debe exceder de 1-2 páginas y debe ser comprensible para personas con perfil técnico pero no especializadas en el campo específico.",
+      "key_elements": [
+        "Descripción breve del objetivo y novedad del proyecto",
+        "Problema que resuelve o necesidad que satisface",
+        "Aspectos innovadores y ventajas respecto al estado del arte",
+        "Impacto esperado (económico, social, medioambiental)",
+        "Resumen de recursos necesarios y plazos"
+      ],
+      "recommendations": [
+        "Redactar al final, cuando ya se tenga clara toda la propuesta",
+        "Debe poder leerse de forma independiente y transmitir la esencia del proyecto",
+        "Utilizar lenguaje claro y preciso, evitando jerga excesivamente técnica",
+        "Destacar claramente los elementos innovadores y de I+D+i"
+      ]
+    },
+    {
+      "id": "antecedentes",
+      "title": "Antecedentes y estado del arte",
+      "description": "Análisis del contexto científico-técnico actual y los avances previos en el campo.",
+      "content": "Esta sección debe establecer el marco de conocimiento sobre el que se construye el proyecto, demostrando un conocimiento profundo del estado actual de la tecnología o conocimiento en el ámbito del proyecto.",
+      "key_elements": [
+        "Revisión de la literatura científica y técnica relevante",
+        "Análisis de soluciones existentes y sus limitaciones",
+        "Productos o servicios competidores",
+        "Patentes o propiedad intelectual relacionada",
+        "Trabajos previos del equipo en este campo"
+      ],
+      "recommendations": [
+        "Ser exhaustivo pero relevante, centrado en lo directamente relacionado con el proyecto",
+        "Citar fuentes académicas y técnicas actualizadas y de prestigio",
+        "Identificar claramente las carencias o limitaciones actuales que justifican el proyecto",
+        "Establecer el punto de partida tecnológico del proyecto"
+      ]
+    },
+    {
+      "id": "objetivos",
+      "title": "Objetivos y resultados esperados",
+      "description": "Definición clara de los fines del proyecto y de los productos o conocimientos a obtener.",
+      "content": "Los objetivos deben describir de forma clara y medible qué se pretende lograr con el proyecto. Deben ser específicos, medibles, alcanzables, relevantes y acotados en el tiempo (SMART).",
+      "key_elements": [
+        "Objetivo general del proyecto",
+        "Objetivos específicos (técnicos, científicos, de innovación)",
+        "Resultados esperados y entregables concretos",
+        "Indicadores de éxito y forma de medirlos",
+        "Impacto previsto en la competitividad de la empresa"
+      ],
+      "recommendations": [
+        "Formular objetivos SMART (Específicos, Medibles, Alcanzables, Relevantes y Temporales)",
+        "Diferenciar entre objetivos científico-técnicos y objetivos empresariales",
+        "Establecer indicadores claros para cada objetivo",
+        "Los objetivos deben justificar claramente el carácter de I+D+i"
+      ]
+    },
+    {
+      "id": "innovacion",
+      "title": "Elementos de innovación y avance",
+      "description": "Aspectos novedosos y diferenciales del proyecto respecto al estado actual de la técnica.",
+      "content": "Esta sección debe destacar con claridad qué aspectos del proyecto constituyen una novedad objetiva o subjetiva, y qué avances técnicos o científicos se espera conseguir.",
+      "key_elements": [
+        "Novedad objetiva (mundial) o subjetiva (para la empresa) del proyecto",
+        "Elementos innovadores específicos",
+        "Riesgo técnico o incertidumbre científica",
+        "Comparativa con soluciones existentes",
+        "Potencial de protección de resultados (patentes, modelos de utilidad)"
+      ],
+      "recommendations": [
+        "Ser específico sobre la innovación, evitando generalidades",
+        "Cuantificar siempre que sea posible las mejoras respecto a soluciones existentes",
+        "Describir detalladamente los obstáculos técnicos a superar",
+        "Resaltar elementos que evidencien I+D (incertidumbre científica, metodología) o IT (novedad tecnológica)"
+      ]
+    },
+    {
+      "id": "metodologia",
+      "title": "Metodología y plan de trabajo",
+      "description": "Enfoque técnico, actividades a realizar y organización temporal.",
+      "content": "La metodología debe detallar el enfoque técnico y científico que se seguirá para alcanzar los objetivos, así como la organización del trabajo en actividades, tareas y paquetes de trabajo.",
+      "key_elements": [
+        "Enfoque metodológico (científico o de desarrollo)",
+        "Actividades y tareas a desarrollar",
+        "Cronograma o planificación temporal",
+        "Hitos y puntos de control",
+        "Asignación de recursos a cada actividad",
+        "Gestión de riesgos y plan de contingencia"
+      ],
+      "recommendations": [
+        "Demostrar un enfoque sistemático y riguroso",
+        "Para proyectos de I+D, seguir una metodología científica clara",
+        "Para IT, detallar el proceso de desarrollo tecnológico",
+        "Incluir diagramas de Gantt o similares para la planificación",
+        "Identificar riesgos y plantear medidas para mitigarlos"
+      ]
+    },
+    {
+      "id": "equipo",
+      "title": "Equipo y recursos",
+      "description": "Descripción del personal y medios materiales destinados al proyecto.",
+      "content": "Esta sección debe detallar los recursos humanos y materiales que se dedicarán al proyecto, demostrando la capacidad técnica para llevarlo a cabo.",
+      "key_elements": [
+        "Composición del equipo y perfiles profesionales",
+        "Capacitación y experiencia previa relevante",
+        "Colaboraciones externas (universidades, centros tecnológicos)",
+        "Infraestructuras y equipamientos a utilizar",
+        "Otros recursos necesarios"
+      ],
+      "recommendations": [
+        "Destacar la cualificación específica del personal para las tareas de I+D+i",
+        "Explicar el valor añadido de las colaboraciones externas",
+        "Demostrar que se dispone de los medios adecuados o cómo se obtendrán",
+        "Para personal exclusivo de I+D, detallar su dedicación y titulación"
+      ]
+    },
+    {
+      "id": "presupuesto",
+      "title": "Presupuesto detallado",
+      "description": "Costes del proyecto desglosados por partidas y actividades.",
+      "content": "El presupuesto debe reflejar los recursos económicos necesarios para el desarrollo del proyecto, con un desglose detallado que permita valorar su adecuación.",
+      "key_elements": [
+        "Costes de personal (interno)",
+        "Colaboraciones externas",
+        "Materiales y consumibles",
+        "Amortización de activos",
+        "Otros gastos directos",
+        "Gastos generales indirectos"
+      ],
+      "recommendations": [
+        "Desglosar los costes por actividades o paquetes de trabajo",
+        "Justificar adecuadamente cada partida",
+        "Diferenciar claramente los gastos elegibles para deducciones fiscales",
+        "Prever posibles desviaciones y contingencias",
+        "Ser realista y preciso en las estimaciones"
+      ]
+    },
+    {
+      "id": "impacto",
+      "title": "Impacto y explotación de resultados",
+      "description": "Beneficios esperados y estrategia de aprovechamiento de los resultados.",
+      "content": "Esta sección debe abordar el impacto previsto del proyecto y cómo se aprovecharán los resultados obtenidos, tanto a nivel técnico como comercial o empresarial.",
+      "key_elements": [
+        "Impacto técnico o científico esperado",
+        "Impacto económico para la empresa",
+        "Estrategia de protección de resultados (propiedad intelectual)",
+        "Plan de explotación comercial",
+        "Impacto social o medioambiental, si procede",
+        "Estrategia de difusión (si no compromete aspectos confidenciales)"
+      ],
+      "recommendations": [
+        "Cuantificar en lo posible el retorno de inversión previsto",
+        "Detallar las ventajas competitivas que generará el proyecto",
+        "Considerar varios escenarios de explotación",
+        "Valorar la posibilidad de transferencia tecnológica",
+        "Incluir estrategia para gestionar la propiedad industrial/intelectual"
+      ]
+    }
+  ]
+}

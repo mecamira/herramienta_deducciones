@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Cuestionario - {{ section_title }} - Evaluación de Deducciones Fiscales I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">{{ section_title }}</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <!-- Progreso -->
+                <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                </div>
+                
+                <form method="post" id="questionnaireForm">
+                    {% for question in questions %}
+                    <div class="mb-4 p-3 border rounded{% if question.highlight %} bg-light{% endif %}" 
+                         {% if question.conditional %}
+                         data-conditional-field="{{ question.conditional.field }}"
+                         data-conditional-value="{{ question.conditional.value }}"
+                         style="display: none;"
+                         {% endif %}>
+                        <label 
+                            for="{{ question.id }}" 
+                            class="form-label fw-bold{% if question.required %} required{% endif %}"
+                        >
+                            {{ question.text }}
+                            {% if question.required %}
+                            <span class="text-danger">*</span>
+                            {% endif %}
+                            {% if question.tooltip %}
+                            <i class="fas fa-info-circle text-primary ms-1 info-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ question.tooltip }}"></i>
+                            {% endif %}
+                        </label>
+                        
+                        {% if question.help_text %}
+                        <div class="form-text mb-2">{{ question.help_text }}</div>
+                        {% endif %}
+                        
+                        {% if question.type == 'text' %}
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="{{ question.id }}" 
+                            name="{{ question.id }}"
+                            {% if question.required %}required{% endif %}
+                            {% if previous_responses and question.id in previous_responses %}
+                            value="{{ previous_responses[question.id] }}"
+                            {% endif %}
+                        >
+                        
+                        {% elif question.type == 'textarea' %}
+                        <textarea 
+                            class="form-control" 
+                            id="{{ question.id }}" 
+                            name="{{ question.id }}" 
+                            rows="3"
+                            {% if question.required %}required{% endif %}
+                        >{% if previous_responses and question.id in previous_responses %}{{ previous_responses[question.id] }}{% endif %}</textarea>
+                        
+                        {% elif question.type == 'number' %}
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="{{ question.id }}" 
+                            name="{{ question.id }}"
+                            {% if question.min is defined %}min="{{ question.min }}"{% endif %}
+                            {% if question.max is defined %}max="{{ question.max }}"{% endif %}
+                            {% if question.step is defined %}step="{{ question.step }}"{% endif %}
+                            {% if question.required %}required{% endif %}
+                            {% if previous_responses and question.id in previous_responses %}
+                            value="{{ previous_responses[question.id] }}"
+                            {% endif %}
+                        >
+                        
+                        {% elif question.type == 'select' %}
+                        <select 
+                            class="form-select" 
+                            id="{{ question.id }}" 
+                            name="{{ question.id }}"
+                            {% if question.required %}required{% endif %}
+                        >
+                            <option value="" {% if not previous_responses or question.id not in previous_responses %}selected{% endif %}>Seleccione una opción</option>
+                            {% for option in question.options %}
+                            <option 
+                                value="{{ option }}"
+                                {% if previous_responses and question.id in previous_responses and previous_responses[question.id] == option %}selected{% endif %}
+                            >
+                                {{ option }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        
+                        {% elif question.type == 'radio' %}
+                        <div class="mt-2">
+                            {% for option in question.options %}
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input" 
+                                    type="radio" 
+                                    name="{{ question.id }}" 
+                                    id="{{ question.id }}_{{ loop.index }}" 
+                                    value="{{ option }}"
+                                    {% if question.required %}required{% endif %}
+                                    {% if previous_responses and question.id in previous_responses and previous_responses[question.id] == option %}checked{% endif %}
+                                >
+                                <label class="form-check-label" for="{{ question.id }}_{{ loop.index }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% elif question.type == 'checkbox' %}
+                        <div class="mt-2">
+                            {% for option in question.options %}
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    name="{{ question.id }}_{{ loop.index }}" 
+                                    id="{{ question.id }}_{{ loop.index }}" 
+                                    value="{{ option }}"
+                                    {% if previous_responses and question.id ~ '_' ~ loop.index in previous_responses %}checked{% endif %}
+                                >
+                                <label class="form-check-label" for="{{ question.id }}_{{ loop.index }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Subpreguntas -->
+                        {% if question.subquestions %}
+                            <div class="mt-3 ms-4 border-start ps-3">
+                                {% for subquestion in question.subquestions %}
+                                <div class="mb-3">
+                                    <label 
+                                        for="{{ subquestion.id }}" 
+                                        class="form-label{% if subquestion.required %} required{% endif %}"
+                                    >
+                                        {{ subquestion.text }}
+                                        {% if subquestion.required %}
+                                        <span class="text-danger">*</span>
+                                        {% endif %}
+                                        {% if subquestion.tooltip %}
+                                        <i class="fas fa-info-circle text-primary ms-1 info-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ subquestion.tooltip }}"></i>
+                                        {% endif %}
+                                    </label>
+                                    
+                                    {% if subquestion.type == 'text' %}
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="{{ subquestion.id }}" 
+                                        name="{{ subquestion.id }}"
+                                        {% if subquestion.required %}required{% endif %}
+                                        {% if previous_responses and subquestion.id in previous_responses %}
+                                        value="{{ previous_responses[subquestion.id] }}"
+                                        {% endif %}
+                                    >
+                                    
+                                    {% elif subquestion.type == 'number' %}
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="{{ subquestion.id }}" 
+                                        name="{{ subquestion.id }}"
+                                        {% if subquestion.min is defined %}min="{{ subquestion.min }}"{% endif %}
+                                        {% if subquestion.max is defined %}max="{{ subquestion.max }}"{% endif %}
+                                        {% if subquestion.step is defined %}step="{{ subquestion.step }}"{% endif %}
+                                        {% if subquestion.required %}required{% endif %}
+                                        {% if previous_responses and subquestion.id in previous_responses %}
+                                        value="{{ previous_responses[subquestion.id] }}"
+                                        {% endif %}
+                                    >
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ prev_url }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Anterior
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            Siguiente<i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Validación del formulario
+    document.getElementById('questionnaireForm').addEventListener('submit', function(event) {
+        // Validación de campos requeridos
+        const requiredFields = document.querySelectorAll('[required]');
+        let valid = true;
+        
+        requiredFields.forEach(function(field) {
+            if (field.value.trim() === '') {
+                field.classList.add('is-invalid');
+                valid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!valid) {
+            event.preventDefault();
+            alert('Por favor, complete todos los campos obligatorios.');
+        }
+        
+        // Validación de campos numéricos
+        const numberFields = document.querySelectorAll('input[type="number"]');
+        
+        numberFields.forEach(function(field) {
+            if (field.value && isNaN(parseFloat(field.value))) {
+                field.classList.add('is-invalid');
+                valid = false;
+            }
+        });
+        
+        if (!valid) {
+            event.preventDefault();
+            alert('Por favor, corrija los errores en los campos numéricos.');
+        }
+    });
+    
+    // Mostrar/ocultar subpreguntas según la respuesta a la pregunta principal
+    // Esta es una versión simplificada, se deberá adaptar según las necesidades específicas
+    document.addEventListener('DOMContentLoaded', function() {
+        // Aquí va la lógica para mostrar/ocultar subpreguntas
+    });
+</script>
+{% endblock %}

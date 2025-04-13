@@ -1,0 +1,196 @@
+{
+    "categories": [
+      {
+        "id": "personal",
+        "name": "Gastos de personal",
+        "description": "Costes salariales del personal interno dedicado al proyecto, incluyendo seguridad social a cargo de la empresa.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Solo el tiempo efectivamente dedicado al proyecto es elegible",
+          "Debe documentarse mediante partes de trabajo o similar",
+          "Para personal exclusivo de I+D, se aplica una deducción adicional del 17%",
+          "El personal debe tener titulación adecuada para las tareas asignadas"
+        ],
+        "documentation_needed": [
+          "Contratos laborales",
+          "Titulaciones académicas",
+          "Registros de dedicación horaria",
+          "Nóminas y TC2 de la seguridad social",
+          "Descripción de tareas realizadas"
+        ],
+        "calculation_method": "Coste empresa/hora × Horas dedicadas",
+        "common_mistakes": [
+          "Incluir horas no dedicadas directamente al proyecto",
+          "Falta de registro detallado de dedicación por actividades",
+          "No distinguir entre personal de I+D y otro personal"
+        ]
+      },
+      {
+        "id": "colaboraciones",
+        "name": "Colaboraciones externas",
+        "description": "Contratación de servicios a universidades, centros tecnológicos u otras entidades especializadas para actividades específicas del proyecto.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Deben estar directamente relacionadas con el proyecto",
+          "Se recomienda contratación a entidades reconocidas por el MINECO",
+          "Debe existir un contrato o acuerdo formal de colaboración",
+          "Los resultados deben ser propiedad de la empresa contratante"
+        ],
+        "documentation_needed": [
+          "Contrato o convenio de colaboración",
+          "Facturas detalladas de los servicios",
+          "Informes técnicos de los trabajos realizados",
+          "Evidencias de los resultados obtenidos"
+        ],
+        "calculation_method": "Según presupuesto/facturación de la entidad colaboradora",
+        "common_mistakes": [
+          "Contratos genéricos sin vinculación clara al proyecto",
+          "Ausencia de informes técnicos detallados",
+          "Colaboraciones que no aportan valor técnico sustancial"
+        ]
+      },
+      {
+        "id": "materiales",
+        "name": "Materiales y suministros",
+        "description": "Materiales fungibles consumidos directamente en el proyecto, como materias primas, componentes, reactivos o similar.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Solo materiales consumidos específicamente en el proyecto",
+          "No son elegibles materiales de producción normal",
+          "Debe existir trazabilidad del uso en actividades de I+D+i"
+        ],
+        "documentation_needed": [
+          "Facturas de compra",
+          "Registros de uso/consumo en el proyecto",
+          "Albaranes o documentos de entrada en almacén",
+          "Justificación técnica de la necesidad"
+        ],
+        "calculation_method": "Coste de adquisición × Unidades consumidas",
+        "common_mistakes": [
+          "Incluir materiales de uso general no específicos del proyecto",
+          "Falta de registro del consumo real en el proyecto",
+          "No distinguir entre materiales de I+D+i y producción normal"
+        ]
+      },
+      {
+        "id": "amortizaciones",
+        "name": "Amortización de activos",
+        "description": "Depreciación de equipos, instrumentos y software utilizados en el proyecto durante su vida útil.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Solo la parte proporcional al uso en el proyecto y período de ejecución",
+          "No elegible para activos adquiridos mediante subvenciones",
+          "Debe seguir las normas contables de amortización",
+          "Solo para equipos específicos de I+D+i o con uso demostrable en estas actividades"
+        ],
+        "documentation_needed": [
+          "Facturas de adquisición",
+          "Registros de uso en el proyecto",
+          "Cálculo detallado de la amortización",
+          "Contabilidad de los activos"
+        ],
+        "calculation_method": "(Coste adquisición / Años vida útil) × (Meses uso en proyecto / 12) × (% dedicación al proyecto)",
+        "common_mistakes": [
+          "Incluir el coste total del activo en lugar de la amortización",
+          "No documentar adecuadamente el % de uso en el proyecto",
+          "Aplicar períodos de amortización incorrectos"
+        ]
+      },
+      {
+        "id": "patentes",
+        "name": "Patentes y propiedad industrial",
+        "description": "Costes de registro y mantenimiento de patentes generadas por el proyecto, o licencias necesarias para la investigación.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Elegibles los costes de solicitud y mantenimiento de patentes propias",
+          "Para licencias externas, solo si son imprescindibles para el proyecto",
+          "Debe existir vinculación directa con los resultados del proyecto"
+        ],
+        "documentation_needed": [
+          "Solicitudes de patentes o registros",
+          "Contratos de licencia",
+          "Facturas de gestorías o agentes de patentes",
+          "Tasas oficiales pagadas"
+        ],
+        "calculation_method": "Costes directos de tramitación, tasas y mantenimiento",
+        "common_mistakes": [
+          "Incluir patentes no relacionadas con el proyecto",
+          "Falta de vinculación entre la patente y la actividad de I+D+i",
+          "No distinguir entre costes elegibles y no elegibles"
+        ]
+      },
+      {
+        "id": "otros_gastos",
+        "name": "Otros gastos directos",
+        "description": "Otros costes directamente vinculados al proyecto, como viajes técnicos, servicios específicos o costes de certificación.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Debe existir relación directa y exclusiva con el proyecto",
+          "Gastos de viaje solo para actividades técnicas, no comerciales",
+          "Servicios directamente necesarios para las actividades de I+D+i"
+        ],
+        "documentation_needed": [
+          "Facturas detalladas",
+          "Justificación de la necesidad para el proyecto",
+          "Informes de viaje o actividad",
+          "Evidencias de los resultados obtenidos"
+        ],
+        "calculation_method": "Costes reales incurridos y justificados",
+        "common_mistakes": [
+          "Incluir gastos generales no específicos del proyecto",
+          "Falta de justificación técnica de la necesidad",
+          "Mezclar gastos comerciales con los técnicos"
+        ]
+      },
+      {
+        "id": "indirectos",
+        "name": "Gastos indirectos/generales",
+        "description": "Costes indirectos como electricidad, alquiler, comunicaciones, etc., que no pueden imputarse directamente pero son necesarios para el proyecto.",
+        "eligible_fiscal": true,
+        "key_considerations": [
+          "Solo la parte proporcional atribuible al proyecto",
+          "Se debe aplicar un método de cálculo razonable y consistente",
+          "La Administración suele aceptar hasta un 15-20% de los costes directos",
+          "Debe poder justificarse el criterio de imputación"
+        ],
+        "documentation_needed": [
+          "Método de cálculo documentado",
+          "Facturas de los gastos generales",
+          "Contabilidad analítica (si existe)",
+          "Justificación del % imputado"
+        ],
+        "calculation_method": "% aplicado sobre costes directos o fórmula justificada de reparto",
+        "common_mistakes": [
+          "Aplicar porcentajes arbitrarios sin justificación",
+          "Porcentajes excesivamente altos difíciles de defender",
+          "Falta de consistencia en el método de cálculo"
+        ]
+      }
+    ],
+    "budget_tips": [
+      {
+        "title": "Coherencia con el plan técnico",
+        "content": "El presupuesto debe reflejar fielmente las actividades descritas en el plan técnico. Cada partida debe corresponder a necesidades específicas del proyecto."
+      },
+      {
+        "title": "Desglose detallado",
+        "content": "Presente un presupuesto con suficiente nivel de detalle, preferiblemente desglosado por actividades o paquetes de trabajo, además de por categorías de gasto."
+      },
+      {
+        "title": "Justificación de importes",
+        "content": "Incluya notas explicativas que justifiquen los importes más significativos, especialmente para equipamiento costoso, personal especializado o colaboraciones externas."
+      },
+      {
+        "title": "Realismo en las estimaciones",
+        "content": "Evite tanto la infraestimación (que puede comprometer la viabilidad) como la sobreestimación (que reduce la credibilidad). Base las estimaciones en costes reales y experiencia previa."
+      },
+      {
+        "title": "Previsión de contingencias",
+        "content": "Incorpore un margen razonable para imprevistos, especialmente en proyectos con alto grado de incertidumbre técnica. Un 5-10% suele ser aceptable."
+      },
+      {
+        "title": "Distribución temporal",
+        "content": "Presente la distribución del presupuesto a lo largo del tiempo (anualidades o fases), coherente con el cronograma de actividades técnicas."
+      }
+    ]
+  }

@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Conoce las Herramientas - ITA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tools_guide.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Conoce las Herramientas</li>
+            </ol>
+        </nav>
+        
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h4 mb-0">Guía Rápida de Herramientas</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="alert alert-info mb-4">
+                    <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Bienvenido a ITA</h4>
+                    <p>Esta guía te ayudará a conocer las diferentes herramientas disponibles en nuestra plataforma para impulsar tus proyectos de innovación.</p>
+                </div>
+                
+                <div class="row mb-5">
+                    <div class="col-md-4 text-center mb-4 mb-md-0">
+                        <div class="bg-light rounded p-3 h-100 d-flex flex-column tool-box">
+                            <div class="mb-3">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                    <i class="fas fa-calculator fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5">Simula tus deducciones</h3>
+                            <p class="flex-grow-1">Evalúa si tus proyectos de innovación califican como I+D o IT y calcula el beneficio fiscal potencial.</p>
+                            <a href="{{ url_for('welcome') }}" class="btn btn-sm btn-outline-primary mt-auto">Ir a la herramienta</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 text-center mb-4 mb-md-0">
+                        <div class="bg-light rounded p-3 h-100 d-flex flex-column tool-box">
+                            <div class="mb-3">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                    <i class="fas fa-coins fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5">Busca financiación</h3>
+                            <p class="flex-grow-1">Descubre oportunidades de financiación disponibles a nivel regional, nacional y europeo.</p>
+                            <a href="{{ url_for('financing_questionnaire') }}" class="btn btn-sm btn-outline-primary mt-auto">Ir a la herramienta</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 text-center">
+                        <div class="bg-light rounded p-3 h-100 d-flex flex-column tool-box">
+                            <div class="mb-3">
+                                <span class="fa-stack fa-2x">
+                                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                    <i class="fas fa-project-diagram fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </div>
+                            <h3 class="h5">Estructura tu proyecto</h3>
+                            <p class="flex-grow-1">Aprende a desarrollar un proyecto de innovación exitoso y a documentarlo correctamente.</p>
+                            <a href="{{ url_for('project_structure_home') }}" class="btn btn-sm btn-outline-primary mt-auto">Ir a la herramienta</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="h4 mb-4 text-primary">¿Qué herramienta elegir?</h3>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card mb-4 shadow-sm tool-box">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="h5 mb-0">Simulador de Deducciones Fiscales</h4>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="h6">¿Cuándo usar esta herramienta?</h5>
+                                <ul>
+                                    <li>Cuando quieras evaluar si tu proyecto califica como I+D o IT</li>
+                                    <li>Para estimar el ahorro fiscal potencial de tus proyectos de innovación</li>
+                                    <li>Si necesitas comprender los requisitos para acceder a deducciones fiscales</li>
+                                </ul>
+                                <h5 class="h6">Características principales:</h5>
+                                <ul>
+                                    <li>Cuestionario de evaluación paso a paso</li>
+                                    <li>Cálculo automático de deducciones según tu calificación</li>
+                                    <li>Recomendaciones personalizadas</li>
+                                    <li>Generación de informes PDF</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-4 shadow-sm tool-box">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="h5 mb-0">Buscador de Financiación</h4>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="h6">¿Cuándo usar esta herramienta?</h5>
+                                <ul>
+                                    <li>Cuando busques alternativas de financiación para tu proyecto</li>
+                                    <li>Si necesitas identificar ayudas y subvenciones compatibles con tu empresa</li>
+                                    <li>Para explorar opciones según el sector, tamaño de empresa y tipo de proyecto</li>
+                                </ul>
+                                <h5 class="h6">Características principales:</h5>
+                                <ul>
+                                    <li>Análisis de tu empresa y proyecto</li>
+                                    <li>Recomendaciones de programas de financiación</li>
+                                    <li>Información sobre convocatorias actuales</li>
+                                    <li>Consejos para aumentar probabilidades de éxito</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4 shadow-sm tool-box">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="h5 mb-0">Estructura de Proyectos</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="h6">¿Cuándo usar esta herramienta?</h5>
+                                <ul>
+                                    <li>Cuando necesites orientación para estructurar tu proyecto de I+D+i</li>
+                                    <li>Si quieres mejorar la documentación técnica de tus proyectos</li>
+                                    <li>Para preparar proyectos que maximicen las posibilidades de obtener financiación</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="h6">Características principales:</h5>
+                                <ul>
+                                    <li>Guía de secciones para proyectos de I+D+i</li>
+                                    <li>Consejos de redacción y documentación</li>
+                                    <li>Orientación sobre metodologías de innovación</li>
+                                    <li>Lista de verificación para evaluar la calidad de tu proyecto</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="h4 mb-4 text-primary">Flujo de trabajo recomendado</h3>
+                
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <ol class="workflow-steps">
+                                    <li><strong>Comienza estructurando tu proyecto</strong> - Define claramente los objetivos, novedad y aspectos técnicos.</li>
+                                    <li><strong>Evalúa si califica para deducciones fiscales</strong> - Utiliza el simulador para determinar si es I+D o IT.</li>
+                                    <li><strong>Busca opciones de financiación complementarias</strong> - Identifica ayudas y subvenciones para tu proyecto.</li>
+                                    <li><strong>Consulta con expertos de FADE</strong> - Para un análisis profesional y personalizado.</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <img src="{{ url_for('static', filename='images/workflow_diagram.svg') }}" alt="Diagrama de flujo de trabajo" class="img-fluid mt-3 mt-md-0" style="max-height: 250px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-light border mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="text-primary">¿Necesitas ayuda con las herramientas?</h5>
+                            <p class="mb-0">Nuestro equipo de la Red Empresarial de Innovación (REI) está disponible para ayudarte a utilizar estas herramientas y resolver cualquier duda sobre tu proyecto.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <a href="mailto:acuesta@fade.es" class="btn btn-primary">
+                                <i class="fas fa-envelope me-2"></i>Contactar con la REI
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-home me-2"></i>Volver a Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

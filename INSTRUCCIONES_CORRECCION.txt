@@ -1,0 +1,50 @@
+INSTRUCCIONES PARA CORREGIR EL PROBLEMA DE LA LISTA DE VERIFICACIÓN
+==================================================================
+
+Hemos identificado que el problema con la lista de verificación se debe 
+a un conflicto entre el atributo 'items' y el método incorporado 'items()' 
+de los diccionarios en Python/Jinja2.
+
+Hay dos formas de resolver el problema:
+
+OPCIÓN 1: EJECUTAR EL SCRIPT AUTOMATIZADO
+------------------------------------------
+Ejecuta el archivo 'fix_checklist.bat' que realizará algunos cambios automáticos
+en los archivos y te indicará qué modificaciones manuales debes hacer.
+
+OPCIÓN 2: REALIZAR LOS CAMBIOS MANUALMENTE
+------------------------------------------
+Si prefieres hacer los cambios manualmente, sigue estos pasos:
+
+1. Edita el archivo app.py:
+
+   - Busca la función 'project_structure_checklist()'
+   - Modifica para cargar directamente la lista predeterminada:
+     Cambia:
+     checklist_data = guide.checklist
+     Por:
+     checklist_data = guide._default_checklist()
+
+   - Antes de renderizar la plantilla, añade este código:
+     # Renombrar 'items' a 'checklist_items' para evitar conflictos
+     for section in sections:
+         if isinstance(section, dict) and 'items' in section:
+             section['checklist_items'] = section.pop('items')
+
+2. Reemplaza la plantilla existente:
+   - Copia el contenido del archivo 'templates\project_structure\simple_checklist.html.new'
+   - Pégalo en 'templates\project_structure\simple_checklist.html'
+
+Este enfoque cambió todas las referencias de 'section.items' a 'section.checklist_items'
+para evitar el conflicto con la función integrada 'items()' de Python.
+
+VERIFICACIÓN
+-------------
+Después de aplicar los cambios, la aplicación debería mostrar correctamente todas
+las secciones con sus elementos en la lista de verificación.
+
+Si tienes más problemas, revisa el archivo debug_sections.json que se genera en 
+la raíz del proyecto para ver la estructura de datos que se está enviando a la plantilla.
+
+También puedes revisar el archivo app.py.mini para ver una versión simplificada
+y funcional de la lógica corregida.

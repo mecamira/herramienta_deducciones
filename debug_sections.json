@@ -1,0 +1,219 @@
+[
+  {
+    "id": "general",
+    "title": "Aspectos generales",
+    "checklist_items": [
+      {
+        "id": "g1",
+        "text": "¿El título del proyecto refleja claramente su contenido y carácter innovador?",
+        "recommendation": "Un buen título debe ser específico, conciso y reflejar la naturaleza innovadora del proyecto. Evite títulos genéricos o puramente comerciales."
+      },
+      {
+        "id": "g2",
+        "text": "¿El resumen ejecutivo sintetiza adecuadamente los aspectos clave del proyecto?",
+        "recommendation": "El resumen debe incluir: objetivo principal, problema/necesidad, aproximación innovadora, resultados esperados e impacto previsto."
+      },
+      {
+        "id": "g3",
+        "text": "¿La estructura del documento es coherente y sigue un orden lógico?",
+        "recommendation": "Verifique que existe una progresión lógica entre secciones y que no hay información importante que falte o que esté duplicada innecesariamente."
+      },
+      {
+        "id": "g4",
+        "text": "¿El lenguaje utilizado es claro, preciso y adecuado para la audiencia objetivo?",
+        "recommendation": "Equilibre el rigor técnico con la claridad. Defina términos especializados y mantenga un tono profesional pero accesible."
+      },
+      {
+        "id": "g5",
+        "text": "¿Incluye elementos visuales (diagramas, tablas, gráficos) que faciliten la comprensión?",
+        "recommendation": "Los elementos visuales deben complementar el texto, no simplemente decorarlo, y estar correctamente referenciados y explicados."
+      }
+    ]
+  },
+  {
+    "id": "innovacion",
+    "title": "Elementos de innovación",
+    "checklist_items": [
+      {
+        "id": "i1",
+        "text": "¿Se identifica claramente el estado del arte o la técnica actual?",
+        "recommendation": "Debe demostrarse conocimiento actualizado de soluciones existentes, sus limitaciones y el punto de partida del proyecto."
+      },
+      {
+        "id": "i2",
+        "text": "¿Se explica con precisión qué aspectos del proyecto son novedosos o innovadores?",
+        "recommendation": "Especifique si la innovación es de producto, proceso, metodológica o tecnológica, y qué la diferencia de soluciones existentes."
+      },
+      {
+        "id": "i3",
+        "text": "¿Se distingue si la novedad es objetiva (mundial) o subjetiva (para la empresa)?",
+        "recommendation": "Para I+D se requiere principalmente novedad objetiva; para IT puede ser suficiente la novedad subjetiva correctamente justificada."
+      },
+      {
+        "id": "i4",
+        "text": "¿Se identifican los retos técnicos o la incertidumbre científica a superar?",
+        "recommendation": "Describa explícitamente los obstáculos técnicos, problemas no resueltos o aspectos donde existe incertidumbre sobre la solución."
+      },
+      {
+        "id": "i5",
+        "text": "¿Se cuantifican las mejoras esperadas respecto a soluciones existentes?",
+        "recommendation": "Siempre que sea posible, cuantifique las mejoras (ej. 30% más eficiente, reducción del 50% en tiempo de proceso, etc.)."
+      }
+    ]
+  },
+  {
+    "id": "metodologia",
+    "title": "Metodología y planificación",
+    "checklist_items": [
+      {
+        "id": "m1",
+        "text": "¿Se describe claramente la metodología científica o técnica a emplear?",
+        "recommendation": "Especifique el enfoque metodológico, justificando su idoneidad para abordar los retos identificados."
+      },
+      {
+        "id": "m2",
+        "text": "¿El plan de trabajo está estructurado en actividades y tareas con un cronograma detallado?",
+        "recommendation": "Incluya un desglose de actividades, dependencias entre ellas, duraciones estimadas y un diagrama temporal (Gantt o similar)."
+      },
+      {
+        "id": "m3",
+        "text": "¿Se han definido hitos y entregables específicos para cada fase del proyecto?",
+        "recommendation": "Cada fase debería tener resultados concretos y verificables que permitan evaluar el progreso."
+      },
+      {
+        "id": "m4",
+        "text": "¿Se han identificado los principales riesgos técnicos y se incluyen planes de contingencia?",
+        "recommendation": "Analice los riesgos, valore su probabilidad e impacto, y proponga medidas preventivas y correctivas."
+      },
+      {
+        "id": "m5",
+        "text": "¿Se especifican los medios materiales y técnicos necesarios para cada actividad?",
+        "recommendation": "Detalle qué equipamiento, software, instrumentación o infraestructuras serán necesarios para cada fase."
+      }
+    ]
+  },
+  {
+    "id": "equipo",
+    "title": "Equipo y recursos humanos",
+    "checklist_items": [
+      {
+        "id": "e1",
+        "text": "¿Se describe la composición del equipo, con perfiles y responsabilidades definidas?",
+        "recommendation": "Especifique los perfiles profesionales, titulaciones, experiencia relevante y rol en el proyecto de cada miembro del equipo."
+      },
+      {
+        "id": "e2",
+        "text": "¿Se justifica la capacitación técnica del equipo para abordar los retos del proyecto?",
+        "recommendation": "Demuestre que el personal cuenta con conocimientos y experiencia adecuados para las tareas asignadas."
+      },
+      {
+        "id": "e3",
+        "text": "¿Se identifican claramente los investigadores o técnicos exclusivos de I+D+i?",
+        "recommendation": "Para obtener mayor deducción fiscal, identifique explícitamente el personal con dedicación exclusiva a I+D y su titulación."
+      },
+      {
+        "id": "e4",
+        "text": "¿Se detallan las colaboraciones externas y su aportación concreta al proyecto?",
+        "recommendation": "Justifique la necesidad de cada colaboración externa, describiendo su contribución específica y valor añadido."
+      },
+      {
+        "id": "e5",
+        "text": "¿Se especifica la dedicación temporal de cada perfil a las diferentes actividades?",
+        "recommendation": "Incluya una matriz de asignación de recursos que muestre la dedicación de cada perfil a cada actividad o paquete de trabajo."
+      }
+    ]
+  },
+  {
+    "id": "presupuesto",
+    "title": "Presupuesto y aspectos económicos",
+    "checklist_items": [
+      {
+        "id": "p1",
+        "text": "¿El presupuesto está detallado por categorías de gasto y actividades o fases?",
+        "recommendation": "Presente el presupuesto con suficiente desglose, mostrando tanto el reparto por partidas como por actividades o periodos."
+      },
+      {
+        "id": "p2",
+        "text": "¿Existe coherencia entre el presupuesto y las actividades técnicas descritas?",
+        "recommendation": "Cada partida presupuestaria debe estar justificada por las necesidades técnicas del proyecto descritas anteriormente."
+      },
+      {
+        "id": "p3",
+        "text": "¿Se han diferenciado claramente los gastos elegibles para deducciones fiscales?",
+        "recommendation": "Identifique qué gastos podrían ser elegibles para I+D y cuáles para IT, facilitando la posterior justificación fiscal."
+      },
+      {
+        "id": "p4",
+        "text": "¿Se justifican adecuadamente los importes más significativos del presupuesto?",
+        "recommendation": "Incluya notas explicativas para partidas importantes (ej. colaboraciones externas costosas, equipamiento específico)."
+      },
+      {
+        "id": "p5",
+        "text": "¿Existe un plan de financiación que asegure la viabilidad económica del proyecto?",
+        "recommendation": "Especifique las fuentes de financiación previstas (recursos propios, financiación externa, subvenciones, etc.)."
+      }
+    ]
+  },
+  {
+    "id": "resultados",
+    "title": "Resultados e impacto",
+    "checklist_items": [
+      {
+        "id": "r1",
+        "text": "¿Se describen concretamente los resultados esperados del proyecto?",
+        "recommendation": "Especifique los productos, procesos, servicios, conocimientos o tecnologías que se obtendrán como resultado."
+      },
+      {
+        "id": "r2",
+        "text": "¿Se han definido indicadores objetivos para medir el éxito del proyecto?",
+        "recommendation": "Establezca métricas específicas que permitirán evaluar si se han alcanzado los objetivos propuestos."
+      },
+      {
+        "id": "r3",
+        "text": "¿Se detalla el impacto económico esperado para la empresa?",
+        "recommendation": "Cuantifique cuando sea posible el retorno de inversión, mejora de productividad, reducción de costes o incremento de ventas previsto."
+      },
+      {
+        "id": "r4",
+        "text": "¿Existe un plan para la protección y explotación de los resultados?",
+        "recommendation": "Describa la estrategia de protección (patentes, secreto industrial, etc.) y el plan para llevar los resultados al mercado."
+      },
+      {
+        "id": "r5",
+        "text": "¿Se contempla el impacto más allá de la empresa (sector, sociedad, medio ambiente)?",
+        "recommendation": "Considere y describa efectos positivos más amplios como creación de empleo, sostenibilidad, mejora social, etc."
+      }
+    ]
+  },
+  {
+    "id": "documentacion",
+    "title": "Documentación y justificación",
+    "checklist_items": [
+      {
+        "id": "d1",
+        "text": "¿Se ha previsto un sistema para documentar adecuadamente las actividades de I+D+i?",
+        "recommendation": "Planifique cómo se registrarán los avances, experimentos, prototipos y resultados para facilitar la justificación posterior."
+      },
+      {
+        "id": "d2",
+        "text": "¿Se describen los mecanismos para el seguimiento y control técnico del proyecto?",
+        "recommendation": "Defina cómo se supervisará el avance, quién lo hará y qué medidas se tomarán ante desviaciones."
+      },
+      {
+        "id": "d3",
+        "text": "¿Se han planificado reuniones o informes periódicos de seguimiento?",
+        "recommendation": "Establezca una periodicidad para informes técnicos y reuniones de evaluación del avance del proyecto."
+      },
+      {
+        "id": "d4",
+        "text": "¿Se ha considerado la posibilidad de solicitar un Informe Motivado Vinculante?",
+        "recommendation": "Para mayor seguridad jurídica en la aplicación de deducciones fiscales, considere la solicitud de un IMV al MINECO."
+      },
+      {
+        "id": "d5",
+        "text": "¿Existe un procedimiento para conservar evidencias de gastos e inversiones?",
+        "recommendation": "Defina cómo se conservarán y organizarán las facturas, nóminas, contratos y otros documentos justificativos de gastos, especialmente para una eventual inspección."
+      }
+    ]
+  }
+]

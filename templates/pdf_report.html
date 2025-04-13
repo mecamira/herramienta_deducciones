@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Evaluación de Deducciones Fiscales I+D+i</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.5;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+        .logo {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #0056b3;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #0056b3;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .disclaimer {
+            background-color: #fff7f7;
+            border: 1px solid #ffcccc;
+            color: #cc0000;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 12px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+        .alert-primary {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+        .alert-warning {
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+            color: #8a6d3b;
+        }
+        .alert-danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+        .recommendations {
+            margin: 20px 0;
+        }
+        .recommendation-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Informe de Evaluación Preliminar de Deducciones Fiscales I+D+i</h1>
+            <div class="date">Fecha: {{ date }}</div>
+        </div>
+        
+        <div class="disclaimer">
+            <strong>AVISO IMPORTANTE:</strong> Este informe proporciona una orientación preliminar y no vinculante.
+            No constituye asesoramiento fiscal profesional.
+            Consulte con un experto en deducciones fiscales por I+D+i para obtener una evaluación completa.
+        </div>
+        
+        <!-- Información básica -->
+        <h2>Información de la Empresa</h2>
+        {% if assessment.responses.basic_info %}
+            <table>
+                <tr>
+                    <th style="width: 30%">Nombre de la empresa</th>
+                    <td>{{ assessment.responses.basic_info.company_name|default('No especificado') }}</td>
+                </tr>
+                <tr>
+                    <th>Tamaño de la empresa</th>
+                    <td>{{ assessment.responses.basic_info.company_size|default('No especificado') }}</td>
+                </tr>
+                <tr>
+                    <th>Sector de actividad</th>
+                    <td>{{ assessment.responses.basic_info.sector|default('No especificado') }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <p>No se proporcionó información de la empresa.</p>
+        {% endif %}
+        
+        <!-- Información del proyecto -->
+        <h2>Información del Proyecto</h2>
+        {% if assessment.responses.project_identification %}
+            <table>
+                <tr>
+                    <th style="width: 30%">Nombre del proyecto</th>
+                    <td>{{ assessment.responses.project_identification.project_name|default('No especificado') }}</td>
+                </tr>
+                <tr>
+                    <th>Año fiscal</th>
+                    <td>{{ assessment.responses.project_identification.project_year|default('No especificado') }}</td>
+                </tr>
+                <tr>
+                    <th>Subvenciones recibidas</th>
+                    <td>{{ assessment.responses.project_identification.subsidy_received|default('No') }}</td>
+                </tr>
+            </table>
+            
+            {% if assessment.responses.project_identification.project_description %}
+                <h3>Descripción del proyecto</h3>
+                <p>{{ assessment.responses.project_identification.project_description }}</p>
+            {% endif %}
+        {% else %}
+            <p>No se proporcionó información del proyecto.</p>
+        {% endif %}
+        
+        <!-- Calificación -->
+        <h2>Calificación Preliminar</h2>
+        {% if assessment.results.qualification %}
+            {% set qualification_info = get_qualification_label(assessment.results.qualification) %}
+            <div class="alert alert-{{ qualification_info[1] }}">
+                <h3>{{ qualification_info[0] }}</h3>
+                
+                {% if assessment.results.qualification == 'ID' %}
+                <p>Su proyecto muestra características significativas de <strong>Investigación y Desarrollo (I+D)</strong>, lo que le permitiría acceder a deducciones fiscales del 25% sobre los gastos elegibles.</p>
+                
+                {% elif assessment.results.qualification == 'IT' %}
+                <p>Su proyecto muestra características de <strong>Innovación Tecnológica (IT)</strong>, lo que le permitiría acceder a deducciones fiscales del 12% sobre los gastos elegibles.</p>
+                
+                {% elif assessment.results.qualification == 'POTENTIAL' %}
+                <p>Su proyecto muestra algunas características de I+D y/o IT, pero la calificación no es definitiva. Se recomienda un análisis más detallado.</p>
+                
+                {% elif assessment.results.qualification == 'NOT_QUALIFIED' %}
+                <p>Según la información proporcionada, su proyecto podría no calificar directamente para deducciones fiscales por I+D+i. Sin embargo, recomendamos consultar con un experto para un análisis más detallado.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No se pudo determinar la calificación del proyecto.</p>
+        {% endif %}
+        
+        <!-- Resumen financiero -->
+        <h2>Resumen Financiero</h2>
+        {% if assessment.results.deduction %}
+            {% set deduction = assessment.results.deduction %}
+            
+            <!-- Gastos elegibles -->
+            <h3>Gastos Elegibles</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th class="text-right">Importe (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if deduction.eligible_expenses.personnel %}
+                    <tr>
+                        <td>Personal</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.personnel }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.eligible_expenses.exclusive_personnel %}
+                    <tr>
+                        <td style="padding-left: 25px;">- Del cual, personal exclusivo I+D</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.exclusive_personnel }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.eligible_expenses.external %}
+                    <tr>
+                        <td>Colaboraciones externas</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.external }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.eligible_expenses.equipment %}
+                    <tr>
+                        <td>Equipamiento (amortización)</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.equipment }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.eligible_expenses.materials %}
+                    <tr>
+                        <td>Materiales</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.materials }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.eligible_expenses.general %}
+                    <tr>
+                        <td>Gastos generales</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.general }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    <tr class="total-row">
+                        <td>TOTAL GASTOS ELEGIBLES</td>
+                        <td class="text-right">{{ deduction.eligible_expenses.total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Deducción fiscal -->
+            <h3>Deducción Fiscal Estimada</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th class="text-right">Importe (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if deduction.id_base > 0 %}
+                    <tr>
+                        <td>Deducción base I+D (25%)</td>
+                        <td class="text-right">{{ deduction.id_base }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.id_personnel > 0 %}
+                    <tr>
+                        <td>Deducción adicional personal I+D (17%)</td>
+                        <td class="text-right">{{ deduction.id_personnel }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    {% if deduction.it > 0 %}
+                    <tr>
+                        <td>Deducción IT (12%)</td>
+                        <td class="text-right">{{ deduction.it }}</td>
+                    </tr>
+                    {% endif %}
+                    
+                    <tr class="total-row">
+                        <td>TOTAL DEDUCCIÓN ESTIMADA</td>
+                        <td class="text-right">{{ deduction.total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% else %}
+            <p>No se pudieron calcular los datos financieros.</p>
+        {% endif %}
+        
+        <!-- Recomendaciones -->
+        <h2>Recomendaciones</h2>
+        {% if assessment.results.recommendations %}
+            <div class="recommendations">
+                {% for recommendation in assessment.results.recommendations %}
+                <div class="recommendation-item">
+                    <span style="margin-right: 5px;">•</span> {{ recommendation }}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay recomendaciones disponibles.</p>
+        {% endif %}
+        
+        <div class="footer">
+            <p>© {{ date.split('-')[0] }} Federación Asturiana de Empresarios (FADE) - Red Empresarial de Innovación</p>
+            <p>Este informe ha sido generado automáticamente por la Herramienta de Autoevaluación Preliminar de Deducciones Fiscales I+D+i</p>
+        </div>
+    </div>
+</body>
+</html>

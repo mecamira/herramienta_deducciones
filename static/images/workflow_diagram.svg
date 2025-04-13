@@ -1,0 +1,105 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definición de estilos -->
+  <defs>
+    <style>
+      .box {
+        fill: #f8f9fa;
+        stroke: #007bff;
+        stroke-width: 2;
+        rx: 10;
+        ry: 10;
+      }
+      .arrow {
+        fill: none;
+        stroke: #007bff;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 5,5;
+      }
+      .text {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        fill: #212529;
+        text-anchor: middle;
+      }
+      .text-small {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        fill: #6c757d;
+        text-anchor: middle;
+      }
+      .icon-bg {
+        fill: #e9ecef;
+        stroke: #007bff;
+        stroke-width: 1;
+        rx: 20;
+        ry: 20;
+      }
+      .number {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        fill: white;
+        text-anchor: middle;
+      }
+      .circle {
+        fill: #007bff;
+      }
+    </style>
+  </defs>
+
+  <!-- Cajas de proceso -->
+  <rect class="box" x="50" y="100" width="160" height="80" />
+  <rect class="box" x="250" y="100" width="160" height="80" />
+  <rect class="box" x="450" y="100" width="160" height="80" />
+  <rect class="box" x="650" y="100" width="160" height="80" />
+  
+  <!-- Iconos de fondo -->
+  <rect class="icon-bg" x="85" y="70" width="30" height="30" />
+  <rect class="icon-bg" x="285" y="70" width="30" height="30" />
+  <rect class="icon-bg" x="485" y="70" width="30" height="30" />
+  <rect class="icon-bg" x="685" y="70" width="30" height="30" />
+  
+  <!-- Flechas de conexión -->
+  <path class="arrow" d="M 210 140 L 250 140" />
+  <path class="arrow" d="M 410 140 L 450 140" />
+  <path class="arrow" d="M 610 140 L 650 140" />
+  
+  <!-- Numeración -->
+  <circle class="circle" cx="100" cy="85" r="15" />
+  <circle class="circle" cx="300" cy="85" r="15" />
+  <circle class="circle" cx="500" cy="85" r="15" />
+  <circle class="circle" cx="700" cy="85" r="15" />
+  
+  <text class="number" x="100" y="90">1</text>
+  <text class="number" x="300" y="90">2</text>
+  <text class="number" x="500" y="90">3</text>
+  <text class="number" x="700" y="90">4</text>
+  
+  <!-- Textos -->
+  <text class="text" x="130" y="125">Estructura tu</text>
+  <text class="text" x="130" y="145">proyecto</text>
+  <text class="text-small" x="130" y="165">Definición y documentación</text>
+  
+  <text class="text" x="330" y="125">Evalúa para</text>
+  <text class="text" x="330" y="145">deducciones</text>
+  <text class="text-small" x="330" y="165">Calificación I+D/IT</text>
+  
+  <text class="text" x="530" y="125">Busca</text>
+  <text class="text" x="530" y="145">financiación</text>
+  <text class="text-small" x="530" y="165">Ayudas complementarias</text>
+  
+  <text class="text" x="730" y="125">Consulta con</text>
+  <text class="text" x="730" y="145">expertos</text>
+  <text class="text-small" x="730" y="165">Asesoramiento personalizado</text>
+  
+  <!-- Iconos -->
+  <text x="100" y="90" style="font-family: 'Font Awesome 5 Free'; font-size: 14px; fill: #007bff; text-anchor: middle; font-weight: 900;"></text>
+  <text x="300" y="90" style="font-family: 'Font Awesome 5 Free'; font-size: 14px; fill: #007bff; text-anchor: middle; font-weight: 900;"></text>
+  <text x="500" y="90" style="font-family: 'Font Awesome 5 Free'; font-size: 14px; fill: #007bff; text-anchor: middle; font-weight: 900;"></text>
+  <text x="700" y="90" style="font-family: 'Font Awesome 5 Free'; font-size: 14px; fill: #007bff; text-anchor: middle; font-weight: 900;"></text>
+  
+  <!-- Título -->
+  <text x="400" y="35" style="font-family: Arial, sans-serif; font-size: 24px; fill: #007bff; text-anchor: middle; font-weight: bold;">Flujo de Trabajo Recomendado</text>
+  <text x="400" y="60" style="font-family: Arial, sans-serif; font-size: 14px; fill: #6c757d; text-anchor: middle;">Para maximizar el aprovechamiento de las herramientas de ITA</text>
+</svg>

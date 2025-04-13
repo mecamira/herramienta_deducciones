@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    /* Estilos personalizados para tooltips */
+    .tooltip-inner {
+        max-width: 350px;
+        background-color: #fff;
+        color: #333;
+        text-align: left;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+        border: 1px solid #dee2e6;
+        padding: 10px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .tooltip.bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: #dee2e6;
+    }
+
+    .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before, 
+    .bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: #dee2e6;
+    }
+
+    .tooltip-inner ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+
+    /* Estilo para el icono de información */
+    .fas.fa-info-circle {
+        cursor: help;
+    }
+</style>
+{% endblock %}
+
+{% block title %}Busca Financiación - REI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Asesor Inteligente de Financiación</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary"><i class="fas fa-arrow-left me-2"></i>Volver a inicio</a>
+                    <h2 class="card-title text-center mb-0 flex-grow-1">Encuentra tu financiación ideal</h2>
+                    <div style="width: 100px;"></div>
+                </div>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show mb-4">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="alert alert-warning mb-4">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>¡LO PRIMERO QUE DEBES SABER!</h4>
+                    <p class="mb-2">Antes de solicitar financiación, asegúrate de conocer los <strong>aspectos críticos</strong> que pueden determinar el éxito o fracaso de tu solicitud.</p>
+                    <a href="{{ url_for('financing_critical_aspects') }}" class="btn btn-warning mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>Revisar aspectos críticos y consejos
+                    </a>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>¿Cómo funciona?</h4>
+                    <p>Nuestro asesor inteligente analizará la información de tu empresa y proyecto para recomendarte las opciones de financiación más adecuadas.</p>
+                    <p>Completa el formulario a continuación y recibirás recomendaciones personalizadas basadas en los programas de financiación actuales.</p>
+                </div>
+                
+                <form method="post" id="financingForm">
+                    <!-- Sección 1: Información de la empresa -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h3 class="h6 mb-0">Información de la empresa</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="company_name" class="form-label required">Nombre de la empresa</label>
+                                <input type="text" class="form-control" id="company_name" name="company_name" required>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="company_size" class="form-label required">Tamaño de la empresa</label>
+                                    <select class="form-select" id="company_size" name="company_size" required>
+                                        <option value="" selected disabled>Seleccione...</option>
+                                        <option value="micro">Microempresa (0-9 empleados)</option>
+                                        <option value="small">Pequeña (10-49 empleados)</option>
+                                        <option value="medium">Mediana (50-249 empleados)</option>
+                                        <option value="large">Grande (250+ empleados)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="company_age" class="form-label required">Antigüedad de la empresa</label>
+                                    <select class="form-select" id="company_age" name="company_age" required>
+                                        <option value="" selected disabled>Seleccione...</option>
+                                        <option value="startup">Menos de 2 años</option>
+                                        <option value="growing">Entre 2 y 5 años</option>
+                                        <option value="established">Entre 5 y 10 años</option>
+                                        <option value="mature">Más de 10 años</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="company_sector" class="form-label required">Sector principal de actividad</label>
+                                <select class="form-select" id="company_sector" name="company_sector" required>
+                                    <option value="" selected disabled>Seleccione...</option>
+                                    <option value="tic">Tecnologías de la información y comunicación</option>
+                                    <option value="industrial">Industrial / Manufactura</option>
+                                    <option value="health">Salud / Biotecnología</option>
+                                    <option value="energy">Energía / Medioambiente</option>
+                                    <option value="agroalimentary">Agroalimentario</option>
+                                    <option value="tourism">Turismo / Ocio</option>
+                                    <option value="transport">Transporte / Logística</option>
+                                    <option value="construction">Construcción / Arquitectura</option>
+                                    <option value="commerce">Comercio / Distribución</option>
+                                    <option value="services">Servicios empresariales</option>
+                                    <option value="creative">Industrias creativas</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="company_location" class="form-label required">Ubicación principal</label>
+                                <select class="form-select" id="company_location" name="company_location" required>
+                                    <option value="" selected disabled>Seleccione...</option>
+                                    <option value="urban">Zona urbana</option>
+                                    <option value="rural">Zona rural</option>
+                                    <option value="mining">Zona minera en transición</option>
+                                    <option value="industrial_park">Polígono industrial</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="previous_funding" class="form-label">¿Ha recibido financiación pública anteriormente?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="previous_funding" id="previous_funding_yes" value="yes">
+                                    <label class="form-check-label" for="previous_funding_yes">Sí</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="previous_funding" id="previous_funding_no" value="no">
+                                    <label class="form-check-label" for="previous_funding_no">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección 2: Información del proyecto -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h3 class="h6 mb-0">Información del proyecto</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="project_title" class="form-label required">Título del proyecto</label>
+                                <input type="text" class="form-control" id="project_title" name="project_title" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="project_description" class="form-label required">Breve descripción del proyecto</label>
+                                <textarea class="form-control" id="project_description" name="project_description" rows="3" required></textarea>
+                                <div class="form-text">Describe el objetivo principal, la innovación que aporta y el problema que resuelve.</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="project_type" class="form-label required">Tipo de proyecto <i class="fas fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Investigación básica: Busca adquirir nuevos conocimientos sin aplicación concreta. Desarrollo experimental: Combina conocimientos para producir prototipos/proyectos piloto. Innovación tecnológica: Introduce novedades significativas en productos/procesos. Digitalización: Implementa tecnologías digitales. Sostenibilidad: Proyectos de economía circular/eficiencia energética."></i></label>
+                                    <select class="form-select" id="project_type" name="project_type" required>
+                                        <option value="" selected disabled>Seleccione...</option>
+                                        <option value="research">Investigación básica</option>
+                                        <option value="development">Desarrollo experimental</option>
+                                        <option value="innovation">Innovación tecnológica</option>
+                                        <option value="digitalization">Digitalización</option>
+                                        <option value="sustainability">Sostenibilidad/Economía circular</option>
+                                        <option value="internationalization">Internacionalización</option>
+                                        <option value="growth">Crecimiento/Expansión</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="technology_level" class="form-label">Nivel de desarrollo tecnológico (TRL) <i class="fas fa-info-circle text-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="TRL 1-3: Investigación básica, principios básicos formulados y concepto tecnológico. TRL 4-6: Desarrollo, validación y demostración en entorno relevante. TRL 7-9: Demostración en entorno operativo, sistema completo probado y producto comercial."></i></label>
+                                    <select class="form-select" id="technology_level" name="technology_level">
+                                        <option value="" selected disabled>Seleccione...</option>
+                                        <option value="trl1-3">TRL 1-3: Investigación básica</option>
+                                        <option value="trl4-6">TRL 4-6: Desarrollo y demostración</option>
+                                        <option value="trl7-9">TRL 7-9: Implementación y comercialización</option>
+                                        <option value="unknown">No aplica/desconocido</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="project_budget" class="form-label required">Presupuesto aproximado (€)</label>
+                                    <input type="number" class="form-control" id="project_budget" name="project_budget" min="0" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="project_duration" class="form-label required">Duración estimada (meses)</label>
+                                    <input type="number" class="form-control" id="project_duration" name="project_duration" min="1" max="60" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Objetivos del proyecto (seleccione todos los que apliquen)</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_product" value="new_product">
+                                    <label class="form-check-label" for="goal_product">Desarrollo de nuevo producto/servicio</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_process" value="improve_process">
+                                    <label class="form-check-label" for="goal_process">Mejora de procesos productivos</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_digital" value="digital_transformation">
+                                    <label class="form-check-label" for="goal_digital">Transformación digital</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_international" value="internationalization">
+                                    <label class="form-check-label" for="goal_international">Internacionalización</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_sustainability" value="sustainability">
+                                    <label class="form-check-label" for="goal_sustainability">Sostenibilidad/Eficiencia energética</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="project_goals" id="goal_capacity" value="capacity_building">
+                                    <label class="form-check-label" for="goal_capacity">Mejora de capacidades/formación</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="collaboration" class="form-label">¿El proyecto incluye colaboración con otras entidades?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="collaboration" id="collaboration_yes" value="yes">
+                                    <label class="form-check-label" for="collaboration_yes">Sí</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="collaboration" id="collaboration_no" value="no">
+                                    <label class="form-check-label" for="collaboration_no">No</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3" id="collaboration_type_section" style="display: none;">
+                                <label class="form-label">Tipo de colaboración (seleccione todos los que apliquen)</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="collaboration_type" id="collab_university" value="university">
+                                    <label class="form-check-label" for="collab_university">Universidad/Centro de investigación</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="collaboration_type" id="collab_company" value="company">
+                                    <label class="form-check-label" for="collab_company">Otras empresas</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="collaboration_type" id="collab_center" value="technology_center">
+                                    <label class="form-check-label" for="collab_center">Centro tecnológico</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="collaboration_type" id="collab_international" value="international">
+                                    <label class="form-check-label" for="collab_international">Socios internacionales</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="additional_info" class="form-label">Información adicional relevante</label>
+                                <textarea class="form-control" id="additional_info" name="additional_info" rows="2"></textarea>
+                                <div class="form-text">Incluya cualquier otra información que considere relevante para la búsqueda de financiación (tecnologías específicas, propiedad intelectual, alineación con políticas públicas, necesidades específicas, etc.). Cuanto más detallada sea la información, más precisas serán las recomendaciones.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search me-2"></i>Buscar financiación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar tooltips de Bootstrap
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl, { html: true });
+        });
+        
+        // Mostrar/ocultar sección de tipo de colaboración
+        const collaborationRadios = document.querySelectorAll('input[name="collaboration"]');
+        const collaborationTypeSection = document.getElementById('collaboration_type_section');
+        
+        collaborationRadios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    collaborationTypeSection.style.display = 'block';
+                } else {
+                    collaborationTypeSection.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

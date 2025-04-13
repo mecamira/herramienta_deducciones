@@ -1,0 +1,10 @@
+{
+    "id": {
+        "base": 25,
+        "incremental": 42,
+        "personnel": 17
+    },
+    "it": {
+        "base": 12
+    }
+}

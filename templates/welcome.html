@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Bienvenido - Herramienta de Evaluación de Deducciones Fiscales I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary"><i class="fas fa-arrow-left me-2"></i>Volver a inicio</a>
+                    <h2 class="card-title text-center mb-0 flex-grow-1">Autoevaluación de Deducciones Fiscales I+D+i</h2>
+                    <div style="width: 100px;"></div> <!-- Espaciador para equilibrar el diseño -->
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>¿Qué es esta herramienta?</h4>
+                    <p>Esta herramienta ha sido desarrollada por la <strong>Red Empresarial de Innovación de FADE</strong> con el objetivo de ayudar a las empresas a:</p>
+                    <ul>
+                        <li>Identificar si sus actividades podrían calificar como I+D o IT según la normativa española.</li>
+                        <li>Determinar qué tipos de gastos podrían ser elegibles para deducciones fiscales.</li>
+                        <li>Obtener una estimación preliminar del potencial de deducción fiscal.</li>
+                        <li>Recibir recomendaciones sobre los siguientes pasos a seguir.</li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Aviso importante</h4>
+                    <p><strong>Esta herramienta proporciona una orientación preliminar y no vinculante. No constituye asesoramiento fiscal profesional.</strong></p>
+                    <p>Los resultados obtenidos son una aproximación que debe ser contrastada con un experto en deducciones fiscales por I+D+i.</p>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Privacidad y confidencialidad</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Esta aplicación procesa todos los datos localmente en su ordenador. No se envía ninguna información a servidores externos.</p>
+                        <p>Puede guardar los resultados de su evaluación localmente para consultarlos posteriormente o compartirlos con asesores de FADE.</p>
+                    </div>
+                </div>
+                
+                <h4 class="mb-3">¿Cómo funciona?</h4>
+                <p>La herramienta le guiará a través de un cuestionario dividido en varias secciones:</p>
+                <ol>
+                    <li><strong>Información básica de la empresa</strong> (opcional)</li>
+                    <li><strong>Identificación del proyecto o actividad</strong> a evaluar</li>
+                    <li><strong>Preguntas de calificación</strong> para determinar si la actividad podría ser I+D o IT</li>
+                    <li><strong>Identificación de gastos elegibles</strong> para estimar la potencial deducción</li>
+                </ol>
+                <p>Al finalizar, recibirá un informe con los resultados y recomendaciones.</p>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('questionnaire', section='basic_info') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-play-circle me-2"></i>Comenzar evaluación
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

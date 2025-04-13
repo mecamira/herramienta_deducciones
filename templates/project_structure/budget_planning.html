@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Planificación de Presupuesto - Estructura tu Proyecto I+D+i{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title h5 mb-0">Planificación Presupuestaria para Proyectos de I+D+i</h2>
+            </div>
+            
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+                
+                <div class="alert alert-info mb-4">
+                    <p><i class="fas fa-info-circle me-2"></i>Un presupuesto bien estructurado y justificado es fundamental para la gestión eficiente del proyecto y para maximizar las posibilidades de obtener financiación pública o deducciones fiscales.</p>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Principios clave para la planificación presupuestaria</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for tip in budget_categories.budget_tips %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5>{{ tip.title }}</h5>
+                                        <p>{{ tip.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Categorías de gastos elegibles para deducciones fiscales</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Las siguientes categorías de gastos pueden ser elegibles para deducciones fiscales por I+D+i, siempre que estén directamente relacionadas con actividades de I+D o IT:</p>
+                        
+                        <div class="accordion" id="accordionBudgetCategories">
+                            {% for category in budget_categories.categories %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingBudget{{ category.id }}">
+                                    <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBudget{{ category.id }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseBudget{{ category.id }}">
+                                        <strong>{{ category.name }}</strong>
+                                    </button>
+                                </h2>
+                                <div id="collapseBudget{{ category.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="headingBudget{{ category.id }}" data-bs-parent="#accordionBudgetCategories">
+                                    <div class="accordion-body">
+                                        <p>{{ category.description }}</p>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>Consideraciones clave:</h5>
+                                                <ul>
+                                                    {% for consideration in category.key_considerations %}
+                                                    <li>{{ consideration }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                
+                                                <h5 class="mt-3">Método de cálculo:</h5>
+                                                <div class="alert alert-light">
+                                                    {{ category.calculation_method }}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <h5>Documentación necesaria:</h5>
+                                                <ul>
+                                                    {% for doc in category.documentation_needed %}
+                                                    <li>{{ doc }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                
+                                                <h5 class="mt-3">Errores comunes:</h5>
+                                                <ul class="text-danger">
+                                                    {% for mistake in category.common_mistakes %}
+                                                    <li>{{ mistake }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Plantillas de presupuesto</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Para facilitar la elaboración de un presupuesto completo y bien estructurado, ofrecemos varias plantillas que puedes adaptar a tu proyecto:</p>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                                        <h5>Plantilla básica</h5>
+                                        <p>Estructura simple con categorías principales y cálculos automáticos.</p>
+                                        <a href="#" class="btn btn-sm btn-outline-success">Descargar Excel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                                        <h5>Plantilla avanzada</h5>
+                                        <p>Incluye desglose por actividades y fases, con indicadores de elegibilidad fiscal.</p>
+                                        <a href="#" class="btn btn-sm btn-outline-success">Descargar Excel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                                        <h5>Plantilla para subvenciones</h5>
+                                        <p>Adaptada a los requisitos específicos de las convocatorias públicas.</p>
+                                        <a href="#" class="btn btn-sm btn-outline-success">Descargar Excel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="h5 mb-0">Consideraciones importantes</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Para proyectos con subvenciones</h5>
+                                <p>Recuerda que los gastos ya financiados mediante subvenciones públicas <strong>no son elegibles</strong> para deducciones fiscales. Es importante:</p>
+                                <ul>
+                                    <li>Separar claramente los gastos subvencionados de los no subvencionados</li>
+                                    <li>Llevar una contabilidad analítica que permita identificar los gastos por proyecto</li>
+                                    <li>En caso de financiación parcial, aplicar la deducción solo a la parte no subvencionada</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h5>Para personal con dedicación parcial</h5>
+                                <p>Para personal que no se dedica exclusivamente a I+D+i:</p>
+                                <ul>
+                                    <li>Implementar un sistema de registro de horas (timesheet) por proyecto y actividad</li>
+                                    <li>Documentar la vinculación de cada persona con las actividades específicas de I+D+i</li>
+                                    <li>Ser realista en la asignación de tiempos (debe ser justificable ante una inspección)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('project_structure_writing') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>Consejos de redacción
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
