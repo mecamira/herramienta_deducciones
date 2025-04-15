@@ -11,6 +11,14 @@
             </div>
             
             <div class="card-body p-4">
+                <!-- Aviso sobre la Guía I+D vs IT, visible solo en la sección de calificación -->
+                {% if section == 'qualification' %}
+                <div class="alert alert-info mb-4">
+                    <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Guía de diferenciación I+D vs IT</h5>
+                    <p>A continuación deberá responder preguntas que ayudarán a calificar su proyecto como I+D o IT. <strong>Antes de responder, le recomendamos revisar nuestra <a href="/info/guide" target="_blank">Guía de diferenciación entre I+D e Innovación Tecnológica</a></strong> para entender mejor las características de cada tipología y cómo afecta a la deducción fiscal.</p>
+                </div>
+                {% endif %}
+                
                 <!-- Progreso -->
                 <div class="progress mb-4">
                     <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>

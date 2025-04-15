@@ -61,6 +61,21 @@ def home():
     """Página de inicio principal"""
     return render_template('home.html')
 
+# Ruta para la guía de diferenciación entre I+D e IT
+@app.route('/guia-id-vs-it')
+def id_vs_it_guide():
+    """Muestra la guía para diferenciar entre I+D e IT"""
+    # Cargar la guía desde el archivo JSON
+    try:
+        config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config', 'id_vs_it_guide.json')
+        with open(config_path, 'r', encoding='utf-8') as file:
+            guide = json.load(file)
+        return render_template('id_vs_it_guide.html', guide=guide)
+    except Exception as e:
+        print(f"Error al cargar la guía I+D vs IT: {e}")
+        flash('Error al cargar la guía. Por favor, inténtelo de nuevo más tarde.', 'danger')
+        return redirect(url_for('home'))
+
 # Rutas para financiación
 @app.route('/financing-critical-aspects')
 def financing_critical_aspects():
@@ -290,6 +305,29 @@ def project_structure_checklist():
         if isinstance(section, dict) and 'items' in section:
             section['checklist_items'] = section.pop('items')
             
+    return render_template('project_structure/simple_checklist.html', sections=sections)
+
+@app.route('/estructura/checklist-simple')
+def project_structure_simple_checklist():
+    """Muestra la lista de verificación simple para proyectos de I+D+i"""
+    # Usa la misma lógica que la función project_structure_checklist pero con el template simple
+    try:
+        from models.project_structure import ProjectStructureGuide
+        guide = ProjectStructureGuide()
+        sections = guide._default_checklist()['sections']
+        
+        # Convertir 'items' a 'checklist_items' si es necesario
+        for section in sections:
+            if isinstance(section, dict) and 'items' in section:
+                section['checklist_items'] = section.pop('items')
+                
+    except Exception as e:
+        print(f"ERROR al cargar la lista de verificación simple: {e}")
+        import traceback
+        print(f"Traza de error:\n{traceback.format_exc()}")
+        sections = []
+        flash('Ocurrió un error al cargar la lista de verificación. Por favor, contacta con el soporte técnico.', 'danger')
+    
     return render_template('project_structure/simple_checklist.html', sections=sections)
 
 @app.route('/estructura/checklist/generar-informe', methods=['POST'])
@@ -638,12 +676,12 @@ def questionnaire(section):
         previous_responses = session['assessment']['responses'][section]
     
     return render_template('questionnaire.html', 
-                          section=section, 
-                          section_title=section_title, 
-                          questions=questions[section], 
-                          progress=progress, 
-                          prev_url=prev_url, 
-                          previous_responses=previous_responses)
+                        section=section,  # Añadir esta línea
+                        section_title=section_title, 
+                        questions=questions[section], 
+                        progress=progress, 
+                        prev_url=prev_url, 
+                        previous_responses=previous_responses)
 
 @app.route('/calculate')
 def calculate_results():
@@ -663,17 +701,35 @@ def calculate_results():
             print("No hay datos de gastos")
         
         # Importar los módulos para cálculos
-        from models.calculator import calculate_deduction, qualify_project, generate_recommendations
-        
+        from models.calculator import calculate_deduction, calculate_deduction_limits, calculate_assets_deduction, calculate_social_security_bonus, qualify_project, generate_recommendations
+
         # Calificar el proyecto (I+D o IT)
         qualification = qualify_project(session['assessment']['responses'])
         print(f"Calificación obtenida: {qualification}")
-        
+
         # Calcular deducción fiscal
         tax_rates = load_config('tax_rates.json')
         expenses = session['assessment']['responses'].get('expenses', {})
-        deduction = calculate_deduction(qualification, expenses, tax_rates)
+        deduction = calculate_deduction(qualification, expenses, tax_rates, responses=session['assessment']['responses'])
         print(f"Deducción calculada: {deduction}")
+
+        # Simular valores para Cuota Íntegra Minorada (CIM)
+        # En una versión futura se podrá solicitar al usuario un valor estimado
+        cim_value = 100000  # Valor fijo para simular
+
+        # Calcular límites de aplicación
+        limits = calculate_deduction_limits(deduction, cim_value, tax_rates)
+        print(f"Cálculo de límites: {limits}")
+
+        # Si hay personal exclusivo I+D, calcular bonificación SS
+        if deduction['eligible_expenses']['exclusive_personnel'] > 0:
+            ss_bonus = calculate_social_security_bonus(deduction['eligible_expenses']['exclusive_personnel'])
+            print(f"Bonificación SS estimada: {ss_bonus}")
+            # Guardar para usarla en resultados
+            deduction['ss_bonus'] = ss_bonus
+
+        # Agregar información de límites a deducción
+        deduction['limits'] = limits
         
         # Generar recomendaciones
         recommendations = generate_recommendations(qualification, deduction, session['assessment']['responses'])
@@ -728,10 +784,7 @@ def results():
     # Pasar funciones de formato y etiquetas a la plantilla
     return render_template('results.html', 
                           assessment=session['assessment'],
-                          format_currency=format_currency,
-                          get_qualification_label=load_qualification_label,
-                          default_filename=default_filename,
-                          now=datetime.now())
+                          default_filename=default_filename)
 
 @app.route('/report')
 def generate_report():
@@ -807,6 +860,16 @@ def save_assessment():
     
     return redirect(url_for('results'))
 
+@app.route('/examples')
+def examples():
+    """Muestra ejemplos de cálculos con distintos escenarios"""
+    return render_template('examples.html')
+
+@app.route('/info/guide')
+def guide():
+    """Redirecciona a la guía I+D vs IT"""
+    return redirect(url_for('id_vs_it_guide'))
+
 @app.route('/reset')
 def reset():
     """Reinicia la evaluación"""
@@ -826,7 +889,9 @@ def inject_globals():
     from utils.helpers import get_version
     return {
         'version': get_version(),
-        'now': datetime.now()
+        'now': datetime.now(),
+        'format_currency': format_currency,
+        'get_qualification_label': load_qualification_label
     }
 
 # Filtro para formato de texto a HTML

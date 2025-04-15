@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Lista de Verificación - Estructura tu Proyecto I+D+i{% endblock %}
+{% block title %}Lista de Verificación Simple - Estructura tu Proyecto I+D+i{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card shadow">
             <div class="card-header bg-primary text-white">
-                <h2 class="card-title h5 mb-0">Lista de Verificación para Proyectos de I+D+i</h2>
+                <h2 class="card-title h5 mb-0">Lista de Verificación Simple para Proyectos de I+D+i</h2>
             </div>
             
             <div class="card-body p-4">
@@ -15,88 +15,213 @@
                     <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
                         <i class="fas fa-arrow-left me-2"></i>Volver
                     </a>
-                    <button id="reset-checklist" class="btn btn-secondary">
-                        <i class="fas fa-redo me-2"></i>Reiniciar verificación
-                    </button>
+                    <div>
+                        <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-list-check me-1"></i>Ver lista avanzada
+                        </a>
+                        <button id="reset-checklist" class="btn btn-secondary">
+                            <i class="fas fa-redo me-2"></i>Reiniciar
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="alert alert-info mb-4">
-                    <p><i class="fas fa-info-circle me-2"></i>Utiliza esta lista de verificación para evaluar si tu proyecto de I+D+i está correctamente estructurado y contiene todos los elementos necesarios para maximizar sus posibilidades de éxito, financiación y aplicación de deducciones fiscales.</p>
-                    <p>Marca cada ítem cuando consideres que lo has abordado adecuadamente en tu proyecto. La herramienta guardará tu progreso localmente.</p>
+                    <p><i class="fas fa-info-circle me-2"></i><strong>Lista de verificación simplificada</strong> - Esta lista contiene los puntos más importantes para evaluar si tu proyecto cumple con los requisitos básicos para ser considerado I+D+i a efectos fiscales.</p>
+                    <p>Para una evaluación más detallada, utiliza la <a href="{{ url_for('project_structure_checklist') }}" class="alert-link">lista de verificación avanzada</a>.</p>
                 </div>
                 
                 <div class="progress mb-4">
                     <div id="checklist-progress" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>
                 
-                <div class="accordion" id="accordionChecklist">
-                    {% for section in sections %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading{{ section.id }}">
-                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ section.id }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ section.id }}">
-                                <strong>{{ section.title }}</strong>
-                                <span class="ms-auto me-3 badge bg-secondary section-progress" data-section="{{ section.id }}">0/{% if section.checklist_items and section.checklist_items is iterable %}{{ section.checklist_items|length }}{% else %}0{% endif %}</span>
-                            </button>
-                        </h2>
-                        <div id="collapse{{ section.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="heading{{ section.id }}" data-bs-parent="#accordionChecklist">
-                            <div class="accordion-body">
-                                <div class="list-group">
-                                    {% if section.checklist_items is defined and section.checklist_items is iterable and section.checklist_items|length > 0 %}
-                                    {% for item in section.checklist_items %}
-                                    <div class="list-group-item checklist-item" data-section="{{ section.id }}" data-item="{{ item.id }}">
-                                        <div class="d-flex align-items-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input checklist-check" type="checkbox" id="check{{ item.id }}">
-                                                <label class="form-check-label" for="check{{ item.id }}">
-                                                    {{ item.text }}
-                                                </label>
-                                            </div>
-                                            <button class="btn btn-sm btn-link ms-auto toggle-recommendation" data-bs-toggle="collapse" data-bs-target="#recommendation{{ item.id }}">
-                                                <i class="fas fa-info-circle"></i> Ayuda
-                                            </button>
-                                        </div>
-                                        <div class="collapse mt-2" id="recommendation{{ item.id }}">
-                                            <div class="card card-body bg-light">
-                                                <i class="fas fa-lightbulb text-warning"></i> <strong>Recomendación:</strong> {{ item.recommendation|default("Sin recomendación disponible") }}
-                                                {% if section.id == 'general' or section.id == 'innovacion' %}
-                                                <div class="mt-2">
-                                                    <a href="{{ url_for('project_structure_sections') }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-book me-1"></i> Ver guía de secciones
-                                                    </a>
-                                                </div>
-                                                {% elif section.id == 'metodologia' %}
-                                                <div class="mt-2">
-                                                    <a href="{{ url_for('project_structure_methodology') }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-tasks me-1"></i> Ver guía de metodologías
-                                                    </a>
-                                                </div>
-                                                {% elif section.id == 'presupuesto' %}
-                                                <div class="mt-2">
-                                                    <a href="{{ url_for('project_structure_budget') }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-calculator me-1"></i> Ver guía de presupuesto
-                                                    </a>
-                                                </div>
-                                                {% elif section.id == 'equipo' or section.id == 'resultados' or section.id == 'documentacion' %}
-                                                <div class="mt-2">
-                                                    <a href="{{ url_for('project_structure_writing') }}" class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-pen me-1"></i> Ver consejos de redacción
-                                                    </a>
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+                <!-- LISTA SIMPLIFICADA -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
+                            <span>Requisitos esenciales de I+D</span>
+                            <span class="badge bg-secondary section-progress" data-section="id">0/5</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item checklist-item" data-section="id" data-item="id1">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_id1">
+                                        <label class="form-check-label" for="check_id1">
+                                            <strong>Novedad objetiva:</strong> El proyecto busca un conocimiento o capacidad que es nuevo a nivel sectorial o global (no solo para la empresa)
+                                        </label>
                                     </div>
-                                    {% endfor %}
-                                    {% else %}
-                                    <div class="alert alert-warning mb-0">
-                                        <i class="fas fa-exclamation-triangle me-2"></i>No hay elementos disponibles en esta sección.
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="id" data-item="id2">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_id2">
+                                        <label class="form-check-label" for="check_id2">
+                                            <strong>Incertidumbre científica/tecnológica:</strong> Existe un problema técnico sin solución evidente a priori
+                                        </label>
                                     </div>
-                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="id" data-item="id3">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_id3">
+                                        <label class="form-check-label" for="check_id3">
+                                            <strong>Metodología científica:</strong> El proyecto sigue un método con hipótesis, experimentación y análisis de resultados
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="id" data-item="id4">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_id4">
+                                        <label class="form-check-label" for="check_id4">
+                                            <strong>Estado del arte:</strong> Se ha realizado una revisión del conocimiento existente que demuestra la novedad
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="id" data-item="id5">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_id5">
+                                        <label class="form-check-label" for="check_id5">
+                                            <strong>Resultado incierto:</strong> El éxito técnico del proyecto no está garantizado
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
+                            <span>Requisitos esenciales de IT</span>
+                            <span class="badge bg-secondary section-progress" data-section="it">0/5</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item checklist-item" data-section="it" data-item="it1">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_it1">
+                                        <label class="form-check-label" for="check_it1">
+                                            <strong>Novedad subjetiva:</strong> El proyecto desarrolla algo nuevo para la empresa (aunque exista en el mercado)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="it" data-item="it2">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_it2">
+                                        <label class="form-check-label" for="check_it2">
+                                            <strong>Mejora sustancial:</strong> El proyecto supone una mejora significativa en procesos/productos (no incremental)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="it" data-item="it3">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_it3">
+                                        <label class="form-check-label" for="check_it3">
+                                            <strong>Componente tecnológico:</strong> El proyecto implica un desarrollo tecnológico, no solo organizativo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="it" data-item="it4">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_it4">
+                                        <label class="form-check-label" for="check_it4">
+                                            <strong>Dificultad técnica:</strong> El proyecto requiere un esfuerzo técnico significativo (no es trivial)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="it" data-item="it5">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_it5">
+                                        <label class="form-check-label" for="check_it5">
+                                            <strong>Resultado aplicado:</strong> El proyecto busca aplicar conocimiento técnico a procesos/productos concretos
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
+                            <span>Documentación mínima requerida</span>
+                            <span class="badge bg-secondary section-progress" data-section="doc">0/5</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item checklist-item" data-section="doc" data-item="doc1">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_doc1">
+                                        <label class="form-check-label" for="check_doc1">
+                                            <strong>Memoria técnica:</strong> Documento que describe objetivos, novedad, metodología y resultados
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="doc" data-item="doc2">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_doc2">
+                                        <label class="form-check-label" for="check_doc2">
+                                            <strong>Presupuesto detallado:</strong> Desglose de costes por conceptos elegibles (personal, materiales, etc.)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="doc" data-item="doc3">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_doc3">
+                                        <label class="form-check-label" for="check_doc3">
+                                            <strong>Registros de trabajo:</strong> Evidencia de las horas dedicadas al proyecto (timesheets)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="doc" data-item="doc4">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_doc4">
+                                        <label class="form-check-label" for="check_doc4">
+                                            <strong>Evidencias técnicas:</strong> Documentos de pruebas, prototipos, experimentos o ensayos
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item checklist-item" data-section="doc" data-item="doc5">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input checklist-check" type="checkbox" id="check_doc5">
+                                        <label class="form-check-label" for="check_doc5">
+                                            <strong>Justificación contable:</strong> Facturas y otros documentos que respalden los gastos imputados
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card mt-4">
@@ -111,22 +236,17 @@
                         <div id="checklist-complete" class="d-none">
                             <div class="alert alert-success">
                                 <h4 class="alert-heading"><i class="fas fa-check-circle me-2"></i>¡Felicidades!</h4>
-                                <p>Has completado todos los ítems de la lista de verificación. Tu proyecto está bien estructurado y tiene buenas posibilidades de éxito.</p>
+                                <p>Has completado todos los ítems básicos de la lista de verificación. Tu proyecto parece cumplir con los requisitos esenciales para ser considerado I+D+i.</p>
+                                <hr>
+                                <p class="mb-0">Te recomendamos realizar ahora la <a href="{{ url_for('project_structure_checklist') }}" class="alert-link">verificación avanzada</a> para un análisis más detallado.</p>
                             </div>
-                            
-                            <form id="report-form" action="{{ url_for('generate_checklist_report') }}" method="post" class="mt-3">
-                                <input type="hidden" name="checklist_data" id="checklist-data-input">
-                                <button type="submit" class="btn btn-success w-100" id="generate-report">
-                                    <i class="fas fa-file-pdf me-2"></i>Generar informe de verificación (PDF)
-                                </button>
-                            </form>
                         </div>
                         
                         <div id="checklist-incomplete" class="d-none">
                             <div class="alert alert-warning">
                                 <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Verificación en progreso</h4>
                                 <p>Has completado <span id="completed-items-count">0</span> de <span id="total-items-count">0</span> ítems (<span id="completed-percentage">0%</span>).</p>
-                                <p>Revisa los elementos pendientes para mejorar la estructura de tu proyecto.</p>
+                                <p>Tu proyecto podría tener dificultades para calificar como I+D+i. Revisa los elementos pendientes.</p>
                             </div>
                             
                             <h5>Secciones a mejorar:</h5>
@@ -138,8 +258,8 @@
                 </div>
                 
                 <div class="text-center mt-4">
-                    <a href="{{ url_for('home') }}" class="btn btn-primary">
-                        <i class="fas fa-home me-2"></i>Volver al inicio
+                    <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-primary">
+                        <i class="fas fa-list-check me-2"></i>Ir a la lista de verificación avanzada
                     </a>
                 </div>
             </div>
@@ -150,12 +270,6 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-        
         // Cargar estado guardado
         loadChecklistState();
         
@@ -174,37 +288,12 @@
             }
         });
         
-        // Manejar envío del formulario de informe
-        const reportForm = document.getElementById('report-form');
-        if (reportForm) {
-            reportForm.addEventListener('submit', function(e) {
-                // Obtener estado actual del checklist
-                const state = {};
-                document.querySelectorAll('.checklist-check').forEach(checkbox => {
-                    const item = checkbox.closest('.checklist-item');
-                    if (item) {
-                        const sectionId = item.dataset.section;
-                        const itemId = item.dataset.item;
-                        if (sectionId && itemId) {
-                            state[`${sectionId}_${itemId}`] = checkbox.checked;
-                        }
-                    }
-                });
-                
-                // Rellenar el campo oculto con los datos en formato JSON
-                document.getElementById('checklist-data-input').value = JSON.stringify(state);
-            });
-        }
-        
         // Inicializar progreso
         updateProgress();
     });
     
     function updateProgress() {
-        // Verificar que los elementos del DOM existan
         const checkboxes = document.querySelectorAll('.checklist-check');
-        if (!checkboxes || checkboxes.length === 0) return;
-        
         const totalItems = checkboxes.length;
         const checkedItems = document.querySelectorAll('.checklist-check:checked').length;
         
@@ -234,24 +323,21 @@
         });
         
         // Actualizar badges de secciones
-        const badgeElements = document.querySelectorAll('.section-progress');
-        if (badgeElements && badgeElements.length > 0) {
-            badgeElements.forEach(badge => {
-                const sectionId = badge.dataset.section;
-                if (sectionId && sections[sectionId]) {
-                    badge.textContent = sections[sectionId].checked + '/' + sections[sectionId].total;
-                    
-                    // Cambiar color si está completa
-                    if (sections[sectionId].checked === sections[sectionId].total) {
-                        badge.classList.remove('bg-secondary');
-                        badge.classList.add('bg-success');
-                    } else {
-                        badge.classList.remove('bg-success');
-                        badge.classList.add('bg-secondary');
-                    }
+        document.querySelectorAll('.section-progress').forEach(badge => {
+            const sectionId = badge.dataset.section;
+            if (sections[sectionId]) {
+                badge.textContent = sections[sectionId].checked + '/' + sections[sectionId].total;
+                
+                // Cambiar color si está completa
+                if (sections[sectionId].checked === sections[sectionId].total) {
+                    badge.classList.remove('bg-secondary');
+                    badge.classList.add('bg-success');
+                } else {
+                    badge.classList.remove('bg-success');
+                    badge.classList.add('bg-secondary');
                 }
-            });
-        }
+            }
+        });
         
         // Actualizar resumen
         document.getElementById('completed-items-count').textContent = checkedItems;
@@ -271,88 +357,61 @@
             
             // Mostrar secciones a mejorar
             const sectionsToImprove = document.getElementById('sections-to-improve');
-            if (sectionsToImprove) {
-                sectionsToImprove.innerHTML = '';
-                
-                for (const sectionId in sections) {
-                    if (sections[sectionId].checked < sections[sectionId].total) {
-                        const sectionHeaderElement = document.querySelector(`#heading${sectionId} .accordion-button strong`);
-                        if (sectionHeaderElement) {
-                            const sectionTitle = sectionHeaderElement.textContent;
-                            const li = document.createElement('li');
-                            li.innerHTML = `<strong>${sectionTitle}</strong>: ${sections[sectionId].checked}/${sections[sectionId].total} completados`;
-                            sectionsToImprove.appendChild(li);
-                        }
-                    }
+            sectionsToImprove.innerHTML = '';
+            
+            const sectionNames = {
+                'id': 'Requisitos esenciales de I+D',
+                'it': 'Requisitos esenciales de IT',
+                'doc': 'Documentación mínima requerida'
+            };
+            
+            for (const sectionId in sections) {
+                if (sections[sectionId].checked < sections[sectionId].total) {
+                    const sectionTitle = sectionNames[sectionId] || sectionId;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${sectionTitle}</strong>: ${sections[sectionId].checked}/${sections[sectionId].total} completados`;
+                    sectionsToImprove.appendChild(li);
                 }
             }
         }
     }
     
     function saveChecklistState() {
-        const checkboxes = document.querySelectorAll('.checklist-check');
-        if (!checkboxes || checkboxes.length === 0) return;
-        
         const state = {};
-        checkboxes.forEach(checkbox => {
+        document.querySelectorAll('.checklist-check').forEach(checkbox => {
             const item = checkbox.closest('.checklist-item');
-            if (item) {
-                const sectionId = item.dataset.section;
-                const itemId = item.dataset.item;
-                if (sectionId && itemId) {
-                    state[`${sectionId}_${itemId}`] = checkbox.checked;
-                }
-            }
+            const sectionId = item.dataset.section;
+            const itemId = item.dataset.item;
+            state[`simple_${sectionId}_${itemId}`] = checkbox.checked;
         });
         
-        try {
-            localStorage.setItem('project_checklist_state', JSON.stringify(state));
-        } catch (e) {
-            console.error('Error al guardar estado:', e);
-        }
+        localStorage.setItem('project_simple_checklist_state', JSON.stringify(state));
     }
     
     function loadChecklistState() {
-        try {
-            const savedState = localStorage.getItem('project_checklist_state');
-            if (!savedState) return;
-            
+        const savedState = localStorage.getItem('project_simple_checklist_state');
+        if (savedState) {
             const state = JSON.parse(savedState);
-            const checkboxes = document.querySelectorAll('.checklist-check');
-            if (!checkboxes || checkboxes.length === 0) return;
             
-            checkboxes.forEach(checkbox => {
+            document.querySelectorAll('.checklist-check').forEach(checkbox => {
                 const item = checkbox.closest('.checklist-item');
-                if (item) {
-                    const sectionId = item.dataset.section;
-                    const itemId = item.dataset.item;
-                    if (sectionId && itemId) {
-                        const key = `${sectionId}_${itemId}`;
-                        if (state[key] !== undefined) {
-                            checkbox.checked = Boolean(state[key]);
-                        }
-                    }
+                const sectionId = item.dataset.section;
+                const itemId = item.dataset.item;
+                const key = `simple_${sectionId}_${itemId}`;
+                
+                if (state[key] !== undefined) {
+                    checkbox.checked = state[key];
                 }
             });
-        } catch (e) {
-            console.error('Error al cargar estado:', e);
         }
     }
     
     function resetChecklist() {
-        const checkboxes = document.querySelectorAll('.checklist-check');
-        if (checkboxes && checkboxes.length > 0) {
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-        }
+        document.querySelectorAll('.checklist-check').forEach(checkbox => {
+            checkbox.checked = false;
+        });
         
-        try {
-            localStorage.removeItem('project_checklist_state');
-        } catch (e) {
-            console.error('Error al limpiar estado:', e);
-        }
-        
+        localStorage.removeItem('project_simple_checklist_state');
         updateProgress();
     }
 </script>

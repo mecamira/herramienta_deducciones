@@ -384,6 +384,15 @@ def generate_pdf(assessment, app=None):
                         personnel_deduction = expenses.get('exclusive_personnel', 0) * (17 / 100) * id_portion
                     data_deduction.append(['Deducción adicional personal I+D (17%)', format_number_spanish(personnel_deduction)])
 
+                # Deducción por activos fijos exclusivos I+D (8%)
+                if deduction.get('id_assets', 0) > 0 or ((assessment['results']['qualification'] in ['ID', 'MIXED', 'POTENTIAL']) and expenses.get('inmovilizado_id', 0) > 0):
+                    assets_deduction = deduction.get('id_assets', 0)
+                    # Si es MIXED/POTENTIAL, calcular la deducción según la distribución
+                    if assessment['results']['qualification'] in ['MIXED', 'POTENTIAL'] and assets_deduction == 0:
+                        id_portion = 0.6
+                        assets_deduction = expenses.get('inmovilizado_id', 0) * (8 / 100) * id_portion
+                    data_deduction.append(['Deducción por activos fijos exclusivos I+D (8%)', format_number_spanish(assets_deduction)])
+
                 # Deducción IT
                 if deduction.get('it', 0) > 0 or assessment['results']['qualification'] in ['MIXED', 'POTENTIAL']:
                     data_deduction.append(['Deducción IT (12%)', format_number_spanish(deduction.get('it', 0))])
@@ -407,6 +416,188 @@ def generate_pdf(assessment, app=None):
 
                 elements.append(table_deduction)
                 elements.append(Spacer(1, 0.5*cm))
+                
+                # ----- INICIO: AÑADIR INFORMACIÓN DE LÍMITES -----
+                elements.append(Paragraph('Límites de Aplicación de la Deducción', custom_styles['CustomHeading2']))
+                elements.append(Paragraph(
+                    'Las deducciones fiscales por I+D+i están sujetas a unos límites de aplicación sobre la cuota íntegra minorada (CIM) '
+                    'del Impuesto sobre Sociedades. A continuación se muestra una simulación con una CIM estimada de 100.000€.',
+                    custom_styles['CustomNormal']
+                ))
+                
+                cim_value = 100000  # Valor fijo para simulación en PDF
+                limit25 = cim_value * 0.25
+                limit50 = cim_value * 0.50
+                
+                # Determinar si aplica el límite incrementado
+                is_limit50_applicable = deduction.get('total', 0) > (cim_value * 0.10)
+                applicable_limit = limit50 if is_limit50_applicable else limit25
+                
+                # Calcular deducción aplicable y pendiente
+                deduction_applicable = min(deduction.get('total', 0), applicable_limit)
+                deduction_pending = max(0, deduction.get('total', 0) - applicable_limit)
+                
+                data_limits = [
+                    ['Concepto', 'Importe (€)'],
+                    ['Cuota Íntegra Minorada (CIM) estimada', format_number_spanish(cim_value)],
+                    ['Límite general (25% de CIM)', format_number_spanish(limit25)],
+                    ['Límite incrementado (50% de CIM)', format_number_spanish(limit50)]
+                ]
+                
+                if is_limit50_applicable:
+                    data_limits.append(['Límite aplicable (50% por superar el 10% de CIM)', format_number_spanish(applicable_limit)])
+                else:
+                    data_limits.append(['Límite aplicable (25% general)', format_number_spanish(applicable_limit)])
+                    
+                data_limits.append(['Deducción total generada', format_number_spanish(deduction.get('total', 0))])
+                data_limits.append(['Deducción aplicable en el ejercicio', format_number_spanish(deduction_applicable)])
+                
+                if deduction_pending > 0:
+                    data_limits.append(['Deducción pendiente (aplicable en 18 años)', format_number_spanish(deduction_pending)])
+                
+                table_limits = Table(data_limits, colWidths=[10*cm, 5*cm])
+                table_limits.setStyle(TableStyle([
+                    ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),       # Header row
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                    ('ALIGN', (1, 0), (1, -1), 'RIGHT'),                     # Align numbers right
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),         # Bold header
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 10),                  # Padding header
+                ]))
+                
+                elements.append(table_limits)
+                elements.append(Spacer(1, 0.3*cm))
+                
+                # Si hay deducción pendiente, incluir opción de monetización
+                if deduction_pending > 0:
+                    monetization_amount = deduction_pending
+                    monetization_discount = monetization_amount * 0.20
+                    monetization_net = monetization_amount * 0.80
+                    
+                    elements.append(Paragraph('Opción de Monetización', custom_styles['CustomHeading2']))
+                    elements.append(Paragraph(
+                        'Para la deducción pendiente, existe la opción de monetización prevista en el artículo 39.2 de la Ley '
+                        'del Impuesto sobre Sociedades, que permite recuperar el 80% del importe (aplicando un descuento del 20%) '
+                        'cuando no se puede aplicar por insuficiencia de cuota:',
+                        custom_styles['CustomNormal']
+                    ))
+                    
+                    data_monetization = [
+                        ['Concepto', 'Importe (€)'],
+                        ['Importe a monetizar', format_number_spanish(monetization_amount)],
+                        ['Descuento aplicado (20%)', format_number_spanish(monetization_discount)],
+                        ['Importe líquido a recibir', format_number_spanish(monetization_net)]
+                    ]
+                    
+                    table_monetization = Table(data_monetization, colWidths=[10*cm, 5*cm])
+                    table_monetization.setStyle(TableStyle([
+                        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),    # Header row
+                        ('BACKGROUND', (0, 3), (-1, 3), colors.lightgreen),   # Importe a recibir
+                        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('ALIGN', (1, 0), (1, -1), 'RIGHT'),                 # Align numbers right
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),     # Bold header
+                        ('FONTNAME', (0, 3), (-1, 3), 'Helvetica-Bold'),     # Bold importe a recibir
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),              # Padding header
+                    ]))
+                    
+                    elements.append(table_monetization)
+                    elements.append(Paragraph(
+                        'Nota: Para acceder a esta opción es necesario cumplir ciertos requisitos y disponer de un Informe Motivado Vinculante.',
+                        ParagraphStyle(name='MonetizationNote', parent=styles['Italic'], fontSize=9, textColor=colors.gray)
+                    ))
+                    elements.append(Spacer(1, 0.5*cm))
+                # ----- FIN: AÑADIR INFORMACIÓN DE LÍMITES -----
+                
+                # ----- INICIO: BONIFICACIÓN SEGURIDAD SOCIAL -----
+                if expenses.get('exclusive_personnel', 0) > 0:
+                    elements.append(Paragraph('Bonificación a la Seguridad Social para Personal Investigador', custom_styles['CustomHeading2']))
+                    elements.append(Paragraph(
+                        'Además de la deducción fiscal del 17% sobre los gastos de personal con dedicación exclusiva a I+D, '
+                        'puede solicitar una bonificación del 40% en las cuotas de la Seguridad Social para este personal investigador.',
+                        custom_styles['CustomNormal']
+                    ))
+                    
+                    # Calcular la bonificación
+                    exclusive_personnel_cost = expenses.get('exclusive_personnel', 0)
+                    monthly_cost = exclusive_personnel_cost / 12
+                    ss_rate = 0.30
+                    monthly_ss_cost = monthly_cost * ss_rate
+                    bonus_rate = 0.40
+                    monthly_bonus = monthly_ss_cost * bonus_rate
+                    annual_bonus = monthly_bonus * 12
+                    
+                    data_ss = [
+                        ['Concepto', 'Importe (€)'],
+                        ['Coste anual del personal exclusivo I+D', format_number_spanish(exclusive_personnel_cost)],
+                        ['Coste mensual estimado de Seguridad Social (30%)', format_number_spanish(monthly_ss_cost)],
+                        ['Bonificación mensual (40% del coste de SS)', format_number_spanish(monthly_bonus)],
+                        ['AHORRO ANUAL ESTIMADO EN SEGURIDAD SOCIAL', format_number_spanish(annual_bonus)]
+                    ]
+                    
+                    table_ss = Table(data_ss, colWidths=[10*cm, 5*cm])
+                    table_ss.setStyle(TableStyle([
+                        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),    # Header row
+                        ('BACKGROUND', (0, 4), (-1, 4), colors.lightgreen),   # Total row
+                        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                        ('ALIGN', (1, 0), (1, -1), 'RIGHT'),                 # Align numbers right
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),     # Bold header
+                        ('FONTNAME', (0, 4), (-1, 4), 'Helvetica-Bold'),     # Bold total
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),              # Padding header
+                    ]))
+                    
+                    elements.append(table_ss)
+                    elements.append(Paragraph(
+                        'Importante: Para compatibilizar esta bonificación con la deducción fiscal del 17% es necesario obtener '
+                        'el Sello de PYME Innovadora otorgado por el Ministerio de Ciencia e Innovación. Sin este sello, '
+                        'deberá optar por uno de los dos incentivos.',
+                        ParagraphStyle(name='SSNote', parent=styles['Italic'], fontSize=9, textColor=colors.darkred)
+                    ))
+                    elements.append(Spacer(1, 0.5*cm))
+                # ----- FIN: BONIFICACIÓN SEGURIDAD SOCIAL -----
+                
+                # ----- INICIO: RESUMEN DE BENEFICIOS TOTALES -----
+                elements.append(Paragraph('Resumen de Beneficios Totales', custom_styles['CustomHeading2']))
+                
+                # Calcular los totales
+                total_tax_deduction = deduction.get('total', 0)
+                
+                # Inicializar variables
+                ss_annual_bonus = 0
+                total_benefits = total_tax_deduction
+                
+                # Si hay personal exclusivo, calcular bonificación SS
+                if expenses.get('exclusive_personnel', 0) > 0:
+                    ss_annual_bonus = expenses.get('exclusive_personnel', 0) * 0.30 * 0.40
+                    total_benefits = total_tax_deduction + ss_annual_bonus
+                
+                data_total_benefits = [
+                    ['Concepto', 'Ahorro estimado (€)'],
+                    ['Deducción fiscal en el Impuesto sobre Sociedades', format_number_spanish(total_tax_deduction)]
+                ]
+                
+                if ss_annual_bonus > 0:
+                    data_total_benefits.append(['Bonificación Seguridad Social (40% personal investigador)', format_number_spanish(ss_annual_bonus)])
+                
+                data_total_benefits.append(['BENEFICIO TOTAL ESTIMADO', format_number_spanish(total_benefits)])
+                
+                table_benefits = Table(data_total_benefits, colWidths=[10*cm, 5*cm])
+                table_benefits.setStyle(TableStyle([
+                    ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),    # Header row
+                    ('BACKGROUND', (0, -1), (-1, -1), colors.lightblue),  # Total row
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                    ('ALIGN', (1, 0), (1, -1), 'RIGHT'),                 # Align numbers right
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),     # Bold header
+                    ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),   # Bold total
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 10),              # Padding header
+                    ('TOPPADDING', (0, -1), (-1, -1), 10)                # Padding footer
+                ]))
+                
+                elements.append(table_benefits)
+                elements.append(Spacer(1, 0.5*cm))
+                # ----- FIN: RESUMEN DE BENEFICIOS TOTALES -----
             elif 'eligible_expenses' not in deduction or deduction['eligible_expenses'].get('total', 0) == 0 :
                 # Si no hay gastos ni deducción, mostrar mensaje
                  elements.append(Paragraph('No se han introducido gastos o la deducción calculada es cero.', custom_styles['CustomNormal']))

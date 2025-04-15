@@ -7,7 +7,7 @@
     <div class="col-md-10">
         <div class="card shadow">
             <div class="card-header bg-primary text-white">
-                <h2 class="card-title h5 mb-0">Lista de Verificación para Proyectos de I+D+i</h2>
+                <h2 class="card-title h5 mb-0">Lista de Verificación Avanzada para Proyectos de I+D+i</h2>
             </div>
             
             <div class="card-body p-4">
@@ -15,14 +15,19 @@
                     <a href="{{ url_for('project_structure_home') }}" class="btn btn-outline-primary">
                         <i class="fas fa-arrow-left me-2"></i>Volver
                     </a>
-                    <button id="reset-checklist" class="btn btn-secondary">
-                        <i class="fas fa-redo me-2"></i>Reiniciar verificación
-                    </button>
+                    <div>
+                        <a href="{{ url_for('project_structure_simple_checklist') }}" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-check-circle me-1"></i>Ver lista simple
+                        </a>
+                        <button id="reset-checklist" class="btn btn-secondary">
+                            <i class="fas fa-redo me-2"></i>Reiniciar verificación
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="alert alert-info mb-4">
-                    <p><i class="fas fa-info-circle me-2"></i>Utiliza esta lista de verificación para evaluar si tu proyecto de I+D+i está correctamente estructurado y contiene todos los elementos necesarios para maximizar sus posibilidades de éxito, financiación y aplicación de deducciones fiscales.</p>
-                    <p>Marca cada ítem cuando consideres que lo has abordado adecuadamente en tu proyecto. La herramienta guardará tu progreso localmente.</p>
+                    <p><i class="fas fa-info-circle me-2"></i><strong>Lista de verificación avanzada</strong> - Esta lista detallada te ayudará a evaluar exhaustivamente si tu proyecto de I+D+i está correctamente estructurado y contiene todos los elementos necesarios para maximizar sus posibilidades de éxito, financiación y aplicación de deducciones fiscales.</p>
+                    <p>Si prefieres una evaluación más rápida, puedes utilizar la <a href="{{ url_for('project_structure_simple_checklist') }}" class="alert-link">lista de verificación simple</a> con los requisitos básicos.</p>
                 </div>
                 
                 <div class="progress mb-4">

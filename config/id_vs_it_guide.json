@@ -1,0 +1,103 @@
+{
+    "title": "Guía para diferenciar I+D e Innovación Tecnológica",
+    "description": "Esta guía proporciona criterios clave para ayudar a distinguir entre actividades de Investigación y Desarrollo (I+D) y actividades de Innovación Tecnológica (IT) según la normativa fiscal española.",
+    "reference": "Artículo 35 de la Ley 27/2014 del Impuesto sobre Sociedades",
+    "comparative_table": [
+        {
+            "criterion": "Novedad",
+            "id": "Novedad objetiva y científica a nivel mundial o sectorial. Creación de nuevo conocimiento.",
+            "it": "Novedad principalmente subjetiva (nueva para la empresa). Aplicación de conocimiento existente a productos o procesos."
+        },
+        {
+            "criterion": "Incertidumbre",
+            "id": "Alta incertidumbre científica o tecnológica. No existe solución obvia para un experto del sector.",
+            "it": "Incertidumbre tecnológica moderada. Existe un camino plausible para la solución."
+        },
+        {
+            "criterion": "Metodología",
+            "id": "Método científico con hipótesis, experimentación sistemática y análisis de resultados.",
+            "it": "Método de desarrollo tecnológico, generalmente iterativo y aplicado."
+        },
+        {
+            "criterion": "Naturaleza del resultado",
+            "id": "Avance en el conocimiento científico o tecnológico. Soluciona una incertidumbre científica.",
+            "it": "Avance tecnológico en productos o procesos. Mejora significativa de lo existente."
+        },
+        {
+            "criterion": "Personal",
+            "id": "Requiere personal cualificado con perfil científico-técnico especializado.",
+            "it": "Requiere personal técnico, aunque generalmente con menor nivel de especialización científica."
+        },
+        {
+            "criterion": "Documentación típica",
+            "id": "Estado del arte, hipótesis, diseño experimental, análisis de resultados, publicaciones científicas.",
+            "it": "Especificaciones técnicas, comparativa con soluciones anteriores, pruebas de validación."
+        },
+        {
+            "criterion": "Ejemplos de actividades",
+            "id": "Desarrollo de nuevos materiales, algoritmos originales, procesos químicos inéditos, etc.",
+            "it": "Mejoras en productos existentes, adaptación de tecnologías, nuevas aplicaciones de tecnologías conocidas."
+        }
+    ],
+    "key_indicators": {
+        "id": [
+            "Publicaciones científicas o técnicas derivadas del proyecto",
+            "Patentes basadas en nuevos principios o conocimientos",
+            "Colaboraciones con universidades o centros de investigación",
+            "Fracasos o intentos fallidos documentados (evidencia de incertidumbre)",
+            "Múltiples prototipos o versiones experimentales",
+            "Personal investigador con alta cualificación",
+            "Metodología científica documentada"
+        ],
+        "it": [
+            "Nuevos productos o servicios para la empresa",
+            "Mejoras sustanciales documentadas respecto a versiones anteriores",
+            "Adaptación de tecnologías existentes a nuevos usos",
+            "Desarrollo de prototipos para validar funcionalidades",
+            "Certificaciones o homologaciones de nuevos productos",
+            "Documentación técnica de desarrollo",
+            "Estudios comparativos con soluciones anteriores o competencia"
+        ]
+    },
+    "exclusions": [
+        "Cambios estéticos o de diseño sin cambios funcionales o técnicos sustanciales",
+        "Esfuerzos de producción industrial rutinaria",
+        "Adaptaciones menores de software o productos existentes",
+        "Controles de calidad rutinarios",
+        "Actividades de marketing, estudios de mercado o comercialización",
+        "Formación del personal no relacionada directamente con la innovación",
+        "Adquisición de tecnología o equipamiento sin adaptación tecnológica significativa"
+    ],
+    "specific_software_cases": {
+        "considered_id": [
+            "Desarrollo de nuevos lenguajes de programación",
+            "Creación de nuevos sistemas operativos",
+            "Desarrollo de algoritmos avanzados que resuelven problemas científicos o técnicos complejos",
+            "Creación de motores de inteligencia artificial con capacidades inéditas",
+            "Desarrollo de arquitecturas de software radicalmente nuevas"
+        ],
+        "considered_it": [
+            "Desarrollo de aplicaciones utilizando metodologías existentes",
+            "Mejoras sustanciales en módulos o componentes de software",
+            "Adaptación significativa de tecnologías para un uso diferente al original",
+            "Integración innovadora de tecnologías existentes",
+            "Desarrollo de interfaces o experiencias de usuario significativamente mejoradas"
+        ],
+        "excluded": [
+            "Mantenimiento rutinario de software",
+            "Corrección de errores (bugfixing)",
+            "Migraciones o actualizaciones menores",
+            "Cambios estéticos en interfaces sin mejoras funcionales",
+            "Desarrollo de aplicaciones empresariales utilizando frameworks estándar"
+        ]
+    },
+    "practical_recommendations": [
+        "Documente meticulosamente el estado del arte al inicio del proyecto",
+        "Mantenga registros de los problemas técnicos encontrados y cómo se resolvieron",
+        "Identifique y documente claramente las incertidumbres científicas o técnicas",
+        "Documente las hipótesis de trabajo y su validación/rechazo",
+        "Registre las horas dedicadas por el personal a actividades de I+D+i",
+        "En proyectos mixtos, separe claramente las actividades de I+D e IT",
+        "Considere obtener un Informe Motivado Vinculante para mayor seguridad jurídica"
+    ]
+}

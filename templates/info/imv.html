@@ -3,261 +3,107 @@
 {% block title %}Informe Motivado Vinculante (IMV) - Deducciones Fiscales I+D+i{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Informe Motivado Vinculante (IMV)</li>
-            </ol>
-        </nav>
-        
-        <div class="card shadow mb-4">
-            <div class="card-header bg-primary text-white">
-                <h2 class="card-title h4 mb-0">Informe Motivado Vinculante (IMV)</h2>
-            </div>
-            
-            <div class="card-body p-4">
-                <div class="alert alert-info mb-4">
-                    <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>¿Qué es el IMV?</h4>
-                    <p>El <strong>Informe Motivado Vinculante (IMV)</strong> es un documento oficial emitido por el Ministerio de Ciencia e Innovación que certifica el carácter de I+D+i de los proyectos empresariales, proporcionando seguridad jurídica a la hora de aplicar deducciones fiscales.</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-0">Informe Motivado Vinculante (IMV)</h1>
                 </div>
-                
-                <h3 class="h5 mb-3">¿Cómo funciona el IMV?</h3>
-                <p>El Informe Motivado es un mecanismo que permite a las empresas obtener certidumbre legal sobre la naturaleza de sus proyectos de I+D+i y los gastos asociados, previamente a la aplicación de deducciones fiscales. Este informe:</p>
-                
-                <ul class="mb-4">
-                    <li><strong>Es vinculante</strong> para la Administración Tributaria en lo relativo a la naturaleza de I+D o IT del proyecto y los gastos asociados.</li>
-                    <li>Proporciona <strong>seguridad jurídica</strong> frente a inspecciones fiscales.</li>
-                    <li>Facilita la <strong>planificación fiscal</strong> de la empresa al conocer de antemano el importe deducible.</li>
-                    <li>Puede solicitarse <strong>antes, durante o después</strong> de la ejecución del proyecto (con diferentes tipos de informes).</li>
-                    <li>Requiere la <strong>certificación previa</strong> del proyecto por una entidad acreditada por ENAC.</li>
-                </ul>
-                
-                <h3 class="h5 mb-3">Valor y Beneficios del IMV</h3>
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-header bg-light">
-                                <h4 class="h6 mb-0">Seguridad jurídica</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>El IMV ofrece seguridad jurídica completa ante la Agencia Tributaria sobre la naturaleza de I+D o IT del proyecto y sus gastos asociados, reduciendo significativamente el riesgo de inspecciones fiscales negativas.</p>
-                            </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>¿Qué es el Informe Motivado Vinculante?</h5>
+                        <p>El Informe Motivado Vinculante (IMV) es un documento emitido por el Ministerio de Ciencia e Innovación que certifica la naturaleza de I+D+i de un proyecto y los gastos asociados, otorgando seguridad jurídica total frente a la Administración Tributaria.</p>
+                    </div>
+
+                    <h2 class="h5 mt-4">Ventajas del Informe Motivado Vinculante</h2>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i><strong>Seguridad jurídica:</strong> Vincula a la Administración Tributaria en cuanto a la naturaleza de las actividades y los gastos asociados.</li>
+                        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i><strong>Obligatorio para monetización:</strong> Requisito indispensable para acceder al régimen de monetización de deducciones previsto en el artículo 39.2 de la Ley del Impuesto sobre Sociedades.</li>
+                        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i><strong>Evita sanciones:</strong> En caso de inspección fiscal, el IMV garantiza la correcta aplicación de las deducciones.</li>
+                        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i><strong>Mejora la gestión:</strong> El proceso de certificación aporta rigor a la gestión de los proyectos de I+D+i.</li>
+                    </ul>
+
+                    <h2 class="h5 mt-4">Tipos de Informes Motivados</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Descripción</th>
+                                    <th>Momento de solicitud</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Tipo A</strong></td>
+                                    <td>Para proyectos que aún no han comenzado o están en sus primeras fases</td>
+                                    <td>Antes o durante los primeros meses del proyecto</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tipo B</strong></td>
+                                    <td>Para proyectos ya realizados o en ejecución</td>
+                                    <td>Al finalizar cada ejercicio fiscal</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tipo C</strong></td>
+                                    <td>Para muestrarios del sector textil y calzado</td>
+                                    <td>Al finalizar cada ejercicio fiscal</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tipo D</strong></td>
+                                    <td>Para actividades de I+D+i subvencionadas</td>
+                                    <td>Tras recibir la subvención</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h2 class="h5 mt-4">Proceso de Solicitud</h2>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <ol>
+                                <li><strong>Elaboración de la memoria técnica y económica</strong> del proyecto según los estándares establecidos.</li>
+                                <li><strong>Certificación por Entidad Acreditada</strong> (ENAC): Una entidad certificadora acreditada evalúa el proyecto y emite un certificado.</li>
+                                <li><strong>Solicitud al Ministerio</strong>: Presentación de la solicitud junto con el certificado de la entidad acreditada.</li>
+                                <li><strong>Evaluación por el Ministerio</strong>: El Ministerio evalúa la documentación y emite el IMV.</li>
+                                <li><strong>Aplicación en la declaración del impuesto</strong>: Una vez obtenido el IMV, se puede aplicar la deducción con total seguridad jurídica.</li>
+                            </ol>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-header bg-light">
-                                <h4 class="h6 mb-0">Aplicación correcta de deducciones</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>Garantiza que la empresa aplica correctamente las deducciones fiscales, evitando tanto la dejación de derechos (no deducir cuando se podría) como el exceso de deducción (que podría acarrear sanciones).</p>
-                            </div>
-                        </div>
+
+                    <h2 class="h5 mt-4">Plazos y Costes</h2>
+                    <div class="alert alert-warning">
+                        <p><strong>Plazos de solicitud:</strong> El IMV debe solicitarse antes de la finalización del plazo de declaración del Impuesto sobre Sociedades del ejercicio correspondiente.</p>
+                        <p><strong>Costes aproximados:</strong></p>
+                        <ul>
+                            <li>Certificación por Entidad Acreditada: Entre 1.500€ y 5.000€ (dependiendo del tamaño y complejidad del proyecto)</li>
+                            <li>Tasas del Ministerio: Aproximadamente 500€</li>
+                        </ul>
+                        <p><small>Estos costes suelen ser elegibles como gastos asociados al proyecto de I+D+i.</small></p>
+                    </div>
+
+                    <h2 class="h5 mt-4">Documentación Necesaria</h2>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item"><i class="fas fa-file-alt me-2"></i>Memoria técnica del proyecto según estándares establecidos</li>
+                        <li class="list-group-item"><i class="fas fa-file-invoice-dollar me-2"></i>Memoria económica detallando los gastos asociados al proyecto</li>
+                        <li class="list-group-item"><i class="fas fa-certificate me-2"></i>Certificado emitido por Entidad Acreditada por ENAC</li>
+                        <li class="list-group-item"><i class="fas fa-file-contract me-2"></i>Formulario de solicitud al Ministerio</li>
+                        <li class="list-group-item"><i class="fas fa-receipt me-2"></i>Justificante de pago de tasas</li>
+                    </ul>
+
+                    <div class="alert alert-success">
+                        <h5 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Recomendación</h5>
+                        <p>Para proyectos con deducciones superiores a 20.000€, el IMV es altamente recomendable por la seguridad jurídica que proporciona y porque es obligatorio para la monetización de deducciones. El coste del proceso suele representar un pequeño porcentaje de la deducción obtenida.</p>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <a href="{{ url_for('results') }}" class="btn btn-primary">Volver a Resultados</a>
+                        <a href="https://www.enac.es/web/enac/entidades-acreditadas/buscador-de-acreditados" target="_blank" class="btn btn-outline-primary ms-2">Buscar entidades acreditadas</a>
                     </div>
                 </div>
-                
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-header bg-light">
-                                <h4 class="h6 mb-0">Monetización de deducciones</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>Es un requisito indispensable para poder aplicar la monetización de deducciones cuando la empresa no tiene cuota íntegra suficiente para aplicar la deducción (artículo 39.2 LIS).</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="card-header bg-light">
-                                <h4 class="h6 mb-0">Bonificaciones en la Seguridad Social</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>Facilita la aplicación de bonificaciones en la cotización a la Seguridad Social del personal investigador (40% de reducción), pudiendo compatibilizarse con la deducción fiscal.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 class="h5 mb-3">Tipos de Informes Motivados</h3>
-                <div class="table-responsive mb-4">
-                    <table class="table table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Descripción</th>
-                                <th>Momento de solicitud</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tipo a)</td>
-                                <td>Para proyectos con certificado del contenido "ex-ante"</td>
-                                <td>Antes de comenzar el proyecto</td>
-                            </tr>
-                            <tr>
-                                <td>Tipo b)</td>
-                                <td>Para proyectos con certificado de seguimiento</td>
-                                <td>Durante la ejecución del proyecto</td>
-                            </tr>
-                            <tr>
-                                <td>Tipo c)</td>
-                                <td>Para proyectos con certificado del contenido y primera ejecución</td>
-                                <td>Al inicio de la ejecución</td>
-                            </tr>
-                            <tr>
-                                <td>Tipo d)</td>
-                                <td>Para proyectos ya finalizados (certificado "ex-post")</td>
-                                <td>Después de finalizar el proyecto</td>
-                            </tr>
-                            <tr>
-                                <td>Tipo e)</td>
-                                <td>Para muestrarios de industrias tradicionales</td>
-                                <td>Específico para sectores como textil, calzado, etc.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <h3 class="h5 mb-3">Proceso para obtener un IMV</h3>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <ol class="timeline">
-                            <li class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="h6">1. Certificación del proyecto</h4>
-                                    <p>El primer paso es obtener la certificación del proyecto por una entidad acreditada por ENAC (Entidad Nacional de Acreditación) para la certificación de proyectos de I+D+i.</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="h6">2. Solicitud del IMV</h4>
-                                    <p>Una vez obtenida la certificación, se debe solicitar el IMV al Ministerio de Ciencia e Innovación a través de su sede electrónica.</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="h6">3. Evaluación por el Ministerio</h4>
-                                    <p>El Ministerio evalúa la solicitud y la certificación aportada, pudiendo solicitar información adicional si lo considera necesario.</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="h6">4. Emisión del IMV</h4>
-                                    <p>Si todo es correcto, el Ministerio emite el Informe Motivado Vinculante, que certifica la naturaleza de I+D o IT del proyecto y sus gastos asociados.</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h4 class="h6">5. Aplicación de la deducción</h4>
-                                    <p>Con el IMV, la empresa puede aplicar la deducción fiscal correspondiente en su declaración del Impuesto sobre Sociedades con total seguridad jurídica.</p>
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <h3 class="h5 mb-3">Entidad Nacional de Acreditación (ENAC)</h3>
-                <p>La <strong>Entidad Nacional de Acreditación (ENAC)</strong> es el organismo designado por la Administración para establecer y mantener el sistema de acreditación a nivel nacional. ENAC acredita a las entidades que certifican proyectos de I+D+i, garantizando su competencia técnica, independencia e imparcialidad.</p>
-                
-                <div class="alert alert-light border mb-4">
-                    <h4 class="h6"><i class="fas fa-external-link-alt me-2"></i>Enlace oficial a ENAC</h4>
-                    <p class="mb-0">Puede consultar más información sobre ENAC y las entidades acreditadas para la certificación de proyectos de I+D+i en su página web oficial:</p>
-                    <a href="https://www.enac.es" target="_blank" class="btn btn-outline-primary mt-2">Visitar ENAC <i class="fas fa-arrow-right ms-2"></i></a>
-                </div>
-                
-                <h3 class="h5 mb-3">Entidades Certificadoras Acreditadas</h3>
-                <p>Las siguientes entidades están acreditadas por ENAC para la certificación de proyectos de I+D+i:</p>
-                
-                <div class="table-responsive mb-4">
-                    <table class="table table-striped table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Entidad</th>
-                                <th>Datos de contacto</th>
-                                <th>Sectores especializados</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>AENOR</td>
-                                <td><a href="https://www.aenor.com" target="_blank">www.aenor.com</a></td>
-                                <td>Multisectorial</td>
-                            </tr>
-                            <tr>
-                                <td>EQA Certificación</td>
-                                <td><a href="https://eqa.es" target="_blank">www.eqa.es</a></td>
-                                <td>Multisectorial</td>
-                            </tr>
-                            <tr>
-                                <td>Bureau Veritas</td>
-                                <td><a href="https://www.bureauveritas.es" target="_blank">www.bureauveritas.es</a></td>
-                                <td>Multisectorial</td>
-                            </tr>
-                            <tr>
-                                <td>AIDIT</td>
-                                <td><a href="https://aidit.es" target="_blank">www.aidit.es</a></td>
-                                <td>Tecnologías de la información, biotecnología</td>
-                            </tr>
-                            <tr>
-                                <td>OCA CERT</td>
-                                <td><a href="https://www.ocacert.com" target="_blank">www.ocacert.com</a></td>
-                                <td>Multisectorial</td>
-                            </tr>
-                            <tr>
-                                <td>AQC</td>
-                                <td><a href="https://www.aqccertification.es" target="_blank">www.aqccertification.es</a></td>
-                                <td>Software, telecomunicaciones, ingeniería</td>
-                            </tr>
-                            <tr>
-                                <td>CERE</td>
-                                <td><a href="https://cerecertification.com" target="_blank">www.cerecertification.com</a></td>
-                                <td>Energía, industria, renovables</td>
-                            </tr>
-                            <tr>
-                                <td>IVAC</td>
-                                <td><a href="https://www.ivac.es" target="_blank">www.ivac.es</a></td>
-                                <td>Multisectorial</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="alert alert-warning mb-4">
-                    <h4 class="h6"><i class="fas fa-exclamation-triangle me-2"></i>Importante</h4>
-                    <p class="mb-0">Esta lista puede estar sujeta a cambios. Se recomienda consultar el listado actualizado de entidades acreditadas en la <a href="https://www.enac.es/web/enac/entidades-acreditadas" target="_blank">página oficial de ENAC</a>.</p>
-                </div>
-                
-                <h3 class="h5 mb-3">Normativa aplicable</h3>
-                <ul class="mb-4">
-                    <li>Real Decreto 1432/2003, de 21 de noviembre, por el que se regula la emisión de informes motivados.</li>
-                    <li>Real Decreto 2/2007, de 12 de enero, que modifica el RD 1432/2003.</li>
-                    <li>Real Decreto 278/2007, de 23 de febrero, sobre bonificaciones en la cotización a la Seguridad Social.</li>
-                    <li>Artículos 35 y 39 de la Ley 27/2014, de 27 de noviembre, del Impuesto sobre Sociedades.</li>
-                </ul>
-                
-                <div class="text-center my-4">
-                    <a href="{{ url_for('home') }}" class="btn btn-primary">
-                        <i class="fas fa-home me-2"></i>Volver a inicio
-                    </a>
-                    <a href="https://www.ciencia.gob.es/Organismo-Intermedio/Estructura-y-funciones/Direcciones-generales/DG-de-Investigacion-Desarrollo-e-Innovacion/Informes-motivados-para-deducciones-fiscales-por-actividades-de-I-D-i.html" target="_blank" class="btn btn-outline-secondary ms-2">
-                        <i class="fas fa-external-link-alt me-2"></i>Más información en el Ministerio
-                    </a>
-                </div>
-                
             </div>
         </div>
     </div>
 </div>
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/imv.css') }}">
-{% endblock %}
 {% endblock %}

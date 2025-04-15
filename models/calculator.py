@@ -83,7 +83,7 @@ def qualify_project(responses):
     else:
         return 'NOT_QUALIFIED'
 
-def calculate_deduction(qualification, expenses_responses, tax_rates):
+def calculate_deduction(qualification, expenses_responses, tax_rates, id_portion=1.0, it_portion=0.0, responses=None):
     """
     Calcula la deducción fiscal basado en la calificación y los gastos
     
@@ -99,7 +99,8 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
     result = {
         'id_base': 0,
         'id_personnel': 0,
-        'id_incremental': 0, # No implementado aún
+        'id_incremental': 0,
+        'id_assets': 0,  # Deducción del 8% para activos fijos I+D
         'it': 0,
         'total': 0,
         'eligible_expenses': {
@@ -109,6 +110,7 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
             'equipment': 0,
             'materials': 0,
             'general': 0,
+            'inmovilizado_id': 0,  # Inversiones en activos fijos para I+D
             'total': 0
         }
     }
@@ -140,11 +142,15 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
         if 'general_expenses' in expenses_responses:
             result['eligible_expenses']['general'] = float(expenses_responses.get('general_expenses', 0))
         
+        # Comprobar gastos en activos fijos exclusivos para I+D
+        if 'inmovilizado_id' in expenses_responses:
+            result['eligible_expenses']['inmovilizado_id'] = float(expenses_responses.get('inmovilizado_id', 0))
+        
     except (ValueError, TypeError) as e:
         # En caso de error en la conversión, mantener los valores en 0
         print(f"Error al procesar gastos: {e}")
     
-    # Calcular total de gastos elegibles
+    # Calcular total de gastos elegibles (sin incluir inmovilizado_id que tiene su propia deducción)
     result['eligible_expenses']['total'] = (
         result['eligible_expenses']['personnel'] +
         result['eligible_expenses']['external'] +
@@ -153,7 +159,7 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
         result['eligible_expenses']['general']
     )
     
-    # Calcular deducciones según calificación
+    # Calcular deducciones según calificación y distribución de porcentajes
     if qualification == 'ID':
         # Obtener datos de los años anteriores si existen
         has_previous_data = False
@@ -189,26 +195,47 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
                 result['id_base'] = result['eligible_expenses']['total'] * (tax_rates['id']['base'] / 100)
         else:
             # Si no hay datos de años anteriores, aplicar deducción base normal
-            result['id_base'] = result['eligible_expenses']['total'] * (tax_rates['id']['base'] / 100)
+            result['id_base'] = result['eligible_expenses']['total'] * id_portion * (tax_rates['id']['base'] / 100)
+            
+            # Si hay parte de IT, calcularla también
+            if it_portion > 0:
+                result['it'] = result['eligible_expenses']['total'] * it_portion * (tax_rates['it']['base'] / 100)
         
-        # Deducción adicional por personal exclusivo I+D
+        # Deducción adicional por personal exclusivo I+D - Siempre sobre el total indicado por el usuario
+        # El personal exclusivo I+D no debe verse afectado por el ajuste de porcentajes id_portion/it_portion
         result['id_personnel'] = result['eligible_expenses']['exclusive_personnel'] * (tax_rates['id']['personnel'] / 100)
         
+        # Deducción adicional por inversiones en activos para I+D (8%)
+        if result['eligible_expenses']['inmovilizado_id'] > 0:
+            result['id_assets'] = result['eligible_expenses']['inmovilizado_id'] * (tax_rates['id']['assets'] / 100)
+        
         # Total
-        result['total'] = result['id_base'] + result['id_personnel'] + result['id_incremental']
+        result['total'] = result['id_base'] + result['id_personnel'] + result['id_incremental'] + result['id_assets']
         
     elif qualification == 'IT':
         # Deducción de IT
-        result['it'] = result['eligible_expenses']['total'] * (tax_rates['it']['base'] / 100)
+        result['it'] = result['eligible_expenses']['total'] * it_portion * (tax_rates['it']['base'] / 100)
+        
+        # Si hay parte de I+D por ajuste manual del usuario
+        if id_portion > 0:
+            result['id_base'] = result['eligible_expenses']['total'] * id_portion * (tax_rates['id']['base'] / 100)
+            
+            # Deducción adicional por personal exclusivo I+D - no afectada por los porcentajes
+            result['id_personnel'] = result['eligible_expenses']['exclusive_personnel'] * (tax_rates['id']['personnel'] / 100)
+            
+            # Deducción adicional por inversiones en activos para I+D (8%)
+            if result['eligible_expenses']['inmovilizado_id'] > 0 and id_portion > 0:
+                result['id_assets'] = result['eligible_expenses']['inmovilizado_id'] * (tax_rates['id']['assets'] / 100)
         
         # Total
-        result['total'] = result['it']
+        result['total'] = result['id_base'] + result['id_personnel'] + result['id_assets'] + result['it']
         
     elif qualification == 'MIXED':
-        # Para proyectos mixtos, dividimos los gastos entre I+D e IT
-        # Por defecto, asumimos una distribución 60/40 entre I+D e IT
-        id_portion = 0.6
-        it_portion = 0.4
+        # Para proyectos mixtos, usamos la distribución indicada en los parámetros
+        # Si no se especifican, por defecto seguimos usando 60/40 entre I+D e IT
+        if id_portion == 1.0 and it_portion == 0.0:  # Si se usan los valores por defecto
+            id_portion = 0.6
+            it_portion = 0.4
         
         # Distribuir gastos entre I+D e IT
         id_expenses = result['eligible_expenses']['total'] * id_portion
@@ -217,28 +244,45 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
         # Calcular deducción I+D
         result['id_base'] = id_expenses * (tax_rates['id']['base'] / 100)
         
-        # Deducción adicional por personal exclusivo I+D (aplicada solo a la parte de I+D)
+        # Deducción adicional por personal exclusivo I+D (NO afectada por los porcentajes)
         result['id_personnel'] = result['eligible_expenses']['exclusive_personnel'] * (tax_rates['id']['personnel'] / 100)
         
         # Calcular deducción IT
         result['it'] = it_expenses * (tax_rates['it']['base'] / 100)
         
+        # Deducción adicional por inversiones en activos para I+D (8%)
+        if result['eligible_expenses']['inmovilizado_id'] > 0:
+            result['id_assets'] = result['eligible_expenses']['inmovilizado_id'] * (tax_rates['id']['assets'] / 100) * id_portion
+        
         # Total
-        result['total'] = result['id_base'] + result['id_personnel'] + result['it']
+        result['total'] = result['id_base'] + result['id_personnel'] + result['id_assets'] + result['it']
         
     elif qualification == 'POTENTIAL':
         # Calcular ambas deducciones pero con un factor de incertidumbre
-        # Deducción base de I+D (reducida por incertidumbre)
-        result['id_base'] = result['eligible_expenses']['total'] * (tax_rates['id']['base'] / 100) * 0.5
+        # Usar los porcentajes proporcionados o valores predeterminados ajustados por incertidumbre
+        if id_portion == 1.0 and it_portion == 0.0:  # Si se usan los valores por defecto
+            id_portion = 0.5
+            it_portion = 0.5
+        else:
+            # Reducimos la certeza en los porcentajes ajustados por el usuario
+            id_portion = id_portion * 0.8  # Reducción del 20% por incertidumbre
+            it_portion = it_portion * 0.8  # Reducción del 20% por incertidumbre
         
-        # Deducción de IT (reducida por incertidumbre)
-        result['it'] = result['eligible_expenses']['total'] * (tax_rates['it']['base'] / 100) * 0.5
+        # Deducción base de I+D (ajustada por incertidumbre)
+        result['id_base'] = result['eligible_expenses']['total'] * id_portion * (tax_rates['id']['base'] / 100)
+        
+        # Deducción de IT (ajustada por incertidumbre)
+        result['it'] = result['eligible_expenses']['total'] * it_portion * (tax_rates['it']['base'] / 100)
         
         # Deducción adicional por personal exclusivo I+D (reducida por incertidumbre)
         result['id_personnel'] = result['eligible_expenses']['exclusive_personnel'] * (tax_rates['id']['personnel'] / 100) * 0.5
         
+        # Deducción adicional por inversiones en activos para I+D (8%) (reducida por incertidumbre)
+        if result['eligible_expenses']['inmovilizado_id'] > 0:
+            result['id_assets'] = result['eligible_expenses']['inmovilizado_id'] * (tax_rates['id']['assets'] / 100) * id_portion * 0.5
+        
         # Total
-        result['total'] = result['id_base'] + result['id_personnel'] + result['it']
+        result['total'] = result['id_base'] + result['id_personnel'] + result['id_assets'] + result['it']
     
     # Redondear valores a 2 decimales
     for key in result:
@@ -247,6 +291,115 @@ def calculate_deduction(qualification, expenses_responses, tax_rates):
     
     for category in result['eligible_expenses']:
         result['eligible_expenses'][category] = round(result['eligible_expenses'][category], 2)
+    
+    return result
+
+def calculate_deduction_limits(deduction, quota, tax_rates):
+    """
+    Calcula los límites de aplicación para la deducción fiscal
+    
+    Args:
+        deduction (dict): Resultados de la deducción calculada
+        quota (float): Cuota íntegra minorada (CIM) para calcular límites
+        tax_rates (dict): Tasas de impuestos para I+D e IT
+    
+    Returns:
+        dict: Resultados con información sobre límites y aplicación
+    """
+    result = {
+        'cim': quota,
+        'limit_25': round(quota * 0.25, 2),  # Límite general 25%
+        'limit_50': round(quota * 0.50, 2),  # Límite incrementado 50%
+        'applicable_limit': 0,
+        'is_limit_50_applicable': False,
+        'deduction_applicable': 0,
+        'deduction_pending': 0,
+        'monetization_option': {
+            'is_available': False,
+            'amount_before_discount': 0,
+            'discount': 0,
+            'net_amount': 0
+        }
+    }
+    
+    # Total deducción bruta
+    total_deduction = deduction['total']
+    
+    # Verificar si aplica límite incrementado (50%)
+    # La deducción del ejercicio supera el 10% de la CIM
+    if total_deduction > (quota * 0.10):
+        result['is_limit_50_applicable'] = True
+        result['applicable_limit'] = result['limit_50']
+    else:
+        result['applicable_limit'] = result['limit_25']
+    
+    # Calcular deducción aplicable y pendiente
+    if total_deduction <= result['applicable_limit']:
+        result['deduction_applicable'] = total_deduction
+        result['deduction_pending'] = 0
+    else:
+        result['deduction_applicable'] = result['applicable_limit']
+        result['deduction_pending'] = round(total_deduction - result['applicable_limit'], 2)
+    
+    # Verificar si puede aplicar la monetización (si hay pendiente o CIM insuficiente)
+    if result['deduction_pending'] > 0 or quota == 0:
+        result['monetization_option']['is_available'] = True
+        
+        # Calcular importes para monetización
+        amount_to_monetize = result['deduction_pending'] if result['deduction_pending'] > 0 else total_deduction
+        result['monetization_option']['amount_before_discount'] = amount_to_monetize
+        result['monetization_option']['discount'] = round(amount_to_monetize * 0.20, 2)  # 20% de descuento
+        result['monetization_option']['net_amount'] = round(amount_to_monetize * 0.80, 2)  # 80% del importe
+    
+    return result
+
+def calculate_assets_deduction(asset_investment, tax_rates):
+    """
+    Calcula la deducción fiscal por inversiones en elementos del inmovilizado material 
+    e intangible afectos exclusivamente a actividades de I+D
+    
+    Args:
+        asset_investment (float): Valor de las inversiones en inmovilizado para I+D
+        tax_rates (dict): Tasas de impuestos para I+D e IT
+    
+    Returns:
+        float: Importe de la deducción por inversiones en activos para I+D
+    """
+    # Verificar si existe la tasa para inversiones en el diccionario
+    if 'assets' in tax_rates['id']:
+        assets_rate = tax_rates['id']['assets']
+    else:
+        assets_rate = 8  # Valor por defecto si no está definido
+    
+    # Calcular deducción (8% del valor de las inversiones)
+    return round(asset_investment * (assets_rate / 100), 2)
+
+def calculate_social_security_bonus(researcher_costs, months=12):
+    """
+    Calcula la bonificación en la cotización a la Seguridad Social para personal investigador
+    
+    Args:
+        researcher_costs (float): Coste salarial del personal investigador
+        months (int): Número de meses a considerar (por defecto 12)
+    
+    Returns:
+        dict: Información sobre la bonificación calculada
+    """
+    result = {
+        'monthly_salary': round(researcher_costs / months, 2),
+        'monthly_ss_cost': 0,  # Coste mensual aprox. de SS
+        'monthly_bonus': 0,    # Bonificación mensual (40%)
+        'annual_bonus': 0      # Bonificación anual
+    }
+    
+    # Estimación de coste de SS empresarial (aprox. 30% del salario bruto)
+    ss_rate = 0.30  # 30% es una estimación del coste de SS empresarial
+    result['monthly_ss_cost'] = round(result['monthly_salary'] * ss_rate, 2)
+    
+    # Bonificación del 40% sobre el coste de SS
+    bonus_rate = 0.40  # 40% de bonificación según RD 475/2014
+    result['monthly_bonus'] = round(result['monthly_ss_cost'] * bonus_rate, 2)
+    result['annual_bonus'] = round(result['monthly_bonus'] * months, 2)
     
     return result
 
@@ -274,6 +427,9 @@ def generate_recommendations(qualification, deduction, responses=None):
         
         if deduction['id_personnel'] > 0:
             recommendations.append("Ha identificado personal exclusivo dedicado a I+D, lo que le permite acceder a una deducción adicional del 17%.")
+        
+        if deduction['id_assets'] > 0:
+            recommendations.append(f"Ha indicado inversiones en elementos del inmovilizado material e intangible exclusivos para I+D, lo que le permite acceder a una deducción adicional del 8% sobre dichas inversiones (aproximadamente {deduction['id_assets']:,.2f} €).")
     
     elif qualification == 'IT':
         recommendations.append("Según sus respuestas, su proyecto muestra indicadores de calificar como Innovación Tecnológica (IT).")
@@ -308,7 +464,8 @@ def generate_recommendations(qualification, deduction, responses=None):
         recommendations.append("Para un cálculo preciso, debería restar del total de gastos elegibles aquella parte que ha sido financiada mediante subvenciones públicas.")
     
     # Recomendaciones sobre la seguridad jurídica
-    recommendations.append("Para mayor seguridad jurídica, considere la solicitud de un <a href='/info/imv' target='_blank'>Informe Motivado Vinculante (IMV)</a> al Ministerio de Ciencia e Innovación.")
+    recommendations.append("Para mayor seguridad jurídica, considere la solicitud de un <a href='/info/imv' target='_blank'>Informe Motivado Vinculante (IMV)</a> al Ministerio de Ciencia e Innovación que certifique la naturaleza de I+D+i de su proyecto.")
+    recommendations.append("El IMV es un documento que aporta seguridad jurídica total frente a posibles inspecciones, validando tanto la calificación como los gastos deducibles. Además, es obligatorio para acceder a la monetización de la deducción si no puede aplicarla por insuficiencia de cuota.")
     
     # Recomendaciones sobre la documentación
     recommendations.append("Es fundamental mantener una documentación técnica detallada del proyecto, que evidencie las actividades de I+D+i realizadas.")
@@ -316,7 +473,17 @@ def generate_recommendations(qualification, deduction, responses=None):
     
     # Recomendaciones sobre monetización
     if deduction['total'] > 0:
-        recommendations.append("Si su empresa no tiene suficiente cuota íntegra para aplicar la deducción, explore la opción de monetización de la misma (artículo 39.2 LIS).")
+        recommendations.append("Si su empresa no tiene suficiente cuota íntegra para aplicar la deducción, explore la opción de monetización de la misma (artículo 39.2 LIS) que permite recuperar hasta el 80% de la deducción cuando no se puede aplicar por insuficiencia de cuota o por exceder los límites.")
+        recommendations.append("También considere la libertad de amortización para elementos del inmovilizado material e intangible afectos a actividades de I+D, lo que permite acelerar la recuperación fiscal de la inversión.")
+    
+    # Recomendaciones adicionales sobre personal investigador
+    if 'exclusive_personnel' in deduction['eligible_expenses'] and deduction['eligible_expenses']['exclusive_personnel'] > 0:
+        recommendations.append("Considere la bonificación del 40% en las cotizaciones a la Seguridad Social para el personal investigador con dedicación exclusiva a actividades de I+D+i.")
+        recommendations.append("Para compatibilizar esta bonificación con la deducción fiscal puede ser necesario obtener el Sello de PYME Innovadora. Sin este sello, generalmente habrá que optar por uno de los dos incentivos.")
+    
+    # Recomendación IMV específica para régimen opcional
+    if deduction['total'] > 20000:
+        recommendations.append("Para aplicar el régimen opcional de monetización (art. 39.2 LIS) es obligatorio disponer de un Informe Motivado Vinculante (IMV) que certifique la naturaleza de I+D o IT de las actividades.")
     
     # Recomendación final
     recommendations.append("Contacte con FADE para recibir orientación especializada sobre cómo proceder con su caso específico.")

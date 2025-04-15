@@ -2,9 +2,22 @@
     "id": {
         "base": 25,
         "incremental": 42,
-        "personnel": 17
+        "personnel": 17,
+        "assets": 8
     },
     "it": {
         "base": 12
+    },
+    "social_security": {
+        "bonus": 40
+    },
+    "limits": {
+        "general": 25,
+        "increased": 50,
+        "threshold": 10,
+        "monetization_discount": 20,
+        "monetization_it_max": 1000000,
+        "monetization_global_max": 3000000,
+        "monetization_global_max_increased": 5000000
     }
 }

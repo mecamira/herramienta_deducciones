@@ -196,6 +196,14 @@
             "tooltip": "Materiales, suministros y productos similares utilizados directamente en el proyecto y que no sean recuperables o reutilizables en otros proyectos."
         },
         {
+            "id": "inmovilizado_id",
+            "text": "Inversiones en elementos del inmovilizado material e intangible afectos exclusivamente a actividades de I+D (€)",
+            "type": "number",
+            "min": 0,
+            "required": false,
+            "tooltip": "Valor de las inversiones realizadas en el ejercicio en elementos del inmovilizado material e intangible (excluidos edificios y terrenos) afectos exclusivamente a actividades de I+D. Aplicable únicamente a proyectos de I+D, no a IT. Deducción del 8% sobre el valor de la inversión."
+        },
+        {
             "id": "general_expenses",
             "text": "Gastos generales relacionados con el proyecto (€)",
             "type": "number",

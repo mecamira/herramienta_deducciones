@@ -71,11 +71,16 @@
       itDeduction = itExpenses * (taxRateIT / 100);
       
       // Deducción adicional por personal exclusivo (17%)
+      // IMPORTANTE: No se ve afectada por el porcentaje de distribución
       const exclusivePersonnel = {{ assessment.results.deduction.eligible_expenses.exclusive_personnel|float }};
-      const idPersonnelDeduction = exclusivePersonnel * (17 / 100) * (idPercentage / 100);
+      const idPersonnelDeduction = exclusivePersonnel * (17 / 100);
+      
+      // Deducción por activos fijos exclusivos I+D (8%)
+      const assetInvestment = {{ assessment.results.deduction.eligible_expenses.inmovilizado_id|default(0)|float }};
+      const idAssetsDeduction = assetInvestment * (8 / 100) * (idPercentage / 100);
       
       // Total de la deducción
-      const totalDeduction = idBaseDeduction + idIncrementalDeduction + idPersonnelDeduction + itDeduction;
+      const totalDeduction = idBaseDeduction + idIncrementalDeduction + idPersonnelDeduction + idAssetsDeduction + itDeduction;
       
       // Actualizar los valores en la tabla
       updateTableValue('id-base-deduction', idBaseDeduction);
@@ -83,6 +88,7 @@
         updateTableValue('id-incremental-deduction', idIncrementalDeduction);
       }
       updateTableValue('id-personnel-deduction', idPersonnelDeduction);
+      updateTableValue('id-assets-deduction', idAssetsDeduction);
       updateTableValue('it-deduction', itDeduction);
       updateTableValue('total-deduction', totalDeduction);
       
@@ -121,11 +127,170 @@
       this.value = value;
       updateCalculations();
     });
+
+    const cimInput = document.getElementById('cim-input');
+    const updateCimBtn = document.getElementById('update-cim-btn');
+    const cimDisplay = document.getElementById('cim-display');
+    const limit25Display = document.getElementById('limit-25-display');
+    const limit50Display = document.getElementById('limit-50-display');
+    const limitTypeLabel = document.getElementById('limit-type-label');
+    const applicableLimitDisplay = document.getElementById('applicable-limit-display');
+    const deductionApplicableRow = document.getElementById('deduction-applicable-row');
+    const deductionPendingRow = document.getElementById('deduction-pending-row');
+    const deductionApplicableDisplay = document.getElementById('deduction-applicable-display');
+    const deductionPendingDisplay = document.getElementById('deduction-pending-display');
+    const monetizationSection = document.getElementById('monetization-section');
+    const monetizationAmount = document.getElementById('monetization-amount');
+    const monetizationDiscount = document.getElementById('monetization-discount');
+    const monetizationNet = document.getElementById('monetization-net');    
+
+    // Función para actualizar los límites
+    function updateLimits() {
+      // Obtener el valor total de la deducción
+      const totalDeduction = {{ assessment.results.deduction.total|float }};
+      
+      // Obtener el valor de la CIM
+      const cimValue = parseFloat(cimInput.value) || 0;
+      
+      // Calcular límites
+      const limit25 = cimValue * 0.25;
+      const limit50 = cimValue * 0.50;
+      
+      // Determinar si aplica el límite incrementado
+      const isLimit50Applicable = totalDeduction > (cimValue * 0.10);
+      const applicableLimit = isLimit50Applicable ? limit50 : limit25;
+      
+      // Calcular deducción aplicable y pendiente
+      const deductionApplicable = Math.min(totalDeduction, applicableLimit);
+      const deductionPending = totalDeduction > applicableLimit ? totalDeduction - applicableLimit : 0;
+      
+      // Actualizar los displays
+      cimDisplay.textContent = formatCurrency(cimValue);
+      limit25Display.textContent = formatCurrency(limit25);
+      limit50Display.textContent = formatCurrency(limit50);
+      limitTypeLabel.textContent = isLimit50Applicable ? "(50% por superar el 10% de la cuota)" : "(25% general)";
+      applicableLimitDisplay.textContent = formatCurrency(applicableLimit);
+      deductionApplicableDisplay.textContent = formatCurrency(deductionApplicable);
+      deductionPendingDisplay.textContent = formatCurrency(deductionPending);
+      
+      // Aplicar clases para destacar
+      deductionApplicableRow.className = totalDeduction <= applicableLimit ? 'table-success' : 'table-warning';
+      
+      // Mostrar/ocultar la fila de deducción pendiente
+      deductionPendingRow.style.display = deductionPending > 0 ? 'table-row' : 'none';
+      
+      // Mostrar/ocultar sección de monetización
+      monetizationSection.style.display = deductionPending > 0 ? 'block' : 'none';
+      
+      // Si hay monetización, actualizar valores
+      if (deductionPending > 0) {
+        monetizationAmount.textContent = formatCurrency(deductionPending);
+        monetizationDiscount.textContent = formatCurrency(deductionPending * 0.20);
+        monetizationNet.textContent = formatCurrency(deductionPending * 0.80);
+      }
+    }
+
+    // Eventos para el campo de CIM
+    updateCimBtn.addEventListener('click', updateLimits);
+    cimInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        updateLimits();
+      }
+    });
     
     // Inicializar cálculos
     updateCalculations();
+    updateLimits(); // Añadir esta línea para inicializar los límites
   });
 </script>
+{% else %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // -------- CÓDIGO PARA EL CIM --------
+    // Elementos del DOM para la Cuota Íntegra Minorada
+    const cimInput = document.getElementById('cim-input');
+    const updateCimBtn = document.getElementById('update-cim-btn');
+    const cimDisplay = document.getElementById('cim-display');
+    const limit25Display = document.getElementById('limit-25-display');
+    const limit50Display = document.getElementById('limit-50-display');
+    const limitTypeLabel = document.getElementById('limit-type-label');
+    const applicableLimitDisplay = document.getElementById('applicable-limit-display');
+    const deductionApplicableRow = document.getElementById('deduction-applicable-row');
+    const deductionPendingRow = document.getElementById('deduction-pending-row');
+    const deductionApplicableDisplay = document.getElementById('deduction-applicable-display');
+    const deductionPendingDisplay = document.getElementById('deduction-pending-display');
+    const monetizationSection = document.getElementById('monetization-section');
+    const monetizationAmount = document.getElementById('monetization-amount');
+    const monetizationDiscount = document.getElementById('monetization-discount');
+    const monetizationNet = document.getElementById('monetization-net');
+    
+    // Función para formatear moneda
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value);
+    }
+    
+    // Función para actualizar los límites
+    function updateLimits() {
+      // Obtener el valor total de la deducción
+      const totalDeduction = {{ assessment.results.deduction.total|float }};
+      
+      // Obtener el valor de la CIM
+      const cimValue = parseFloat(cimInput.value) || 0;
+      
+      // Calcular límites
+      const limit25 = cimValue * 0.25;
+      const limit50 = cimValue * 0.50;
+      
+      // Determinar si aplica el límite incrementado
+      const isLimit50Applicable = totalDeduction > (cimValue * 0.10);
+      const applicableLimit = isLimit50Applicable ? limit50 : limit25;
+      
+      // Calcular deducción aplicable y pendiente
+      const deductionApplicable = Math.min(totalDeduction, applicableLimit);
+      const deductionPending = totalDeduction > applicableLimit ? totalDeduction - applicableLimit : 0;
+      
+      // Actualizar los displays
+      cimDisplay.textContent = formatCurrency(cimValue);
+      limit25Display.textContent = formatCurrency(limit25);
+      limit50Display.textContent = formatCurrency(limit50);
+      limitTypeLabel.textContent = isLimit50Applicable ? "(50% por superar el 10% de la cuota)" : "(25% general)";
+      applicableLimitDisplay.textContent = formatCurrency(applicableLimit);
+      deductionApplicableDisplay.textContent = formatCurrency(deductionApplicable);
+      deductionPendingDisplay.textContent = formatCurrency(deductionPending);
+      
+      // Aplicar clases para destacar
+      deductionApplicableRow.className = totalDeduction <= applicableLimit ? 'table-success' : 'table-warning';
+      
+      // Mostrar/ocultar la fila de deducción pendiente
+      deductionPendingRow.style.display = deductionPending > 0 ? 'table-row' : 'none';
+      
+      // Mostrar/ocultar sección de monetización
+      monetizationSection.style.display = deductionPending > 0 ? 'block' : 'none';
+      
+      // Si hay monetización, actualizar valores
+      if (deductionPending > 0) {
+        monetizationAmount.textContent = formatCurrency(deductionPending);
+        monetizationDiscount.textContent = formatCurrency(deductionPending * 0.20);
+        monetizationNet.textContent = formatCurrency(deductionPending * 0.80);
+      }
+    }
+    
+    // Eventos para el campo de CIM
+    updateCimBtn.addEventListener('click', updateLimits);
+    cimInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        updateLimits();
+      }
+    });
+    
+    // Inicializar los límites
+    updateLimits();
+  });
+
+</script>
+
 {% endif %}
 {% endblock %}
 
@@ -360,6 +525,13 @@
                                         </tr>
                                         {% endif %}
                                         
+                                        {% if deduction.eligible_expenses.inmovilizado_id %}
+                                        <tr class="table-warning">
+                                            <td>Inversiones en activos fijos exclusivos I+D <small class="text-muted">(aplicable deducción 8%)</small></td>
+                                            <td class="text-end">{{ format_currency(deduction.eligible_expenses.inmovilizado_id) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
                                         {% if assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
                                         <tr class="table-info">
                                             <td>Asignados a I+D (según distribución)</td>
@@ -378,7 +550,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+                                                   
                             <!-- Deducción fiscal -->
                             <h4 class="h6">Deducción Fiscal Estimada</h4>
                             <div class="table-responsive">
@@ -417,6 +589,13 @@
                                         </tr>
                                         {% endif %}
                                         
+                                        {% if deduction.id_assets and deduction.id_assets > 0 or ((assessment.results.qualification == 'ID' or assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL') and deduction.eligible_expenses.inmovilizado_id > 0) %}
+                                        <tr>
+                                            <td>Deducción por activos fijos exclusivos I+D (8%)</td>
+                                            <td class="text-end" id="id-assets-deduction">{{ format_currency(deduction.id_assets) }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        
                                         {% if deduction.it and deduction.it > 0 or assessment.results.qualification == 'MIXED' or assessment.results.qualification == 'POTENTIAL' %}
                                         <tr>
                                             <td>Deducción IT (12%)</td>
@@ -431,11 +610,211 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
+                            <!-- Límites de aplicación -->
+                            <h4 class="h6 mt-4">Límites de Aplicación de la Deducción</h4>
+                            
+                            <!-- Campo para introducir la CIM -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="mb-1"><strong>Cuota Íntegra Minorada (CIM):</strong></div>
+                                    <p class="text-muted small mb-3">La Cuota Íntegra Minorada es la cuota del Impuesto sobre Sociedades después de aplicar bonificaciones y deducciones por doble imposición, y antes de deducciones por incentivos. Sirve de base para calcular los límites de aplicación de la deducción por I+D+i.</p>
+                                    <div class="input-group mb-2">
+                                        <input type="number" class="form-control" id="cim-input" value="100000" min="0" step="1000">
+                                        <span class="input-group-text">€</span>
+                                        <button class="btn btn-outline-secondary" type="button" id="update-cim-btn">Actualizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Información sobre límites -->
+                            <div class="alert alert-info mb-3" id="limits-info">
+                                <p><strong>Cuota Íntegra Minorada estimada:</strong> <span id="cim-display">100.000,00 €</span></p>
+                                <p>Las deducciones fiscales por I+D+i están sujetas a unos límites de aplicación sobre la cuota íntegra minorada:</p>
+                                <ul>
+                                    <li><strong>Límite general:</strong> 25% de la cuota (<span id="limit-25-display">25.000,00 €</span>)</li>
+                                    <li><strong>Límite incrementado:</strong> 50% de la cuota (<span id="limit-50-display">50.000,00 €</span>) cuando la deducción por I+D+i supera el 10% de la cuota</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="table-responsive mb-3">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Concepto</th>
+                                            <th class="text-end">Importe (€)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Deducción total generada</td>
+                                            <td class="text-end">{{ format_currency(deduction.total) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Límite aplicable <span id="limit-type-label">(25% general)</span></td>
+                                            <td class="text-end" id="applicable-limit-display">25.000,00 €</td>
+                                        </tr>
+                                        <tr id="deduction-applicable-row">
+                                            <td><strong>Deducción aplicable en el ejercicio</strong></td>
+                                            <td class="text-end" id="deduction-applicable-display">{{ format_currency(deduction.total) }}</td>
+                                        </tr>
+                                        <tr id="deduction-pending-row" style="display: none;">
+                                            <td>Deducción pendiente para ejercicios siguientes <small class="text-muted">(18 años)</small></td>
+                                            <td class="text-end" id="deduction-pending-display">0,00 €</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="alert alert-warning" id="monetization-section" style="display: none;">
+                                <h5 class="alert-heading"><i class="fas fa-coins me-2"></i>Opción de monetización</h5>
+                                <p>Para la deducción pendiente, tiene la opción de monetización prevista en el artículo 39.2 de la Ley del Impuesto sobre Sociedades:</p>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>Importe a monetizar</td>
+                                                <td class="text-end" id="monetization-amount">0,00 €</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Descuento aplicado (20%)</td>
+                                                <td class="text-end" id="monetization-discount">0,00 €</td>
+                                            </tr>
+                                            <tr class="table-success">
+                                                <td><strong>Importe líquido a recibir</strong></td>
+                                                <td class="text-end" id="monetization-net"><strong>0,00 €</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-0"><small>Para acceder a esta opción es necesario cumplir ciertos requisitos y disponer de un <a href="/info/imv">Informe Motivado Vinculante</a>.</small></p>
+                            </div>
                         {% else %}
                             <p class="text-muted">No se pudieron calcular los datos financieros.</p>
                         {% endif %}
                     </div>
                 </div>
+                
+                <!-- Bonificación a la Seguridad Social para personal investigador, mostrar solo si hay personal exclusivo -->
+                {% if deduction.eligible_expenses.exclusive_personnel > 0 %}
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Bonificación a la Seguridad Social para Personal Investigador</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-success">
+                            <h4 class="alert-heading"><i class="fas fa-user-graduate me-2"></i>Beneficio adicional para personal investigador</h4>
+                            <p>Además de la deducción fiscal del 17% sobre los gastos de personal con dedicación exclusiva a I+D, puede solicitar una <strong>bonificación del 40% en las cuotas de la Seguridad Social</strong> para este personal investigador.</p>
+                        </div>
+                        
+                        {% set ss_bonus = {'monthly_ss_cost': deduction.eligible_expenses.exclusive_personnel * 0.30 / 12, 'monthly_bonus': deduction.eligible_expenses.exclusive_personnel * 0.30 * 0.40 / 12, 'annual_bonus': deduction.eligible_expenses.exclusive_personnel * 0.30 * 0.40} %}
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th class="text-end">Importe estimado (€)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Coste anual del personal exclusivo I+D</td>
+                                        <td class="text-end">{{ format_currency(deduction.eligible_expenses.exclusive_personnel) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coste mensual estimado de Seguridad Social (30%)</td>
+                                        <td class="text-end">{{ format_currency(ss_bonus.monthly_ss_cost) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bonificación mensual (40% del coste de SS)</td>
+                                        <td class="text-end">{{ format_currency(ss_bonus.monthly_bonus) }}</td>
+                                    </tr>
+                                    <tr class="table-success fw-bold">
+                                        <td>AHORRO ANUAL ESTIMADO EN SEGURIDAD SOCIAL</td>
+                                        <td class="text-end">{{ format_currency(ss_bonus.annual_bonus) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-warning mt-3 mb-0">
+                            <strong><i class="fas fa-exclamation-triangle me-2"></i>Importante:</strong> Para compatibilizar esta bonificación con la deducción fiscal del 17% es necesario obtener el <strong>Sello de PYME Innovadora</strong> otorgado por el Ministerio de Ciencia e Innovación. Sin este sello, deberá optar por uno de los dos incentivos.
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if deduction and deduction.total > 0 %}
+                <!-- Resumen de Beneficios Totales -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="h5 mb-0">Resumen de Beneficios Totales</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Concepto</th>
+                                                <th class="text-end">Ahorro estimado (€)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Deducción fiscal en el Impuesto sobre Sociedades</td>
+                                                <td class="text-end">{{ format_currency(deduction.total) }}</td>
+                                            </tr>
+                                            
+                                            {% if deduction.eligible_expenses.exclusive_personnel > 0 %}
+                                            {% set ss_annual_bonus = deduction.eligible_expenses.exclusive_personnel * 0.30 * 0.40 %}
+                                            <tr>
+                                                <td>Bonificación Seguridad Social (40% personal investigador)</td>
+                                                <td class="text-end">{{ format_currency(ss_annual_bonus) }}</td>
+                                            </tr>
+                                            {% set total_benefits = deduction.total + ss_annual_bonus %}
+                                            {% else %}
+                                            {% set total_benefits = deduction.total %}
+                                            {% endif %}
+                                            
+                                            <tr class="table-primary fw-bold">
+                                                <td>BENEFICIO TOTAL ESTIMADO</td>
+                                                <td class="text-end">{{ format_currency(total_benefits) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                    <div class="fw-bold mb-2 text-center">Distribución de beneficios</div>
+                                    <div class="mb-2 text-center">
+                                        <span class="badge bg-success p-2 me-1" style="width: 20px; height: 20px; display: inline-block;"></span> Deducciones IS
+                                        {% if deduction.eligible_expenses.exclusive_personnel > 0 %}
+                                        <span class="badge bg-info p-2 me-1" style="width: 20px; height: 20px; display: inline-block;"></span> Bonificación SS
+                                        {% endif %}
+                                    </div>
+                                    
+                                    {% if deduction.eligible_expenses.exclusive_personnel > 0 %}
+                                    {% set deduction_percentage = (deduction.total / total_benefits * 100) | round %}
+                                    {% set ss_percentage = (ss_annual_bonus / total_benefits * 100) | round %}
+                                    <div class="progress w-100 mt-2" style="height: 30px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ deduction_percentage }}%" aria-valuenow="{{ deduction_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ deduction_percentage }}%</div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ ss_percentage }}%" aria-valuenow="{{ ss_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ss_percentage }}%</div>
+                                    </div>
+                                    {% else %}
+                                    <div class="progress w-100 mt-2" style="height: 30px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 
                 <!-- Recomendaciones -->
                 <div class="card mb-4">

@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block title %}Ejemplos de Cálculos - Deducciones Fiscales I+D+i{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-0">Ejemplos de Cálculos de Deducciones Fiscales por I+D+i</h1>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Estos ejemplos ilustran diferentes escenarios para comprender mejor cómo funcionan las deducciones fiscales por actividades de I+D+i, incluyendo la aplicación de límites, la monetización y las diferentes tipologías de proyectos.</p>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Ejemplo 1: Proyecto de I+D con Deducción Incremental</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>Datos del proyecto:</strong>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Calificación: Investigación y Desarrollo (I+D)</li>
+                                <li>Gastos elegibles: 100.000€</li>
+                                <li>Gastos en años anteriores:
+                                    <ul>
+                                        <li>Año -1: 60.000€</li>
+                                        <li>Año -2: 40.000€</li>
+                                        <li>Media: 50.000€</li>
+                                    </ul>
+                                </li>
+                                <li>Cuota íntegra minorada: 200.000€</li>
+                            </ul>
+
+                            <div class="alert alert-info">
+                                <h5>Cálculo de la deducción:</h5>
+                                <ol>
+                                    <li><strong>Deducción base sobre la media:</strong> 50.000€ × 25% = 12.500€</li>
+                                    <li><strong>Deducción incremental sobre el exceso:</strong> (100.000€ - 50.000€) × 42% = 21.000€</li>
+                                    <li><strong>Deducción total:</strong> 12.500€ + 21.000€ = 33.500€</li>
+                                </ol>
+                            </div>
+
+                            <div class="alert alert-success">
+                                <h5>Aplicación de límites:</h5>
+                                <ul>
+                                    <li>Límite aplicable: 50% de la cuota (la deducción supera el 10% de la cuota)</li>
+                                    <li>Límite en euros: 200.000€ × 50% = 100.000€</li>
+                                    <li>La deducción (33.500€) no supera el límite, por lo que puede aplicarse íntegramente en este ejercicio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Ejemplo 2: Proyecto de I+D con Personal Exclusivo e Inversiones en Activos</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>Datos del proyecto:</strong>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Calificación: Investigación y Desarrollo (I+D)</li>
+                                <li>Gastos elegibles: 150.000€, de los cuales:
+                                    <ul>
+                                        <li>Personal exclusivo I+D: 60.000€</li>
+                                        <li>Inversiones en activos exclusivos I+D: 25.000€</li>
+                                    </ul>
+                                </li>
+                                <li>Cuota íntegra minorada: 80.000€</li>
+                            </ul>
+
+                            <div class="alert alert-info">
+                                <h5>Cálculo de la deducción:</h5>
+                                <ol>
+                                    <li><strong>Deducción base:</strong> 150.000€ × 25% = 37.500€</li>
+                                    <li><strong>Deducción adicional por personal exclusivo:</strong> 60.000€ × 17% = 10.200€</li>
+                                    <li><strong>Deducción por activos fijos:</strong> 25.000€ × 8% = 2.000€</li>
+                                    <li><strong>Deducción total:</strong> 37.500€ + 10.200€ + 2.000€ = 49.700€</li>
+                                </ol>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <h5>Aplicación de límites:</h5>
+                                <ul>
+                                    <li>Límite aplicable: 50% de la cuota (la deducción supera el 10% de la cuota)</li>
+                                    <li>Límite en euros: 80.000€ × 50% = 40.000€</li>
+                                    <li>La deducción (49.700€) supera el límite, por lo que:
+                                        <ul>
+                                            <li>Deducción aplicable este ejercicio: 40.000€</li>
+                                            <li>Deducción pendiente para ejercicios futuros: 9.700€</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="alert alert-success">
+                                <h5>Opción de monetización:</h5>
+                                <ul>
+                                    <li>Importe a monetizar: 9.700€</li>
+                                    <li>Descuento (20%): 1.940€</li>
+                                    <li>Importe líquido a recibir: 7.760€</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Ejemplo 3: Proyecto Mixto (I+D e IT)</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>Datos del proyecto:</strong>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Calificación: Mixto (60% I+D, 40% IT)</li>
+                                <li>Gastos elegibles: 200.000€</li>
+                                <li>Personal exclusivo I+D: 30.000€</li>
+                                <li>Inversiones en activos exclusivos I+D: 40.000€</li>
+                                <li>Cuota íntegra minorada: 150.000€</li>
+                            </ul>
+
+                            <div class="alert alert-info">
+                                <h5>Cálculo de la deducción:</h5>
+                                <ol>
+                                    <li><strong>Parte I+D básica:</strong> (200.000€ × 60%) × 25% = 30.000€</li>
+                                    <li><strong>Parte IT:</strong> (200.000€ × 40%) × 12% = 9.600€</li>
+                                    <li><strong>Personal exclusivo I+D:</strong> 30.000€ × 17% = 5.100€</li>
+                                    <li><strong>Activos fijos I+D:</strong> 40.000€ × 8% × 60% = 1.920€</li>
+                                    <li><strong>Deducción total:</strong> 30.000€ + 9.600€ + 5.100€ + 1.920€ = 46.620€</li>
+                                </ol>
+                            </div>
+
+                            <div class="alert alert-success">
+                                <h5>Aplicación de límites:</h5>
+                                <ul>
+                                    <li>Límite aplicable: 50% de la cuota (la deducción supera el 10% de la cuota)</li>
+                                    <li>Límite en euros: 150.000€ × 50% = 75.000€</li>
+                                    <li>La deducción (46.620€) no supera el límite, por lo que puede aplicarse íntegramente en este ejercicio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Ejemplo 4: Proyecto de IT con Insuficiencia de Cuota</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>Datos del proyecto:</strong>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Calificación: Innovación Tecnológica (IT)</li>
+                                <li>Gastos elegibles: 100.000€</li>
+                                <li>Cuota íntegra minorada: 10.000€</li>
+                            </ul>
+
+                            <div class="alert alert-info">
+                                <h5>Cálculo de la deducción:</h5>
+                                <ol>
+                                    <li><strong>Deducción IT:</strong> 100.000€ × 12% = 12.000€</li>
+                                </ol>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <h5>Aplicación de límites:</h5>
+                                <ul>
+                                    <li>Límite aplicable: 25% de la cuota (la deducción no supera el 10% de la cuota)</li>
+                                    <li>Límite en euros: 10.000€ × 25% = 2.500€</li>
+                                    <li>La deducción (12.000€) supera el límite, por lo que:
+                                        <ul>
+                                            <li>Deducción aplicable este ejercicio: 2.500€</li>
+                                            <li>Deducción pendiente para ejercicios futuros: 9.500€</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="alert alert-success">
+                                <h5>Opción de monetización:</h5>
+                                <ul>
+                                    <li>Importe a monetizar: 9.500€</li>
+                                    <li>Descuento (20%): 1.900€</li>
+                                    <li>Importe líquido a recibir: 7.600€</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Ejemplo 5: Empresa sin Cuota Suficiente (Monetización Total)</h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>Datos del proyecto:</strong>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Calificación: Investigación y Desarrollo (I+D)</li>
+                                <li>Gastos elegibles: 80.000€</li>
+                                <li>Cuota íntegra minorada: 0€ (empresa en pérdidas)</li>
+                            </ul>
+
+                            <div class="alert alert-info">
+                                <h5>Cálculo de la deducción:</h5>
+                                <ol>
+                                    <li><strong>Deducción base:</strong> 80.000€ × 25% = 20.000€</li>
+                                </ol>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <h5>Aplicación de límites:</h5>
+                                <ul>
+                                    <li>Al no haber cuota, no se puede aplicar la deducción en el ejercicio actual.</li>
+                                    <li>Deducción pendiente para ejercicios futuros: 20.000€</li>
+                                </ul>
+                            </div>
+
+                            <div class="alert alert-success">
+                                <h5>Opción de monetización:</h5>
+                                <ul>
+                                    <li>Importe a monetizar: 20.000€</li>
+                                    <li>Descuento (20%): 4.000€</li>
+                                    <li>Importe líquido a recibir: 16.000€</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Requisitos para la Monetización</h2>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>Para poder acceder a la monetización de la deducción (art. 39.2 LIS), es necesario cumplir los siguientes requisitos:</p>
+                            <ol>
+                                <li>Haber transcurrido al menos 1 año desde el cierre del periodo impositivo en que se generó la deducción.</li>
+                                <li>Mantener la plantilla media o, alternativamente, la plantilla media adscrita a actividades de I+D+i.</li>
+                                <li>Destinar un importe equivalente a la deducción aplicada a gastos de I+D+i o a inversiones en elementos del inmovilizado material o activo intangible exclusivamente afectos a dichas actividades.</li>
+                                <li>Obtener un informe motivado o aportar un acuerdo previo de valoración o certificado.</li>
+                            </ol>
+
+                            <p>La monetización está sujeta a los siguientes límites:</p>
+                            <ul>
+                                <li>1.000.000€ anuales para IT.</li>
+                                <li>3.000.000€ anuales para I+D+i conjuntamente.</li>
+                                <li>5.000.000€ anuales para empresas que cumplan ciertos requisitos de dedicación a I+D+i.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-4 bg-light p-2 rounded">Bonificaciones a la Seguridad Social para Personal Investigador</h2>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>Adicionalmente a las deducciones fiscales, las empresas pueden aplicar una bonificación del 40% en las cotizaciones a la Seguridad Social por el personal investigador dedicado exclusivamente a actividades de I+D+i.</p>
+
+                            <div class="alert alert-info">
+                                <h5>Ejemplo:</h5>
+                                <ul>
+                                    <li>Coste anual de personal investigador exclusivo: 60.000€</li>
+                                    <li>Coste de Seguridad Social (aprox. 30% del coste): 18.000€</li>
+                                    <li>Bonificación aplicable (40% del coste de SS): 7.200€</li>
+                                </ul>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <p><strong>Importante:</strong> Para compatibilizar esta bonificación con la deducción fiscal del 17% sobre personal exclusivo I+D, es necesario obtener el Sello de PYME Innovadora. Sin este sello, generalmente habrá que optar por uno de los dos incentivos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

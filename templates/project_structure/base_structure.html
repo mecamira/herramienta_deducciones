@@ -89,13 +89,18 @@
                     <div class="col-lg-4 mb-4">
                         <div class="card h-100">
                             <div class="card-header bg-light">
-                                <h3 class="h5 mb-0">Lista de verificación</h3>
+                                <h3 class="h5 mb-0">Listas de verificación</h3>
                             </div>
                             <div class="card-body">
                                 <p>Comprueba si tu proyecto cumple con todos los requisitos para maximizar su calidad y posibilidades de éxito.</p>
-                                <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-outline-primary mt-2">
-                                    <i class="fas fa-check-square me-2"></i>Ver checklist
-                                </a>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ url_for('project_structure_simple_checklist') }}" class="btn btn-outline-primary mt-2">
+                                        <i class="fas fa-check-circle me-2"></i>Lista simple (15 puntos clave)
+                                    </a>
+                                    <a href="{{ url_for('project_structure_checklist') }}" class="btn btn-outline-primary mt-2">
+                                        <i class="fas fa-list-check me-2"></i>Lista avanzada (completa)
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
