@@ -40,14 +40,14 @@
                         <h2 class="accordion-header" id="headingCheck{{ section.id }}">
                             <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCheck{{ section.id }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseCheck{{ section.id }}">
                                 <strong>{{ section.title }}</strong>
-                                <span class="ms-auto me-3 badge bg-secondary section-progress" data-section="{{ section.id }}">0/{% if section.items %}{{ section.items|length }}{% else %}0{% endif %}</span>
+                                <span class="ms-auto me-3 badge bg-secondary section-progress" data-section="{{ section.id }}">0/0</span>
                             </button>
                         </h2>
                         <div id="collapseCheck{{ section.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" aria-labelledby="headingCheck{{ section.id }}" data-bs-parent="#accordionChecklist">
                             <div class="accordion-body">
-                                    {% if section.items %}
+                                    {% if section.checklist_items is defined and section.checklist_items is iterable and section.checklist_items|length > 0 %}
                                     <div class="list-group">
-                                        {% for item in section.items %}
+                                        {% for item in section.checklist_items %}
                                     <div class="list-group-item checklist-item" data-section="{{ section.id }}" data-item="{{ item.id }}">
                                         <div class="d-flex align-items-center">
                                             <div class="form-check">
@@ -127,6 +127,11 @@
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('Cargando lista de verificación avanzada...');
+        
+        // Inicializar contadores de secciones
+        actualizarContadoresSecciones();
+        
         // Cargar estado guardado
         loadChecklistState();
         
@@ -148,6 +153,18 @@
         // Inicializar progreso
         updateProgress();
     });
+    
+    function actualizarContadoresSecciones() {
+        // Actualizar las badges con el conteo correcto de elementos
+        document.querySelectorAll('.accordion-item').forEach(section => {
+            const badge = section.querySelector('.section-progress');
+            if (badge) {
+                const sectionId = badge.dataset.section;
+                const itemCount = section.querySelectorAll('.checklist-item').length;
+                badge.textContent = `0/${itemCount}`;
+            }
+        });
+    }
     
     function updateProgress() {
         const checkboxes = document.querySelectorAll('.checklist-check');

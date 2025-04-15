@@ -299,13 +299,24 @@ def project_structure_checklist():
         sections = []
         
     print(f"Renderizando plantilla con {len(sections)} secciones")
+    print("Estructura de cada sección:")
+    for i, section in enumerate(sections):
+        print(f"Sección {i+1}/{len(sections)}:")
+        if isinstance(section, dict):
+            print(f"  Keys: {list(section.keys())}")
+            if 'checklist_items' in section:
+                print(f"  checklist_items type: {type(section['checklist_items'])}")
+            elif 'items' in section:
+                print(f"  items type: {type(section['items'])}")
+        else:
+            print(f"  Tipo de sección no esperado: {type(section)}")
     
     # Renombrar 'items' a 'checklist_items' para evitar conflictos con el método 'items()' de los diccionarios
     for section in sections:
         if isinstance(section, dict) and 'items' in section:
             section['checklist_items'] = section.pop('items')
             
-    return render_template('project_structure/simple_checklist.html', sections=sections)
+    return render_template('project_structure/checklist.html', checklist_sections=sections)
 
 @app.route('/estructura/checklist-simple')
 def project_structure_simple_checklist():

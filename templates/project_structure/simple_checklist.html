@@ -30,12 +30,22 @@
                     <p>Para una evaluación más detallada, utiliza la <a href="{{ url_for('project_structure_checklist') }}" class="alert-link">lista de verificación avanzada</a>.</p>
                 </div>
                 
+                <div class="form-group mb-4">
+                    <label for="projectType" class="form-label"><strong>Tipo de proyecto:</strong></label>
+                    <select class="form-select" id="projectType" onchange="filterChecklist()">
+                        <option value="mixed" selected>Proyecto mixto (I+D e IT)</option>
+                        <option value="id">Proyecto de I+D</option>
+                        <option value="it">Proyecto de IT</option>
+                    </select>
+                    <div class="form-text">Selecciona el tipo de proyecto para mostrar solo los requisitos relevantes.</div>
+                </div>
+                
                 <div class="progress mb-4">
                     <div id="checklist-progress" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>
                 
                 <!-- LISTA SIMPLIFICADA -->
-                <div class="card mb-4">
+                <div class="card mb-4" data-section="id">
                     <div class="card-header bg-light">
                         <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
                             <span>Requisitos esenciales de I+D</span>
@@ -98,7 +108,7 @@
                     </div>
                 </div>
                 
-                <div class="card mb-4">
+                <div class="card mb-4" data-section="it">
                     <div class="card-header bg-light">
                         <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
                             <span>Requisitos esenciales de IT</span>
@@ -161,7 +171,7 @@
                     </div>
                 </div>
                 
-                <div class="card mb-4">
+                <div class="card mb-4" data-section="doc">
                     <div class="card-header bg-light">
                         <h3 class="h5 mb-0 d-flex justify-content-between align-items-center">
                             <span>Documentación mínima requerida</span>
@@ -273,6 +283,15 @@
         // Cargar estado guardado
         loadChecklistState();
         
+        // Cargar preferencia de tipo de proyecto
+        const savedType = localStorage.getItem('project_simple_checklist_type');
+        if (savedType) {
+            document.getElementById('projectType').value = savedType;
+        }
+        
+        // Aplicar filtro inicial
+        filterChecklist();
+        
         // Manejar clicks en checkboxes
         document.querySelectorAll('.checklist-check').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
@@ -293,9 +312,23 @@
     });
     
     function updateProgress() {
-        const checkboxes = document.querySelectorAll('.checklist-check');
-        const totalItems = checkboxes.length;
-        const checkedItems = document.querySelectorAll('.checklist-check:checked').length;
+        // Seleccionar solo checkboxes visibles (en secciones visibles)
+        const projectType = document.getElementById('projectType').value;
+        let visibleCheckboxes;
+        
+        if (projectType === 'id') {
+            visibleCheckboxes = document.querySelectorAll('.card[data-section="id"] .checklist-check, .card[data-section="doc"] .checklist-check');
+        } else if (projectType === 'it') {
+            visibleCheckboxes = document.querySelectorAll('.card[data-section="it"] .checklist-check, .card[data-section="doc"] .checklist-check');
+        } else { // mixed
+            visibleCheckboxes = document.querySelectorAll('.checklist-check');
+        }
+        
+        const totalItems = visibleCheckboxes.length;
+        let checkedItems = 0;
+        visibleCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) checkedItems++;
+        });
         
         if (totalItems === 0) return;
         
@@ -413,6 +446,31 @@
         
         localStorage.removeItem('project_simple_checklist_state');
         updateProgress();
+    }
+    
+    function filterChecklist() {
+        const projectType = document.getElementById('projectType').value;
+        
+        // Mostrar/ocultar secciones según el tipo de proyecto
+        const idSection = document.querySelector('.card[data-section="id"]');
+        const itSection = document.querySelector('.card[data-section="it"]');
+        
+        if (projectType === 'id') {
+            idSection.style.display = 'block';
+            itSection.style.display = 'none';
+        } else if (projectType === 'it') {
+            idSection.style.display = 'none';
+            itSection.style.display = 'block';
+        } else { // mixed
+            idSection.style.display = 'block';
+            itSection.style.display = 'block';
+        }
+        
+        // Actualizar progreso
+        updateProgress();
+        
+        // Guardar preferencia
+        localStorage.setItem('project_simple_checklist_type', projectType);
     }
 </script>
 {% endblock %}
